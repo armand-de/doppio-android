@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Signup_Activity"
+    android:background="#2D665F">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2.5"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.5"
+            android:background="#f3f2f1">
+
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="닉네임"
+                android:textSize="14sp"
+                android:textColor="#2D665F"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.07"/>
+            <EditText
+                android:id="@+id/nickname_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="8"
+                android:hint="  닉네임"
+                android:textSize="14sp"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="120dp"
+                app:layout_constraintTop_toBottomOf="@+id/nickname"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="중복확인"
+                android:textColor="#2d665f"
+                android:background="@drawable/round_line_btn"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toTopOf="@id/nickname_edit"
+                app:layout_constraintLeft_toRightOf="@id/nickname_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                />
+
+            <TextView
+                android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                android:textSize="14sp"
+                android:textColor="#2D665F"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/nickname_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.07"/>
+            <EditText
+                android:id="@+id/password_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  비밀번호"
+                android:textSize="14sp"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                />
+
+            <TextView
+                android:id="@+id/password_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 확인"
+                android:textSize="14sp"
+                android:textColor="#2D665F"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/password_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.07"/>
+            <EditText
+                android:id="@+id/password_confirm_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  비밀번호 확인"
+                android:textSize="14sp"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/password_confirm"
+                />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전화번호"
+                android:textSize="14sp"
+                android:textColor="#2D665F"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/password_confirm_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.07"/>
+            <EditText
+                android:id="@+id/phone_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  '-'제외하고 입력"
+                android:textSize="14sp"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="150dp"
+                app:layout_constraintTop_toBottomOf="@+id/phone"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인증번호 전송"
+                android:textColor="#2d665f"
+                android:background="@drawable/round_line_btn"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toTopOf="@id/phone_edit"
+                app:layout_constraintLeft_toRightOf="@id/phone_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="인증번호"
+                android:textSize="14sp"
+                android:textColor="#2D665F"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/phone_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintVertical_bias="0.07"/>
+            <EditText
+                android:id="@+id/number_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="  인증번호 입력"
+                android:textSize="14sp"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toBottomOf="@+id/number"
+                />
+
+            <Button
+                android:id="@+id/singinbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="70dp"
+                android:background="@drawable/white_round_btn"
+                android:text="회원가입"
+                android:textSize="20sp"
+                android:textColor="#2d665f"
+                app:layout_constraintTop_toBottomOf="@id/number_edit"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
