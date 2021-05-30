@@ -1,4 +1,4 @@
-package com.example.mobile_contentsapp;
+package com.example.mobile_contentsapp.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.mobile_contentsapp.R;
 
 public class Sign_in_Activity extends AppCompatActivity {
 
@@ -27,7 +29,7 @@ public class Sign_in_Activity extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),Signup_Activity.class);
+            Intent intent = new Intent(getApplicationContext(), Signup_Activity.class);
             startActivity(intent);
             }
         });

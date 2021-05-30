@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sign_in_Activity"
+    tools:context=".Login.Sign_in_Activity"
     android:background="#2D665F">
 <LinearLayout
     android:layout_width="match_parent"
@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:hint="  닉네임"
             android:textSize="14sp"
+            android:textColor="#3d3d3d"
             android:textColorHint="#BEBEBE"
             android:backgroundTint="#BEBEBE"
             android:layout_marginLeft="30dp"
@@ -75,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="  비밀번호"
+            android:textColor="#3d3d3d"
             android:textColorHint="#BEBEBE"
             android:backgroundTint="#BEBEBE"
             android:textSize="14sp"
