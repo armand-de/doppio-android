@@ -14,7 +14,7 @@ public class CheckClient {
     public static Retrofit getInstance(){
         Gson gson = new GsonBuilder().setLenient().create();
         return new Retrofit.Builder()
-                .baseUrl(NumberClient.BASE_RUL)
+                .baseUrl(NumberClient.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }

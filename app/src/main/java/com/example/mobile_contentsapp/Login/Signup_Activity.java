@@ -1,12 +1,17 @@
 package com.example.mobile_contentsapp.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.CheckClient;
 import com.example.mobile_contentsapp.Login.Retrofit.Check_Api;
@@ -36,15 +41,38 @@ public class Signup_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sing_up);
+        setContentView(R.layout.sign_up);
 
         nicknameedit = findViewById(R.id.nickname_edit);
         passwordedit = findViewById(R.id.password_edit);
         phoneedit = findViewById(R.id.phone_edit);
         verify = findViewById(R.id.number_edit);
         Button phonebtn = findViewById(R.id.number_btn);
-        Button signupbtn = findViewById(R.id.signupbtn);
+        Button signupbtn = findViewById(R.id.sign_up_btn);
         Button checkbtn = findViewById(R.id.check_nick_btn);
+
+        nicknameedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (exist == true){
+                    checkbtn.setText("중복 확인");
+                    checkbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_line_btn));
+                    checkbtn.setTextColor(Color.parseColor("#2D665F"));
+                    exist = false;
+                }
+            }
+        });
+
         phonebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +85,13 @@ public class Signup_Activity extends AppCompatActivity {
                 if (exist == false){ 
                     check(nicknameedit.getText().toString(),checkbtn);
                 }
+            }
+        });
+
+        signupbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signUp(nicknameedit.getText().toString(),passwordedit.getText().toString(),phoneedit.getText().toString(),verify.getText().toString());
             }
         });
 
@@ -76,7 +111,7 @@ public class Signup_Activity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Number_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: ㅈ됬다");
+                Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
                 return;
             }
         });
@@ -88,7 +123,7 @@ public class Signup_Activity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Sign_Up_Post> call, Response<Sign_Up_Post> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 망함");
+                    Log.d(TAG, "onResponse: 망함"+response.code());
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
@@ -96,10 +131,11 @@ public class Signup_Activity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Sign_Up_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: 걍 시스템 오류");
+                Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
             }
         });
     }
+
     public void check(String nick, Button btn){
         Call<Check_Post> call = CheckClient.getApiService().check_postcall(nick);
         call.enqueue(new Callback<Check_Post>() {
@@ -111,15 +147,18 @@ public class Signup_Activity extends AppCompatActivity {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 Check_Post result = response.body();
-                if (result.isExist() == true){
-                    btn.setText("확인 완료");
+                Log.d(TAG, "onResponse: "+result.isExist());
+                if (result.isExist() == false){
                     exist = true;
+                    btn.setText("확인 완료");
+                    btn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_btn));
+                    btn.setTextColor(Color.parseColor("#ffffff"));
                 }
             }
 
             @Override
             public void onFailure(Call<Check_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 오류");
+                Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
             }
         });
     }
