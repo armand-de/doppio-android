@@ -129,12 +129,11 @@ public class Signup_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (nicknameedit.getText().toString().length() > 3 && nicknameedit.getText().toString().length() < 8){
-                    if (passwordedit.getText().toString().length() > 7 || passwordedit.getText().toString().length() < 30){
+                    if (passwordedit.getText().toString().length() > 7 && passwordedit.getText().toString().length() < 30){
                         if (pass_conedit.getText().toString().equals(passwordedit.getText().toString())){
                             signUp(nicknameedit.getText().toString(),passwordedit.getText().toString(),phoneedit.getText().toString(),verify.getText().toString());
                         }else{
                             faii();
-
                         }
                     }else {
                         faii();
@@ -158,6 +157,7 @@ public class Signup_Activity extends AppCompatActivity {
             public void onResponse(Call<Number_Post> call, Response<Number_Post> response) {
                 if(!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
+                    Toast.makeText(Signup_Activity.this, "유효한 전화번호를 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.body().toString());
@@ -181,6 +181,8 @@ public class Signup_Activity extends AppCompatActivity {
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
+                Toast.makeText(Signup_Activity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

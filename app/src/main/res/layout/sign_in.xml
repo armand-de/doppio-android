@@ -75,6 +75,7 @@
             android:id="@+id/password_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="  비밀번호"
             android:textColor="#3d3d3d"
             android:textColorHint="#BEBEBE"
