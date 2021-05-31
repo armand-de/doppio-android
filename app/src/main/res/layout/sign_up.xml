@@ -56,6 +56,20 @@
                 android:layout_marginRight="120dp"
                 app:layout_constraintTop_toBottomOf="@+id/nickname"
                 />
+
+            <TextView
+                android:id="@+id/nick_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:text="3자 이상 8자 이하로 입력해주세요"
+                android:textSize="12sp"
+                android:textColor="#C75D5D"
+                app:layout_constraintTop_toBottomOf="@id/nickname_edit"
+                app:layout_constraintLeft_toLeftOf="parent"
+                />
+
             <Button
                 android:id="@+id/check_nick_btn"
                 android:layout_width="wrap_content"
@@ -103,6 +117,19 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginRight="30dp"
                 app:layout_constraintTop_toBottomOf="@+id/password"
+                />
+
+            <TextView
+                android:id="@+id/pass_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="30dp"
+                android:text="5자 이상 15자 이하로 입력해주세요"
+                android:textSize="12sp"
+                android:textColor="#C75D5D"
+                app:layout_constraintTop_toBottomOf="@id/password_edit"
+                app:layout_constraintLeft_toLeftOf="parent"
                 />
 
             <TextView
@@ -215,9 +242,9 @@
                 android:id="@+id/sign_up_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="70dp"
+                android:layout_marginRight="50dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginLeft="70dp"
+                android:layout_marginLeft="50dp"
                 android:background="@drawable/white_round_btn"
                 android:text="회원가입"
                 android:textSize="20sp"

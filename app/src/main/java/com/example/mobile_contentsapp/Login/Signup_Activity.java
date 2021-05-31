@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.CheckClient;
@@ -21,6 +22,8 @@ import com.example.mobile_contentsapp.Login.Retrofit.Number_Post;
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Client;
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Post;
 import com.example.mobile_contentsapp.R;
+
+import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +38,7 @@ public class Signup_Activity extends AppCompatActivity {
     
     private EditText nicknameedit;
     private EditText passwordedit;
+    private EditText pass_conedit;
     private EditText phoneedit;
     private EditText verify;
 
@@ -45,11 +49,18 @@ public class Signup_Activity extends AppCompatActivity {
 
         nicknameedit = findViewById(R.id.nickname_edit);
         passwordedit = findViewById(R.id.password_edit);
+        pass_conedit = findViewById(R.id.password_confirm_edit);
         phoneedit = findViewById(R.id.phone_edit);
         verify = findViewById(R.id.number_edit);
+
         Button phonebtn = findViewById(R.id.number_btn);
         Button signupbtn = findViewById(R.id.sign_up_btn);
         Button checkbtn = findViewById(R.id.check_nick_btn);
+
+        TextView nick_limit = findViewById(R.id.nick_limit);
+        TextView pass_limit = findViewById(R.id.pass_limit);
+        nick_limit.setVisibility(View.INVISIBLE);
+        pass_limit.setVisibility(View.INVISIBLE);
 
         nicknameedit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,11 +75,37 @@ public class Signup_Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!(nicknameedit.getText().toString().length() > 3) || !(nicknameedit.getText().toString().length() < 8)){
+                    nick_limit.setVisibility(View.VISIBLE);
+                }else{
+                    nick_limit.setVisibility(View.INVISIBLE);
+                }
                 if (exist == true){
                     checkbtn.setText("중복 확인");
                     checkbtn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_line_btn));
                     checkbtn.setTextColor(Color.parseColor("#2D665F"));
                     exist = false;
+                }
+            }
+        });
+
+        passwordedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!(passwordedit.getText().toString().length() > 7) || !(passwordedit.getText().toString().length() < 30)){
+                    pass_limit.setVisibility(View.VISIBLE);
+                }else{
+                    pass_limit.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -91,11 +128,28 @@ public class Signup_Activity extends AppCompatActivity {
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp(nicknameedit.getText().toString(),passwordedit.getText().toString(),phoneedit.getText().toString(),verify.getText().toString());
+                if (nicknameedit.getText().toString().length() > 3 && nicknameedit.getText().toString().length() < 8){
+                    if (passwordedit.getText().toString().length() > 7 || passwordedit.getText().toString().length() < 30){
+                        if (pass_conedit.getText().toString().equals(passwordedit.getText().toString())){
+                            signUp(nicknameedit.getText().toString(),passwordedit.getText().toString(),phoneedit.getText().toString(),verify.getText().toString());
+                        }else{
+                            faii();
+
+                        }
+                    }else {
+                        faii();
+                    }
+                }else{
+                    faii();
+                }
             }
         });
 
     }
+    public void faii(){
+        Toast.makeText(this, "정확한 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+    }
+
     public void phoneNumber(String phone){
         Number_Post number_post = new Number_Post(phone);
         Call<Number_Post> call = NumberClient.getApiService().NumberpostCall(number_post);
