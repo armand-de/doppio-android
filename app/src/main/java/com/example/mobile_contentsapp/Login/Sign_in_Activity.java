@@ -38,7 +38,7 @@ public class Sign_in_Activity extends AppCompatActivity {
         String tokenValue = sharedPreferences.getString("token","");
 
         if(!tokenValue.equals("")){
-            Intent intent = new Intent(this, Insert_Activity.class);
+            Intent intent = new Intent(this, Main_Activity.class);
             startActivity(intent);
         }
 
@@ -78,7 +78,7 @@ public class Sign_in_Activity extends AppCompatActivity {
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.code());
-                Intent intent = new Intent(getApplicationContext(), Insert_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Main_Activity.class);
                 startActivity(intent);
                 Authorization token = response.body();
                 SharedPreferences sharedPreferences =  getSharedPreferences("sp",MODE_PRIVATE);

@@ -3,19 +3,19 @@ package com.example.mobile_contentsapp.Recipe.Retrofit;
 public class Recipe_List_Get {
     String id;
     String name;
+    String thumbnail;
     int time;
     boolean useoven;
     int category;
-    String image;
     int preference;
 
-    public Recipe_List_Get(String id, String name, int time, boolean useoven, int category, String image, int preference) {
+    public Recipe_List_Get(String id, String name, String thumbnail, int time, boolean useoven, int category, int preference) {
         this.id = id;
         this.name = name;
+        this.thumbnail = thumbnail;
         this.time = time;
         this.useoven = useoven;
         this.category = category;
-        this.image = image;
         this.preference = preference;
     }
 
@@ -35,6 +35,14 @@ public class Recipe_List_Get {
         this.name = name;
     }
 
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
     public int getTime() {
         return time;
     }
@@ -43,7 +51,7 @@ public class Recipe_List_Get {
         this.time = time;
     }
 
-    public boolean getUseoven() {
+    public boolean isUseoven() {
         return useoven;
     }
 
@@ -57,14 +65,6 @@ public class Recipe_List_Get {
 
     public void setCategory(int category) {
         this.category = category;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public int getPreference() {

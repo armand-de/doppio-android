@@ -60,7 +60,7 @@ import static android.content.ContentValues.TAG;
 public class Insert_Activity extends Activity {
 
     private Uri thunmbnail_uri;
-    private ArrayList<Uri> img_uri;
+    private ArrayList<Uri> img_uri = new ArrayList<>();
     Bitmap img;
     private String token;
     private ImageButton main_img_btn;
@@ -196,7 +196,8 @@ public class Insert_Activity extends Activity {
                 uploadFile(storage, thunmbnail_uri);
 
                 String imgs = null;
-                for (int i = 0; i < img_uri.size(); i++){
+                int size = img_uri.size();
+                for (int i = 0; i < size; i++){
                     imgs += uploadFile(storage,img_uri.get(i))+"|";
                 }
                 create(title_edit.getText().toString(),uploadFile(storage, thunmbnail_uri)
@@ -234,7 +235,7 @@ public class Insert_Activity extends Activity {
 
     public void create(String name, String thumbnail,String image, String description,String ingredients ,String contents,
                        int category, String time, boolean useOven){
-        int timevalue = Integer.parseInt(time);
+        int timevalue = Integer.parseInt(time.split("분")[0]);
 
         Recipe_Post recipe_post = new Recipe_Post(name, thumbnail,image,description,ingredients,contents,category,timevalue,useOven);
         Call<Recipe_Post> call = Recipe_Client.getApiService().recipe_post_call(token,recipe_post);
@@ -247,6 +248,7 @@ public class Insert_Activity extends Activity {
                     return;
                 }else{
                     Log.d(TAG, "onResponse: 성공");
+                    Toast.makeText(Insert_Activity.this, "성공", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }

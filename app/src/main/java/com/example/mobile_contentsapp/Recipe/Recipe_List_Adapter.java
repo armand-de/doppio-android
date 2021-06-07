@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class Recipe_List_Adapter extends RecyclerView.Adapter<Recipe_List_Adapter.ViewHolder> {
+public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
     ArrayList<Recipe_List_Get> items;
 
     public Recipe_List_Adapter(ArrayList<Recipe_List_Get> items) {
@@ -29,41 +33,65 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<Recipe_List_Adapte
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_list_item,parent,false);
-        return new ViewHolder(vh);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_list_item, parent, false);
+            return new NormalViewHolder(vh);
+        } else {
+            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.roding_item, parent, false);
+            return new LoadingViewHolder(vh);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Recipe_List_Get item = items.get(position);
-        holder.onBind(item);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof NormalViewHolder){
+            onBindview((NormalViewHolder) holder, position);
+        }else if (holder instanceof LoadingViewHolder){
+            showLoadingView((LoadingViewHolder) holder,position);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return items.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return items == null ? 0 : items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private void showLoadingView(LoadingViewHolder holder, int position) {
+
+    }
+
+    private void onBindview(NormalViewHolder holder, int position) {
+        Recipe_List_Get item = items.get(position);
+        holder.onBind(item);
+    }
+
+    public class NormalViewHolder extends RecyclerView.ViewHolder {
         ImageView recipe_main_img;
         TextView title_text;
         TextView time_text;
         TextView heart_text;
         TextView oven_text;
 
-        public ViewHolder(@NonNull View itemView) {
+        public NormalViewHolder(@NonNull View itemView) {
             super(itemView);
             recipe_main_img = itemView.findViewById(R.id.recipe_main_img);
             title_text = itemView.findViewById(R.id.title_text);
-            time_text = itemView.findViewById(R.id.time_text);
+            time_text = itemView.findViewById(R.id.recipe_list_time);
             heart_text = itemView.findViewById(R.id.heart_text);
             oven_text = itemView.findViewById(R.id.oven_text);
         }
         public void onBind(Recipe_List_Get item){
+            title_text.setText(item.getName());
             FirebaseStorage storage = FirebaseStorage.getInstance("gs://mobile-contents-812ea.appspot.com");
             StorageReference storageReference = storage.getReference();
-            storageReference.child(item.getImage()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            String img = item.getThumbnail();
+            storageReference.child("images/34af76ed-a6dc-48ad-a93d-1b50bc3deee3").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
                     Glide.with(itemView.getContext()).load(uri).into(recipe_main_img);
@@ -73,14 +101,22 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<Recipe_List_Adapte
                 public void onFailure(@NonNull Exception e) {
                 }
             });
-            title_text.setText(item.getName());
-            time_text.setText(item.getTime());
-            heart_text.setText(item.getPreference());
-            if (item.getUseoven()){
+
+            time_text.setText(String.valueOf(item.getTime()));
+            heart_text.setText(String.valueOf(item.getPreference()));
+            if (item.isUseoven()){
                 oven_text.setVisibility(View.VISIBLE);
             }else{
                 oven_text.setVisibility(View.INVISIBLE);
             }
+        }
+    }
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
         }
     }
 }

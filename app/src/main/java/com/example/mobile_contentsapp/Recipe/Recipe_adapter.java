@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,9 @@ import com.example.mobile_contentsapp.R;
 import java.util.ArrayList;
 
 public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHolder> {
+    private final int VIEW_TYPE_NORMAL = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
 
     public interface OnClickListener{
         void OnClick(View view, int pos, ImageButton imageButton);
@@ -42,6 +46,7 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
         View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item,parent,false);
         return new ViewHolder(vh);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -111,4 +116,5 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
         }
 
     }
+
 }

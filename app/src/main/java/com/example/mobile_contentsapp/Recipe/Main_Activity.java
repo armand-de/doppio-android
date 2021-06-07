@@ -1,5 +1,6 @@
 package com.example.mobile_contentsapp.Recipe;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,13 +28,18 @@ import retrofit2.http.Url;
 import static android.content.ContentValues.TAG;
 
 public class Main_Activity extends AppCompatActivity {
+    private Recipe_Fragment recipe_fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
 
+        recipe_fragment = new Recipe_Fragment();
+
         ImageButton recipe_btn = findViewById(R.id.recipebtn);
         ImageButton commu_btn = findViewById(R.id.comumbtn);
+        ImageButton create_btn = findViewById(R.id.create_btn);
 
         ViewPager2 pager2 = findViewById(R.id.vp);
 
@@ -52,7 +58,19 @@ public class Main_Activity extends AppCompatActivity {
                 pager2.setCurrentItem(1,true);
             }
         });
+        create_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Main_Activity.this,Insert_Activity.class);
+                startActivity(intent);
+            }
+        });
 
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recipe_fragment.listRefresh();
     }
 }
