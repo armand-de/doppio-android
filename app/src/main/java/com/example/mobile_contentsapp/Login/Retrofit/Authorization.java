@@ -1,18 +1,17 @@
 package com.example.mobile_contentsapp.Login.Retrofit;
 
-public class Token {
-    
-    private String AccessToken;
+public class Authorization {
+    private String accessToken;
 
-    public Token(String AccessToken) {
-        this.AccessToken = AccessToken;
+    public Authorization(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getAccessToken() {
-        return AccessToken;
+        return accessToken;
     }
 
-    public void setAccessToken(String AccessToken) {
-        this.AccessToken = AccessToken;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

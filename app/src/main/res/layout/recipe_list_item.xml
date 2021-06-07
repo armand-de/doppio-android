@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/recipemain_img"
+        android:id="@+id/recipe_main_img"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:paddingBottom="15dp"
@@ -21,7 +21,7 @@
         android:layout_height="60dp"
         android:background="@drawable/white_round_btn_recipeitem"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/recipemain_img"
+        app:layout_constraintBottom_toBottomOf="@id/recipe_main_img"
         app:layout_constraintLeft_toLeftOf="parent"
         >
         <TextView
@@ -51,6 +51,7 @@
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <TextView
+            android:id="@+id/recipe_list_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30:00"
@@ -88,6 +89,7 @@
             app:layout_constraintRight_toLeftOf="@+id/heart_text"/>
 
         <TextView
+            android:id="@+id/oven_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

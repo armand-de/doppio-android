@@ -9,15 +9,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_In_Client;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Client;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Post;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_in_Api;
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_in_Post;
-import com.example.mobile_contentsapp.Login.Retrofit.Token;
-import com.example.mobile_contentsapp.Main_Activity;
+import com.example.mobile_contentsapp.Login.Retrofit.Authorization;
 import com.example.mobile_contentsapp.R;
+import com.example.mobile_contentsapp.Recipe.Insert_Activity;
+import com.example.mobile_contentsapp.Recipe.Main_Activity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +33,14 @@ public class Sign_in_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sp",MODE_PRIVATE);
+        String tokenValue = sharedPreferences.getString("token","");
+
+        if(!tokenValue.equals("")){
+            Intent intent = new Intent(this, Insert_Activity.class);
+            startActivity(intent);
+        }
 
         nicknameedit = findViewById(R.id.nickname_edit);
         passwordedit = findViewById(R.id.password_edit);
@@ -56,27 +63,34 @@ public class Sign_in_Activity extends AppCompatActivity {
             }
         });
     }
+
     public void signin(String nick, String pass){
 
         Sign_in_Post sign_in_post = new Sign_in_Post(nick,pass);
-        Call<Token> call = Sign_In_Client.getApiService().sign_in_post_call(sign_in_post);
+        Call<Authorization> call = Sign_In_Client.getApiService().sign_in_post_call(sign_in_post);
 
-        call.enqueue(new Callback<Token>() {
+        call.enqueue(new Callback<Authorization>() {
             @Override
-            public void onResponse(Call<Token> call, Response<Token> response) {
+            public void onResponse(Call<Authorization> call, Response<Authorization> response) {
                 if (!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
+                    Toast.makeText(Sign_in_Activity.this, "닉네임또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.code());
-                Intent intent = new Intent(getApplicationContext(),Main_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), Insert_Activity.class);
                 startActivity(intent);
-                Token token = response.body();
-                SharedPreferences.Editor editor;
+                Authorization token = response.body();
+                SharedPreferences sharedPreferences =  getSharedPreferences("sp",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                String tokenValue = token.getAccessToken();
+                Log.d(TAG, "토큰값"+ tokenValue);
+                editor.putString("token",tokenValue);
+                editor.commit();
             }
 
             @Override
-            public void onFailure(Call<Token> call, Throwable t) {
+            public void onFailure(Call<Authorization> call, Throwable t) {
                 Log.d(TAG, "onFailure: 시스템 오류 "+t.getMessage());
             }
         });

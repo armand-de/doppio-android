@@ -1,4 +1,4 @@
-package com.example.mobile_contentsapp.Community;
+package com.example.mobile_contentsapp.Recipe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,11 +6,13 @@ import android.os.Bundle;
 
 import com.example.mobile_contentsapp.R;
 
-public class Commu_Activity extends AppCompatActivity {
+public class Recipe_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.commu_fragment);
+        setContentView(R.layout.activity_recipe_);
+
+
     }
 }

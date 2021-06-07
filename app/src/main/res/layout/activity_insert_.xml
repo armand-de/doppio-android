@@ -4,6 +4,244 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Recipe.Insert_Activity">
+    tools:context=".Recipe.Insert_Activity"
+    android:background="#F5F6F8">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/imageadd"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="#00000000"
+                android:src="@drawable/ic_big_img"
+                android:scaleType="centerInside"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+            <TextView
+                android:id="@+id/recipe_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="레시피 제목"
+                android:textSize="14sp"
+                android:textColor="#2d665f"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@id/imageadd"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+            <EditText
+                android:id="@+id/title_edit"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:hint="  레시피 제목"
+                android:textSize="14sp"
+                android:textColor="#3d3d3d"
+                android:textColorHint="#BEBEBE"
+                android:backgroundTint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@id/recipe_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"/>
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:dropDownWidth="100dp"
+                android:layout_marginRight="30dp"
+                app:layout_constraintTop_toTopOf="@id/title_edit"
+                app:layout_constraintRight_toRightOf="parent"/>
+            <TextView
+                android:id="@+id/time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소요 시간"
+                android:textSize="14sp"
+                android:textColor="#2d665f"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@id/title_edit"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+            <ImageView
+                android:id="@+id/time_clock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:src="@drawable/ic_clock"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp"
+                android:paddingTop="3dp"
+                app:layout_constraintTop_toBottomOf="@id/time_title"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+            <TextView
+                android:id="@+id/time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="30분"
+                android:textSize="18sp"
+                android:textColor="#3d3d3d"
+                app:layout_constraintTop_toTopOf="@id/time_clock"
+                app:layout_constraintLeft_toRightOf="@id/time_clock"/>
+
+            <Button
+                android:id="@+id/time_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:layout_marginLeft="15dp"
+                android:paddingTop="3dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="3dp"
+                android:paddingLeft="25dp"
+                android:text="설정"
+                android:textSize="14sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/round_btn"
+                app:layout_constraintTop_toTopOf="@id/time_clock"
+                app:layout_constraintBottom_toBottomOf="@id/time_clock"
+                app:layout_constraintLeft_toRightOf="@id/time_text" />
+
+            <CheckBox
+                android:id="@+id/oven_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:text="오븐"
+                android:textColor="#2d665f"
+                android:buttonTint="#2d665f"
+                app:layout_constraintTop_toTopOf="@id/time_set"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:id="@+id/ingre_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="재료"
+                android:textSize="14sp"
+                android:textColor="#2d665f"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@id/time_clock"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingre_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/ingre_text"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/add_ingre_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:padding="5dp"
+                android:background="@drawable/round_btn"
+                android:src="@drawable/ic_add"
+                app:layout_constraintTop_toTopOf="@id/ingre_text"
+                app:layout_constraintLeft_toRightOf="@id/ingre_text"/>
+
+            <TextView
+                android:id="@+id/recipe_detail_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="레시피 설명"
+                android:textSize="14sp"
+                android:textColor="#2d665f"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@id/ingre_recycler"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <EditText
+                android:id="@+id/recipe_detail_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:backgroundTint="#BEBEBE"
+                android:hint="레시피 설명"
+                android:textSize="14sp"
+                android:textColor="#3d3d3d"
+                android:textColorHint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@+id/recipe_detail_text"
+                tools:layout_editor_absoluteX="30dp" />
+
+            <TextView
+                android:id="@+id/recipe_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="레시피 순서"
+                android:textSize="14sp"
+                android:textColor="#2d665f"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                app:layout_constraintTop_toBottomOf="@id/recipe_detail_edit"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recipe_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/recipe_text"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/add_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/round_btn"
+                android:src="@drawable/ic_big_add"
+                app:layout_constraintTop_toBottomOf="@id/recipe_recycler"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                />
+
+            <Button
+                android:id="@+id/upload_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:text="업로드"
+                android:textSize="16sp"
+                android:textColor="#2d665f"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

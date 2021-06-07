@@ -1,23 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="500dp"
+    android:layout_height="wrap_content"
     android:background="#F5F6F8"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/ingre_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:layout_margin="10dp"
         android:gravity="left"
         android:text="재료 추가"
-        android:textSize="20sp"
-        android:textColor="#ffffff"
-        android:background="#2d665f"
+        android:textSize="18sp"
+        android:textColor="#2d665f"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
+    <TextView
+        android:id="@+id/ingre_dig_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="재료 이름"
+        android:textSize="14sp"
+        android:textColor="#2d665f"
+        app:layout_constraintTop_toBottomOf="@id/ingre_title"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <EditText
+        android:id="@+id/ingre_dig_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="10dp"
+        android:hint="재료 이름"
+        android:textColor="#3d3d3d"
+        android:backgroundTint="#bebebe"
+        android:textSize="14sp"
+        android:textColorHint="#bebebe"
+        app:layout_constraintTop_toBottomOf="@id/ingre_dig_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/ingre_amount_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="수량"
+        android:textSize="14sp"
+        android:textColor="#2d665f"
+        app:layout_constraintTop_toBottomOf="@id/ingre_dig_edit"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <EditText
+        android:id="@+id/ingre_amount_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:paddingLeft="10dp"
+        android:hint="T, g, mL"
+        android:textColor="#3d3d3d"
+        android:backgroundTint="#bebebe"
+        android:textSize="14sp"
+        android:textColorHint="#bebebe"
+        app:layout_constraintTop_toBottomOf="@id/ingre_amount_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <Button
+        android:id="@+id/ingre_dig_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="15dp"
+        android:background="#00000000"
+        android:text="추가"
+        android:textSize="12sp"
+        android:textColor="#2d665f"
+        app:layout_constraintTop_toBottomOf="@id/ingre_amount_edit"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <Button
+        android:id="@+id/ingre_dig_neg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:background="#00000000"
+        android:text="취소"
+        android:textSize="12sp"
+        android:textColor="#2d665f"
+        app:layout_constraintTop_toBottomOf="@id/ingre_amount_edit"
+        app:layout_constraintRight_toLeftOf="@id/ingre_dig_pos"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
