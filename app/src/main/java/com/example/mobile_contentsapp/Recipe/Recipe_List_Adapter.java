@@ -1,6 +1,9 @@
 package com.example.mobile_contentsapp.Recipe;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
@@ -104,11 +109,23 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             time_text.setText(String.valueOf(item.getTime()));
             heart_text.setText(String.valueOf(item.getPreference()));
-            if (item.isUseoven()){
+            if (item.isUseOven()){
                 oven_text.setVisibility(View.VISIBLE);
             }else{
                 oven_text.setVisibility(View.INVISIBLE);
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(v.getContext(), Recipe_Activity.class);
+                    Log.d(TAG, "onClick: "+item.getId());
+                    intent.putExtra("recipeId",item.getId());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
     private class LoadingViewHolder extends RecyclerView.ViewHolder {

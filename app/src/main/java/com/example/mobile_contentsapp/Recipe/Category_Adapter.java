@@ -1,6 +1,7 @@
 package com.example.mobile_contentsapp.Recipe;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.example.mobile_contentsapp.R;
@@ -15,9 +17,11 @@ import com.example.mobile_contentsapp.R;
 import java.util.ArrayList;
 
 public class Category_Adapter extends BaseAdapter {
-    Context context;
-    ArrayList<Category_Item> data;
-    LayoutInflater inflater;
+    private int WHITE_TYPE = 0;
+    private int NORMAL_TYPE = 1;
+    private Context context;
+    private ArrayList<Category_Item> data;
+    private LayoutInflater inflater;
 
     public Category_Adapter(Context context, ArrayList<Category_Item> data) {
         this.context = context;
@@ -37,9 +41,12 @@ public class Category_Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.spinner_getview,parent,false);
         }
         if (data != null){
+            ConstraintLayout spinnerConstraint = convertView.findViewById(R.id.spinner_constraint);
             TextView text = convertView.findViewById(R.id.category_text);
             ImageView image =convertView.findViewById(R.id.category_icon);
+
             text.setText(data.get(position).getText());
+
             switch(data.get(position).getImage()){
                 case 1:
                     image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_white_coffee));
@@ -55,9 +62,20 @@ public class Category_Adapter extends BaseAdapter {
                     break;
                 default:
                     image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.circle));
-                    text.setText("그 외");
+
                     break;
             }
+
+            if (data.get(position).getTypeCode() == 0){
+                spinnerConstraint.setBackground(ContextCompat.getDrawable(convertView.getContext(),R.drawable.round_btn));
+                text.setTextColor(Color.parseColor("#ffffff"));
+                image.setColorFilter(Color.parseColor("#ffffff"));
+            }else{
+                spinnerConstraint.setBackground(ContextCompat.getDrawable(convertView.getContext(),R.drawable.white_round_btn));
+                text.setTextColor(Color.parseColor("#2d665f"));
+                image.setColorFilter(Color.parseColor("#2d665f"));
+            }
+
         }
         return convertView;
     }
@@ -68,8 +86,20 @@ public class Category_Adapter extends BaseAdapter {
        }
         if (data != null){
 
-            TextView text = convertView.findViewById(R.id.category_text);
-            ImageView image = convertView.findViewById(R.id.category_icon);
+            ConstraintLayout spinnerConstraint = convertView.findViewById(R.id.spinner_select_constraint);
+            TextView text = convertView.findViewById(R.id.category_select_text);
+            ImageView image =convertView.findViewById(R.id.category_select_icon);
+
+            if (data.get(position).getTypeCode() == 0){
+                spinnerConstraint.setBackgroundColor(Color.parseColor("#2d665f"));
+                text.setTextColor(Color.parseColor("#ffffff"));
+                image.setColorFilter(Color.parseColor("#ffffff"));
+            }else{
+                spinnerConstraint.setBackgroundColor(Color.parseColor("#ffffff"));
+                text.setTextColor(Color.parseColor("#2d665f"));
+                image.setColorFilter(Color.parseColor("#2d665f"));
+            }
+
             text.setText(data.get(position).getText());
             switch(data.get(position).getImage()){
                 case 1:
@@ -89,6 +119,7 @@ public class Category_Adapter extends BaseAdapter {
                     text.setText("그 외");
                     break;
             }
+
         }
         return convertView;
     }

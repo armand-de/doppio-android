@@ -1,5 +1,6 @@
 package com.example.mobile_contentsapp.Recipe;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,8 +43,21 @@ public class Recipe_Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recipe_fragment,container,false);
+
         isLoding = false;
-        recyclerView = view.findViewById(R.id.recipelist_recycler);
+        recyclerView = view.findViewById(R.id.recipe_list_recycler);
+        Spinner categorySpinner = view.findViewById(R.id.search_category_spinner);
+
+        ArrayList<Category_Item> categoryList = new ArrayList<>();
+
+        categoryList.add(new Category_Item("전체",4,1));
+        categoryList.add(new Category_Item("커피",1,1));
+        categoryList.add(new Category_Item("음료",2,1));
+        categoryList.add(new Category_Item("디저트",3,1));
+        categoryList.add(new Category_Item("그 외",4,1));
+
+        Category_Adapter categoryAdapter = new Category_Adapter(view.getContext(),categoryList);
+        categorySpinner.setAdapter(categoryAdapter);
 
         list = new ArrayList<>();
         page_amount(list);
@@ -101,7 +116,7 @@ public class Recipe_Fragment extends Fragment {
                                 adapter.notifyDataSetChanged();
                             }
                         }
-                    },3000);
+                    },2000);
                     count--;
                 }
             }

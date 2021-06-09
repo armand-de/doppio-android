@@ -5,16 +5,16 @@ public class Recipe_List_Get {
     String name;
     String thumbnail;
     int time;
-    boolean useoven;
+    boolean useOven;
     int category;
     int preference;
 
-    public Recipe_List_Get(String id, String name, String thumbnail, int time, boolean useoven, int category, int preference) {
+    public Recipe_List_Get(String id, String name, String thumbnail, int time, boolean useOven, int category, int preference) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;
         this.time = time;
-        this.useoven = useoven;
+        this.useOven = useOven;
         this.category = category;
         this.preference = preference;
     }
@@ -51,12 +51,12 @@ public class Recipe_List_Get {
         this.time = time;
     }
 
-    public boolean isUseoven() {
-        return useoven;
+    public boolean isUseOven() {
+        return useOven;
     }
 
-    public void setUseoven(boolean useoven) {
-        this.useoven = useoven;
+    public void setUseOven(boolean useOven) {
+        this.useOven = useOven;
     }
 
     public int getCategory() {

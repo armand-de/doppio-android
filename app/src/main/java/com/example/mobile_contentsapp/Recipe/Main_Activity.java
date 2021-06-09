@@ -1,6 +1,7 @@
 package com.example.mobile_contentsapp.Recipe;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,8 +44,22 @@ public class Main_Activity extends AppCompatActivity {
 
         ViewPager2 pager2 = findViewById(R.id.vp);
 
-        PagerAdapter adapter = new PagerAdapter(this);
+        PagerAdapter adapter = new PagerAdapter(this,recipe_btn,commu_btn);
         pager2.setAdapter(adapter);
+
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (position == 0){
+                    recipe_btn.setColorFilter(Color.parseColor("#2d665f"));
+                    commu_btn.setColorFilter(Color.parseColor("#BFD5D3"));
+                }else{
+                    recipe_btn.setColorFilter(Color.parseColor("#BFD5D3"));
+                    commu_btn.setColorFilter(Color.parseColor("#2d665f"));
+                }
+            }
+        });
 
         recipe_btn.setOnClickListener(new View.OnClickListener() {
             @Override

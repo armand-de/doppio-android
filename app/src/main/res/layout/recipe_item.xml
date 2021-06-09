@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:padding="7dp"
         android:layout_marginRight="60dp"
+        android:textColor="#3d3d3d"
         android:hint=" 레시피 내용"
         android:textSize="14sp"
         android:textColorHint="#BEBEBE"

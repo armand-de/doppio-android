@@ -30,11 +30,18 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
         void OnClick(View view, int pos, ImageButton imageButton);
     }
 
+    public interface OnLongClickListener{
+        void OnLongClick(View view, int pos);
+    }
+
+
     ArrayList<Recipe_Item> items;
 
     OnClickListener mlistener = null;
+    OnLongClickListener mLonglistener = null;
 
     public void setOnClickListener(OnClickListener onClickListener){mlistener = onClickListener;}
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener){mLonglistener = onLongClickListener;}
     public Recipe_adapter(ArrayList<Recipe_Item> items) {
         this.items = items;
     }
@@ -110,6 +117,10 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
                 public boolean onLongClick(View v) {
                     items.remove(position);
                     notifyDataSetChanged();
+                    int pos = position;
+                    if(pos != RecyclerView.NO_POSITION){
+                        mLonglistener.OnLongClick(v,pos);
+                    }
                     return false;
                 }
             });

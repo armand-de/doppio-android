@@ -66,7 +66,7 @@ public class Insert_Activity extends Activity {
     private ImageButton main_img_btn;
     private int category_num;
     private int recipe_position=0;
-    private boolean oven = false;
+    private boolean oven = true;
     private boolean thumbnail = true;
 
     private Recipe_adapter adapter;
@@ -90,6 +90,8 @@ public class Insert_Activity extends Activity {
         Spinner spinner = findViewById(R.id.spinner);
         CheckBox oven_check = findViewById(R.id.oven_check);
 
+        img_uri.add(null);
+        img_uri.add(null);
 
         time_set.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,20 +150,28 @@ public class Insert_Activity extends Activity {
             }
         });
 
+        adapter.setOnLongClickListener(new Recipe_adapter.OnLongClickListener() {
+            @Override
+            public void OnLongClick(View view, int pos) {
+                img_uri.remove(pos);
+            }
+        });
+
         recipe_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 adapter.additem(new Recipe_Item("",(bitmap)));
                 adapter.notifyDataSetChanged();
+                img_uri.add(null);
             }
         });
 
         ArrayList<Category_Item> category = new ArrayList<>();
-        category.add(new Category_Item("커피",1));
-        category.add(new Category_Item("음료",2));
-        category.add(new Category_Item("디저트",3));
-        category.add(new Category_Item("그 외",4));
+        category.add(new Category_Item("커피",1,0));
+        category.add(new Category_Item("음료",2,0));
+        category.add(new Category_Item("디저트",3,0));
+        category.add(new Category_Item("그 외",4,0));
 
         Category_Adapter category_adapter = new Category_Adapter(this,category);
         spinner.setAdapter(category_adapter);
@@ -184,7 +194,11 @@ public class Insert_Activity extends Activity {
             @Override
             public void onClick(View v) {
                 for(int i = 0; i < recipelist.size(); i++){
-                    contents += recipelist.get(i).getText()+"|";
+                    if (recipelist.get(i) == null){
+                        contents += " ";
+                    }else{
+                        contents += recipelist.get(i).getText()+"|";
+                    }
                     Log.d(TAG, "contents : "+ contents);
                 }
                 for (int i = 0; i < ingrelist.size(); i++){
@@ -195,13 +209,18 @@ public class Insert_Activity extends Activity {
 
                 uploadFile(storage, thunmbnail_uri);
 
-                String imgs = null;
+                String imgs = "|";
                 int size = img_uri.size();
                 for (int i = 0; i < size; i++){
-                    imgs += uploadFile(storage,img_uri.get(i))+"|";
+                    if (img_uri.get(i) == null){
+                        imgs += "|";
+                    }else{
+                        imgs += uploadFile(storage,img_uri.get(i))+"|";
+                    }
                 }
+                Log.d(TAG, "onClick: "+imgs);
                 create(title_edit.getText().toString(),uploadFile(storage, thunmbnail_uri)
-                        ,imgs,detail_edit.getText().toString(),ingredients,contents+"|",
+                        ,imgs,detail_edit.getText().toString(),ingredients,contents,
                         category_num,time_text.getText().toString(),oven);
             }
         });
@@ -286,11 +305,7 @@ public class Insert_Activity extends Activity {
                         Log.d(TAG, "onActivityResult: 이미지");
                             adapter.changeimg(recipe_position,img);
                             adapter.notifyDataSetChanged();
-                            if (img_uri.get(recipe_position) == null) {
-                                img_uri.add(data.getData());
-                            }else{
-                                img_uri.set(recipe_position,data.getData());
-                            }
+                            img_uri.set(recipe_position,data.getData());
                         }else{
                             Log.d(TAG, "onActivityResult: 썸네일");
                             thunmbnail_uri = data.getData();
@@ -317,6 +332,7 @@ public class Insert_Activity extends Activity {
                 }else {
                     oven = false;
                 }
+                break;
         }
     }
 }

@@ -9,9 +9,9 @@ public class Recipe_Post {
     String contents;
     int category;
     int time;
-    boolean useOven;
+    boolean useOven = true;
 
-    public Recipe_Post(String name,String thumbnail, String image, String description, String ingredients, String contents, int category, int time, boolean useOven) {
+    public Recipe_Post(String name, String thumbnail, String image, String description, String ingredients, String contents, int category, int time, boolean useOven) {
         this.name = name;
         this.thumbnail = thumbnail;
         this.image = image;
