@@ -27,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="전체"
+        android:fontFamily="@font/notosanskrm"
+        android:includeFontPadding="false"
         android:textColor="#ffffff"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"

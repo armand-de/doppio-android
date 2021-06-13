@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:text="community_title"
+        android:text="profile"
         android:textColor="#2d665f"
         android:textSize="14sp"
         app:layout_constraintRight_toRightOf="parent"
@@ -36,71 +36,41 @@
         android:layout_height="200dp"
         android:layout_margin="20dp"
         android:src="@drawable/ic_big_img"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/commu_list_title"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
 
-    <TextView
-        android:id="@+id/commu_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="cummu_text"
-        android:textColor="#3d3d3d"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/commu_image"
-        app:layout_constraintLeft_toLeftOf="@id/commu_image"/>
+
     <ImageView
         android:id="@+id/commu_list_heart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="10dp"
         android:src="@drawable/ic_heart"
-        app:layout_constraintTop_toBottomOf="@id/commu_text"
+        app:layout_constraintTop_toBottomOf="@id/commu_image"
         app:layout_constraintRight_toLeftOf="@id/commu_list_heart_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="1.0"/>
+
     <TextView
         android:id="@+id/commu_list_heart_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="5dp"
-        android:text="10"
-        android:textColor="#3d3d3d"
-        android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="@id/commu_list_heart"
-        app:layout_constraintRight_toLeftOf="@id/commu_list_chat"
-        app:layout_constraintBottom_toBottomOf="@id/commu_list_heart"
-        app:layout_constraintHorizontal_bias="1.0"/>
-
-    <ImageView
-        android:id="@+id/commu_list_chat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_chat"
-        app:layout_constraintTop_toBottomOf="@id/commu_text"
-        app:layout_constraintRight_toLeftOf="@id/commu_list_chat_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"/>
-    <TextView
-        android:id="@+id/commu_list_chat_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:text="10"
         android:textColor="#3d3d3d"
         android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="@id/commu_list_chat"
+        app:layout_constraintBottom_toBottomOf="@id/commu_list_heart"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/commu_list_chat"
-        />
+        app:layout_constraintTop_toTopOf="@id/commu_list_heart" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

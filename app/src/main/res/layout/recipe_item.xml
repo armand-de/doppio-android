@@ -12,6 +12,8 @@
         android:layout_marginRight="60dp"
         android:textColor="#3d3d3d"
         android:hint=" 레시피 내용"
+        android:fontFamily="@font/notosanskrr"
+        android:includeFontPadding="false"
         android:textSize="14sp"
         android:textColorHint="#BEBEBE"
         android:background="@drawable/white_round_btn_recipe_item2"

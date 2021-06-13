@@ -14,9 +14,10 @@ import android.widget.Toast;
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_In_Client;
 import com.example.mobile_contentsapp.Login.Retrofit.Sign_in_Post;
 import com.example.mobile_contentsapp.Login.Retrofit.Authorization;
+import com.example.mobile_contentsapp.Login.Retrofit.TokenCheck_Client;
+import com.example.mobile_contentsapp.Login.Retrofit.TokenCheck_Get;
 import com.example.mobile_contentsapp.R;
-import com.example.mobile_contentsapp.Recipe.Insert_Activity;
-import com.example.mobile_contentsapp.Recipe.Main_Activity;
+import com.example.mobile_contentsapp.Main.Main_Activity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +27,9 @@ import static android.content.ContentValues.TAG;
 
 public class Sign_in_Activity extends AppCompatActivity {
 
-    EditText nicknameedit;
-    EditText passwordedit;
+    public EditText nicknameedit;
+    public EditText passwordedit;
+    public static String tokenValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +37,9 @@ public class Sign_in_Activity extends AppCompatActivity {
         setContentView(R.layout.sign_in);
 
         SharedPreferences sharedPreferences = getSharedPreferences("sp",MODE_PRIVATE);
-        String tokenValue = sharedPreferences.getString("token","");
+        tokenValue = sharedPreferences.getString("token","");
 
-        if(!tokenValue.equals("")){
-            Intent intent = new Intent(this, Main_Activity.class);
-            startActivity(intent);
-        }
+        tokenCheck(tokenValue);
 
         nicknameedit = findViewById(R.id.nickname_edit);
         passwordedit = findViewById(R.id.password_edit);
@@ -60,6 +59,27 @@ public class Sign_in_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signin(nicknameedit.getText().toString(),passwordedit.getText().toString());
+            }
+        });
+    }
+    public void tokenCheck(String token){
+        Call<TokenCheck_Get> call = TokenCheck_Client.getApiService().tokenCehckCall(token);
+        call.enqueue(new Callback<TokenCheck_Get>() {
+            @Override
+            public void onResponse(Call<TokenCheck_Get> call, Response<TokenCheck_Get> response) {
+                if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    return;
+                }
+                Log.d(TAG, "onResponse: 성공");
+
+                Intent intent = new Intent(Sign_in_Activity.this, Main_Activity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<TokenCheck_Get> call, Throwable t) {
+                Log.d(TAG, "onFailure: 시스템 에러"+t.getMessage());
             }
         });
     }

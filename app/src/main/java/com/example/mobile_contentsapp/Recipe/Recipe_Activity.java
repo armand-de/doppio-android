@@ -13,18 +13,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.mobile_contentsapp.R;
-import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Cancel_Api;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Client;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Post;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Post_Id;
-import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Recommand_Api;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_Recommand_Client;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Heart_cancel_Client;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Recipe_Find_Client;
@@ -57,8 +54,12 @@ public class Recipe_Activity extends AppCompatActivity {
     private TextView recipeTimeText;
     private TextView recipeCategoryText;
     private TextView recipeIntroText;
+    private TextView recipeProfileText;
 
-    private ImageButton heartButton;
+    private ImageButton heartBtn;
+    private ImageButton backbtn;
+
+    private ImageView recipeProfile;
 
     private RecyclerView ingreRecyclerView;
     private RecyclerView orderRecyclerView;
@@ -78,20 +79,44 @@ public class Recipe_Activity extends AppCompatActivity {
         recipeTimeText = findViewById(R.id.recipe_detail_time_text);
         recipeCategoryText = findViewById(R.id.recipe_detail_catrgory_text);
         recipeIntroText = findViewById(R.id.recipe_detail_intro_text);
+        recipeProfileText = findViewById(R.id.recipe_detail_profile_naem);
 
-        heartButton = findViewById(R.id.recipe_detail_heart);
-        
+        heartBtn = findViewById(R.id.recipe_detail_heart);
+        backbtn = findViewById(R.id.recipe_detail_back);
+
         ingreRecyclerView = findViewById(R.id.recipe_detail_ingre_recycler);
         orderRecyclerView = findViewById(R.id.recipe_detail_order_recycler);
 
         Intent intent = getIntent();
-
-        String id = intent.getStringExtra("recipeId");
+        int id = intent.getIntExtra("recipeId",0);
 
         findRecipe(id);
 
+        backbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
-    public void findRecipe(String id){
+    public void fireBase(String image, ImageView imageView){
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://mobile-contents-812ea.appspot.com");
+        StorageReference storageReference = storage.getReference();
+
+        storageReference.child(image).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(Recipe_Activity.this).load(uri).into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
+    }
+
+    public void findRecipe(int id){
         Call<Recipe_Find_Get> call = Recipe_Find_Client.getApiService().recipe_find_call(id);
         call.enqueue(new Callback<Recipe_Find_Get>() {
             @Override
@@ -107,9 +132,11 @@ public class Recipe_Activity extends AppCompatActivity {
                 recipeTitle.setText(recipe_find_get.getName());
                 recipeTimeText.setText(recipe_find_get.getTime()+"분");
                 recipeHeartText.setText(recipe_find_get.getPreference()+"");
+                recipeProfileText.setText(recipe_find_get.getUser().getNickname());
                 Log.d(TAG, "onResponse: "+recipe_find_get.getPreference());
                 recipeCategoryImage.setColorFilter(Color.parseColor("#2d665f"));
 
+                fireBase(recipe_find_get.getUser().getImage(),recipeProfile);
                 setCategory(recipe_find_get.getCategory());
                 setIngre(recipe_find_get.getIngredients());
                 setOrder(recipe_find_get.getImage(),recipe_find_get.getContents());
@@ -117,21 +144,9 @@ public class Recipe_Activity extends AppCompatActivity {
 
                 recipeIntroText.setText(recipe_find_get.getDescription());
 
-                FirebaseStorage storage = FirebaseStorage.getInstance("gs://mobile-contents-812ea.appspot.com");
-                StorageReference storageReference = storage.getReference();
 
-                storageReference.child(recipe_find_get.getThumbnail()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Glide.with(Recipe_Activity.this).load(uri).into(recipeMainImage);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
 
-                heartButton.setOnClickListener(new View.OnClickListener() {
+                heartBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         clickHeart(heart_post_id,recipe_find_get.getPreference());
@@ -210,10 +225,10 @@ public class Recipe_Activity extends AppCompatActivity {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 if (response.body().isExist()){
-                    heartButton.setImageResource(R.drawable.ic_selectheart);
+                    heartBtn.setImageResource(R.drawable.ic_selectheart);
                     heartSelect = true;
                 }else{
-                    heartButton.setImageResource(R.drawable.ic_heart);
+                    heartBtn.setImageResource(R.drawable.ic_heart);
                     heartSelect = false;
                 }
             }
@@ -235,7 +250,7 @@ public class Recipe_Activity extends AppCompatActivity {
                         return;
                     }
                     Log.d(TAG, "onResponse: 성공");
-                    heartButton.setImageResource(R.drawable.ic_heart);
+                    heartBtn.setImageResource(R.drawable.ic_heart);
                     recipeHeartText.setText(String.valueOf(heart));
                 }
 
@@ -254,7 +269,7 @@ public class Recipe_Activity extends AppCompatActivity {
                         return;
                     }
                     Log.d(TAG, "onResponse: 성공");
-                    heartButton.setImageResource(R.drawable.ic_selectheart);
+                    heartBtn.setImageResource(R.drawable.ic_selectheart);
                     recipeHeartText.setText(String.valueOf(heart+1));
                 }
 

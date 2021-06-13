@@ -2,40 +2,31 @@ package com.example.mobile_contentsapp.Recipe;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.mobile_contentsapp.Main.FireBase;
 import com.example.mobile_contentsapp.R;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Recipe_Client;
 import com.example.mobile_contentsapp.Recipe.Retrofit.Recipe_Post;
@@ -44,8 +35,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -57,7 +46,7 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-public class Insert_Activity extends Activity {
+public class Recipe_Insert_Activity extends Activity {
 
     private Uri thunmbnail_uri;
     private ArrayList<Uri> img_uri = new ArrayList<>();
@@ -96,7 +85,7 @@ public class Insert_Activity extends Activity {
         time_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Timepicker timepicker = new Timepicker(Insert_Activity.this);
+                Timepicker timepicker = new Timepicker(Recipe_Insert_Activity.this);
                 timepicker.picker(time_text);
             }
         });
@@ -110,7 +99,6 @@ public class Insert_Activity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                Bundle bundle = new Bundle();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 thumbnail = true;
@@ -126,7 +114,7 @@ public class Insert_Activity extends Activity {
         ingre_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Ingre_dialog dialog = new Ingre_dialog(Insert_Activity.this);
+                Ingre_dialog dialog = new Ingre_dialog(Recipe_Insert_Activity.this);
                 dialog.dialog(ingrerecycler,ingrelist);
             }
         });
@@ -207,19 +195,17 @@ public class Insert_Activity extends Activity {
                 }
                 onCheckBoxClicked(oven_check);
 
-                uploadFile(storage, thunmbnail_uri);
-
-                String imgs = "|";
+                String imgs = "";
                 int size = img_uri.size();
                 for (int i = 0; i < size; i++){
                     if (img_uri.get(i) == null){
                         imgs += "|";
                     }else{
-                        imgs += uploadFile(storage,img_uri.get(i))+"|";
+                        imgs += FireBase.firebaseUpload(v.getContext(),img_uri.get(i))+"|";
                     }
                 }
                 Log.d(TAG, "onClick: "+imgs);
-                create(title_edit.getText().toString(),uploadFile(storage, thunmbnail_uri)
+                create(title_edit.getText().toString(), FireBase.firebaseUpload(v.getContext(), thunmbnail_uri)
                         ,imgs,detail_edit.getText().toString(),ingredients,contents,
                         category_num,time_text.getText().toString(),oven);
             }
@@ -241,7 +227,7 @@ public class Insert_Activity extends Activity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Insert_Activity.this, "업로드에 실패하였습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Recipe_Insert_Activity.this, "업로드에 실패하였습니다", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -267,7 +253,7 @@ public class Insert_Activity extends Activity {
                     return;
                 }else{
                     Log.d(TAG, "onResponse: 성공");
-                    Toast.makeText(Insert_Activity.this, "성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Recipe_Insert_Activity.this, "성공", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -280,7 +266,7 @@ public class Insert_Activity extends Activity {
     }
 
     public Bitmap getBitmap(int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(Insert_Activity.this, drawableId);
+        Drawable drawable = ContextCompat.getDrawable(Recipe_Insert_Activity.this, drawableId);
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
                 drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_margin="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/commu_comment_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#00000000"
+        android:src="@drawable/ic_profile"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    
+    <TextView
+        android:id="@+id/comment_profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text="김병주"
+        android:fontFamily="@font/notosanskrm"
+        android:includeFontPadding="false"
+        android:textColor="#2d665f"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/commu_comment_profile"/>
+
+    <TextView
+        android:id="@+id/commu_comment_create_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="날짜"
+        android:fontFamily="@font/notosanskrm"
+        android:includeFontPadding="false"
+        android:textColor="#3d3d3d"
+        android:textSize="12sp"
+        app:layout_constraintTop_toTopOf="@id/comment_profile_name"
+        app:layout_constraintBottom_toBottomOf="@id/comment_profile_name"
+        app:layout_constraintLeft_toRightOf="@id/comment_profile_name"/>
+
+    <TextView
+        android:id="@+id/commu_comment_contents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="댓글 내용"
+        android:fontFamily="@font/notosanskrm"
+        android:includeFontPadding="false"
+        android:textColor="#3d3d3d"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/comment_profile_name"
+        app:layout_constraintLeft_toLeftOf="@id/comment_profile_name"/>
+
+    <TextView
+        android:id="@+id/comment_heart_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="12"
+        android:fontFamily="@font/notosanskrm"
+        android:includeFontPadding="false"
+        android:textColor="#3d3d3d"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/commu_comment_heart_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:background="#00000000"
+        android:src="@drawable/ic_heart"
+        app:layout_constraintBottom_toBottomOf="@+id/comment_heart_text"
+        app:layout_constraintRight_toLeftOf="@id/comment_heart_text"
+        app:layout_constraintTop_toTopOf="@+id/comment_heart_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

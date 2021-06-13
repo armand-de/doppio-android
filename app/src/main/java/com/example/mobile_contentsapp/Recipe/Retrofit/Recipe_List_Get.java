@@ -1,15 +1,15 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
 public class Recipe_List_Get {
-    String id;
-    String name;
-    String thumbnail;
-    int time;
-    boolean useOven;
-    int category;
-    int preference;
+    private int id;
+    private String name;
+    private String thumbnail;
+    private int time;
+    private boolean useOven;
+    private int category;
+    private int preference;
 
-    public Recipe_List_Get(String id, String name, String thumbnail, int time, boolean useOven, int category, int preference) {
+    public Recipe_List_Get(int id, String name, String thumbnail, int time, boolean useOven, int category, int preference) {
         this.id = id;
         this.name = name;
         this.thumbnail = thumbnail;
@@ -19,11 +19,11 @@ public class Recipe_List_Get {
         this.preference = preference;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

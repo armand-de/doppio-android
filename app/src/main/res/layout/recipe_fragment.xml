@@ -16,11 +16,25 @@
         android:padding="10dp"
         android:textColor="#3d3d3d"
         android:hint="검색"
+        android:fontFamily="@font/notosanskrr"
+        android:includeFontPadding="false"
         android:textSize="14sp"
         android:textColorHint="#BEBEBE"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"/>
+
+    <ImageButton
+        android:id="@+id/recipe_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:background="#00000000"
+        android:src="@drawable/ic_search"
+        app:layout_constraintTop_toTopOf="@id/recipe_search_edit"
+        app:layout_constraintRight_toRightOf="@id/recipe_search_edit"
+        app:layout_constraintBottom_toBottomOf="@id/recipe_search_edit"/>
 
     <Spinner
         android:id="@+id/search_category_spinner"

@@ -51,7 +51,7 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NormalViewHolder){
-            onBindview((NormalViewHolder) holder, position);
+            onBind((NormalViewHolder) holder, position);
         }else if (holder instanceof LoadingViewHolder){
             showLoadingView((LoadingViewHolder) holder,position);
         }
@@ -67,11 +67,15 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return items == null ? 0 : items.size();
     }
 
+    public void update(){
+        notifyDataSetChanged();
+    }
+
     private void showLoadingView(LoadingViewHolder holder, int position) {
 
     }
 
-    private void onBindview(NormalViewHolder holder, int position) {
+    private void onBind(NormalViewHolder holder, int position) {
         Recipe_List_Get item = items.get(position);
         holder.onBind(item);
     }

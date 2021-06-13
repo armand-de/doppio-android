@@ -1,35 +1,23 @@
-package com.example.mobile_contentsapp.Recipe;
+package com.example.mobile_contentsapp.Main;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.mobile_contentsapp.Commu.Commu_Insert_Activity;
 import com.example.mobile_contentsapp.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import retrofit2.http.Url;
-
-import static android.content.ContentValues.TAG;
+import com.example.mobile_contentsapp.Recipe.Recipe_Insert_Activity;
+import com.example.mobile_contentsapp.Recipe.PagerAdapter;
+import com.example.mobile_contentsapp.Recipe.Recipe_Fragment;
 
 public class Main_Activity extends AppCompatActivity {
     private Recipe_Fragment recipe_fragment;
+    private int pagePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +46,7 @@ public class Main_Activity extends AppCompatActivity {
                     recipe_btn.setColorFilter(Color.parseColor("#BFD5D3"));
                     commu_btn.setColorFilter(Color.parseColor("#2d665f"));
                 }
+                pagePosition = position;
             }
         });
 
@@ -76,8 +65,13 @@ public class Main_Activity extends AppCompatActivity {
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main_Activity.this,Insert_Activity.class);
-                startActivity(intent);
+                if (pagePosition == 0){
+                    Intent intent = new Intent(Main_Activity.this, Recipe_Insert_Activity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(Main_Activity.this, Commu_Insert_Activity.class);
+                    startActivity(intent);
+                }
             }
         });
 

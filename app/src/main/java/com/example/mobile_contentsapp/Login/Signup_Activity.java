@@ -75,7 +75,7 @@ public class Signup_Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!(nicknameedit.getText().toString().length() > 3) || !(nicknameedit.getText().toString().length() < 8)){
+                if (!(nicknameedit.getText().toString().length() >= 3) || !(nicknameedit.getText().toString().length() <= 8)){
                     nick_limit.setVisibility(View.VISIBLE);
                 }else{
                     nick_limit.setVisibility(View.INVISIBLE);
@@ -102,7 +102,7 @@ public class Signup_Activity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!(passwordedit.getText().toString().length() > 7) || !(passwordedit.getText().toString().length() < 30)){
+                if (!(passwordedit.getText().toString().length() >= 7) || !(passwordedit.getText().toString().length() <= 30)){
                     pass_limit.setVisibility(View.VISIBLE);
                 }else{
                     pass_limit.setVisibility(View.INVISIBLE);
@@ -128,8 +128,8 @@ public class Signup_Activity extends AppCompatActivity {
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nicknameedit.getText().toString().length() > 3 && nicknameedit.getText().toString().length() < 8){
-                    if (passwordedit.getText().toString().length() > 7 && passwordedit.getText().toString().length() < 30){
+                if (nicknameedit.getText().toString().length() >= 3 && nicknameedit.getText().toString().length() <= 8){
+                    if (passwordedit.getText().toString().length() >= 7 && passwordedit.getText().toString().length() <= 30){
                         if (pass_conedit.getText().toString().equals(passwordedit.getText().toString())){
                             signUp(nicknameedit.getText().toString(),passwordedit.getText().toString(),phoneedit.getText().toString(),verify.getText().toString());
                         }else{

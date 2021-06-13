@@ -12,12 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Recipe.Recipe_Activity"></activity>
-        <activity android:name=".Community.Commu_Activity" />
+        <activity android:name=".Commu.Commu_Activity2"></activity>
+        <activity android:name=".Commu.Commu_Insert_Activity" />
+        <activity android:name=".Recipe.Recipe_Activity" />
+        <activity android:name=".Commu.Commu_Activity" />
         <activity
-            android:name=".Recipe.Insert_Activity"
+            android:name=".Recipe.Recipe_Insert_Activity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Recipe.Main_Activity" />
+        <activity android:name=".Main.Main_Activity" />
         <activity android:name=".Login.Signup_Activity" />
         <activity android:name=".Login.Sign_in_Activity">
             <intent-filter>
