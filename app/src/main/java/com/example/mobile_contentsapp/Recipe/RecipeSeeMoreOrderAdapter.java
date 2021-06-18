@@ -14,10 +14,10 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class RecipeDetailOrderAdapter extends RecyclerView.Adapter<RecipeDetailOrderAdapter.ViewHolder> {
-    ArrayList<RecipeDetailOrderItem> items;
+public class RecipeSeeMoreOrderAdapter extends RecyclerView.Adapter<RecipeSeeMoreOrderAdapter.ViewHolder> {
+    ArrayList<RecipeSeeMoreOrderItem> items;
 
-    public RecipeDetailOrderAdapter(ArrayList<RecipeDetailOrderItem> items) {
+    public RecipeSeeMoreOrderAdapter(ArrayList<RecipeSeeMoreOrderItem> items) {
         this.items = items;
     }
 
@@ -30,7 +30,7 @@ public class RecipeDetailOrderAdapter extends RecyclerView.Adapter<RecipeDetailO
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RecipeDetailOrderItem item = items.get(position);
+        RecipeSeeMoreOrderItem item = items.get(position);
         holder.onBind(item);
     }
 
@@ -47,7 +47,7 @@ public class RecipeDetailOrderAdapter extends RecyclerView.Adapter<RecipeDetailO
             imageView = itemView.findViewById(R.id.recipe_detail_img);
             textView = itemView.findViewById(R.id.recipe_detail_text);
         }
-        public void onBind(RecipeDetailOrderItem item){
+        public void onBind(RecipeSeeMoreOrderItem item){
             if (item.getImage().isEmpty()){
                 imageView.setVisibility(View.GONE);
             }

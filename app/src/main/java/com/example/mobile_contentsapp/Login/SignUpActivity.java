@@ -16,11 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.CheckClient;
-import com.example.mobile_contentsapp.Login.Retrofit.Check_Post;
+import com.example.mobile_contentsapp.Login.Retrofit.CheckPost;
 import com.example.mobile_contentsapp.Login.Retrofit.NumberClient;
-import com.example.mobile_contentsapp.Login.Retrofit.Number_Post;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Client;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_Up_Post;
+import com.example.mobile_contentsapp.Login.Retrofit.NumberPost;
+import com.example.mobile_contentsapp.Login.Retrofit.SignUpClient;
+import com.example.mobile_contentsapp.Login.Retrofit.SignUpPost;
 import com.example.mobile_contentsapp.R;
 
 import retrofit2.Call;
@@ -29,10 +29,11 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-public class Signup_Activity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private boolean exist = false;
-    
+    private boolean isLoading = false;
+
     private EditText nicknameEdit;
     private EditText passwordEdit;
     private EditText passConfirmEdit;
@@ -44,12 +45,6 @@ public class Signup_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up);
 
-        nicknameEdit = findViewById(R.id.nickname_edit);
-        passwordEdit = findViewById(R.id.password_edit);
-        passConfirmEdit = findViewById(R.id.password_confirm_edit);
-        phoneEdit = findViewById(R.id.phone_edit);
-        verify = findViewById(R.id.number_edit);
-
         Button phoneBtn = findViewById(R.id.number_btn);
         Button signUpBtn = findViewById(R.id.sign_up_btn);
         Button signInbtn = findViewById(R.id.sign_in_intent_btn);
@@ -59,6 +54,32 @@ public class Signup_Activity extends AppCompatActivity {
         TextView passLimit = findViewById(R.id.pass_limit);
         nickLimit.setVisibility(View.INVISIBLE);
         passLimit.setVisibility(View.INVISIBLE);
+
+        nicknameEdit = findViewById(R.id.nickname_edit);
+        passwordEdit = findViewById(R.id.password_edit);
+        passConfirmEdit = findViewById(R.id.password_confirm_edit);
+        phoneEdit = findViewById(R.id.phone_edit);
+        verify = findViewById(R.id.number_edit);
+
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLoading){
+                    isLoading = true;
+                    String nickname = nicknameEdit.getText().toString();
+                    String password = passwordEdit.getText().toString();
+
+                    if (nickname.length() >= 3 && nickname.length() <= 8 &&
+                            password.length() >= 7 && password.length() <= 30 &&
+                            passConfirmEdit.getText().toString().equals(passwordEdit.getText().toString())){
+
+                        signUp(nickname, password, phoneEdit.getText().toString(),verify.getText().toString());
+                    }else{
+                        Toast.makeText(v.getContext(), "정확한 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
 
         nicknameEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,91 +144,74 @@ public class Signup_Activity extends AppCompatActivity {
             }
         });
 
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nicknameEdit.getText().toString().length() >= 3 && nicknameEdit.getText().toString().length() <= 8){
-                    if (passwordEdit.getText().toString().length() >= 7 && passwordEdit.getText().toString().length() <= 30){
-                        if (passConfirmEdit.getText().toString().equals(passwordEdit.getText().toString())){
-                            signUp(nicknameEdit.getText().toString(), passwordEdit.getText().toString(), phoneEdit.getText().toString(),verify.getText().toString());
-                        }else{
-                            faii();
-                        }
-                    }else {
-                        faii();
-                    }
-                }else{
-                    faii();
-                }
-            }
-        });
+
         signInbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Signup_Activity.this,Sign_in_Activity.class);
+                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 finish();
                 startActivity(intent);
             }
         });
 
     }
-    public void faii(){
-        Toast.makeText(this, "정확한 정보를 입력해주세요", Toast.LENGTH_SHORT).show();
-    }
 
     public void phoneNumber(String phone){
-        Number_Post number_post = new Number_Post(phone);
-        Call<Number_Post> call = NumberClient.getApiService().NumberpostCall(number_post);
-        call.enqueue(new Callback<Number_Post>() {
+        NumberPost number_post = new NumberPost(phone);
+        Call<NumberPost> call = NumberClient.getApiService().NumberCall(number_post);
+        call.enqueue(new Callback<NumberPost>() {
             @Override
-            public void onResponse(Call<Number_Post> call, Response<Number_Post> response) {
+            public void onResponse(Call<NumberPost> call, Response<NumberPost> response) {
                 if(!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
-                    Toast.makeText(Signup_Activity.this, "유효한 전화번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "유효한 전화번호를 입력해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<Number_Post> call, Throwable t) {
+            public void onFailure(Call<NumberPost> call, Throwable t) {
                 Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
                 return;
             }
         });
     }
     public void signUp(String nick , String pass, String phone, String verify){
-        Sign_Up_Post sign_up_post = new Sign_Up_Post(nick,pass,phone,verify);
-        Call<Sign_Up_Post> call = Sign_Up_Client.getApiService().sign_up_postCall(sign_up_post);
-        call.enqueue(new Callback<Sign_Up_Post>() {
+        SignUpPost signUpPost = new SignUpPost(nick,pass,phone,verify);
+
+        Call<SignUpPost> call = SignUpClient.getApiService().signUpCall(signUpPost);
+        call.enqueue(new Callback<SignUpPost>() {
             @Override
-            public void onResponse(Call<Sign_Up_Post> call, Response<Sign_Up_Post> response) {
-                if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 망함"+response.code());
+            public void onResponse(Call<SignUpPost> call, Response<SignUpPost> response) {
+                if (response.isSuccessful()){
+                    Toast.makeText(SignUpActivity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                    finish();
+                    isLoading = false;
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
-                Toast.makeText(Signup_Activity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
                 finish();
+                Toast.makeText(SignUpActivity.this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<Sign_Up_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
+            public void onFailure(Call<SignUpPost> call, Throwable t) {
+                finish();
+                Toast.makeText(SignUpActivity.this, "회원가입에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
     public void check(String nick, Button btn){
-        Call<Check_Post> call = CheckClient.getApiService().check_postcall(nick);
-        call.enqueue(new Callback<Check_Post>() {
+        Call<CheckPost> call = CheckClient.getApiService().checkCall(nick);
+        call.enqueue(new Callback<CheckPost>() {
             @Override
-            public void onResponse(Call<Check_Post> call, Response<Check_Post> response) {
+            public void onResponse(Call<CheckPost> call, Response<CheckPost> response) {
                 if (!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
-                Check_Post result = response.body();
+                CheckPost result = response.body();
                 Log.d(TAG, "onResponse: "+result.isExist());
                 if (result.isExist() == false){
                     exist = true;
@@ -218,7 +222,7 @@ public class Signup_Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Check_Post> call, Throwable t) {
+            public void onFailure(Call<CheckPost> call, Throwable t) {
                 Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
             }
         });

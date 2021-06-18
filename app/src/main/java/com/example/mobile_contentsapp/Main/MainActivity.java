@@ -1,51 +1,58 @@
 package com.example.mobile_contentsapp.Main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.mobile_contentsapp.Commu.Commu_Fragment;
-import com.example.mobile_contentsapp.Commu.Commu_Insert_Activity;
-import com.example.mobile_contentsapp.Login.Sign_in_Activity;
+import com.example.mobile_contentsapp.Commu.CommuFragment;
+import com.example.mobile_contentsapp.Commu.CommuInsertActivity;
 import com.example.mobile_contentsapp.Profile.ProfileActivity;
+import com.example.mobile_contentsapp.Profile.Retrofit.ProfileClient;
 import com.example.mobile_contentsapp.R;
-import com.example.mobile_contentsapp.Recipe.Recipe_Insert_Activity;
+import com.example.mobile_contentsapp.Recipe.RecipeInsertActivity;
 import com.example.mobile_contentsapp.Recipe.PagerAdapter;
-import com.example.mobile_contentsapp.Recipe.Recipe_Fragment;
+import com.example.mobile_contentsapp.Recipe.RecipeFragment;
+import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
-public class Main_Activity extends AppCompatActivity {
-    private Recipe_Fragment recipeFragment;
-    private Commu_Fragment commuFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
+
+public class MainActivity extends AppCompatActivity {
+    private RecipeFragment recipeFragment;
+    private CommuFragment commuFragment;
     private int pagePosition;
 
     @Override
     public void onBackPressed() {
-        finishAffinity();
+        endDialog();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_);
+        setContentView(R.layout.main);
 
-        recipeFragment = new Recipe_Fragment();
-        commuFragment = new Commu_Fragment();
+        recipeFragment = new RecipeFragment();
+        commuFragment = new CommuFragment();
 
-        ImageButton recipe_btn = findViewById(R.id.recipebtn);
-        ImageButton commu_btn = findViewById(R.id.comumbtn);
-        ImageButton create_btn = findViewById(R.id.create_btn);
+        ImageButton recipeBtn = findViewById(R.id.recipebtn);
+        ImageButton commuBtn = findViewById(R.id.comumbtn);
+        ImageButton createBtn = findViewById(R.id.create_btn);
         ImageButton profileBtn = findViewById(R.id.profile_btn);
 
-        SwipeRefreshLayout swipe = findViewById(R.id.main_swipe);
         ViewPager2 pager2 = findViewById(R.id.vp);
 
-        PagerAdapter adapter = new PagerAdapter(this,recipe_btn,commu_btn);
+        PagerAdapter adapter = new PagerAdapter(this,recipeBtn,commuBtn);
         pager2.setAdapter(adapter);
 
         pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -53,36 +60,38 @@ public class Main_Activity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 if (position == 0){
-                    recipe_btn.setColorFilter(Color.parseColor("#2d665f"));
-                    commu_btn.setColorFilter(Color.parseColor("#BFD5D3"));
+                    recipeBtn.setColorFilter(Color.parseColor("#2d665f"));
+                    commuBtn.setColorFilter(Color.parseColor("#BFD5D3"));
                 }else{
-                    recipe_btn.setColorFilter(Color.parseColor("#BFD5D3"));
-                    commu_btn.setColorFilter(Color.parseColor("#2d665f"));
+                    recipeBtn.setColorFilter(Color.parseColor("#BFD5D3"));
+                    commuBtn.setColorFilter(Color.parseColor("#2d665f"));
                 }
                 pagePosition = position;
             }
         });
 
-        recipe_btn.setOnClickListener(new View.OnClickListener() {
+        setProfile(profileBtn);
+
+        recipeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pager2.setCurrentItem(0,true);
             }
         });
-        commu_btn.setOnClickListener(new View.OnClickListener() {
+        commuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pager2.setCurrentItem(1,true);
             }
         });
-        create_btn.setOnClickListener(new View.OnClickListener() {
+        createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (pagePosition == 0){
-                    Intent intent = new Intent(Main_Activity.this, Recipe_Insert_Activity.class);
+                    Intent intent = new Intent(MainActivity.this, RecipeInsertActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(Main_Activity.this, Commu_Insert_Activity.class);
+                    Intent intent = new Intent(MainActivity.this, CommuInsertActivity.class);
                     startActivity(intent);
                 }
             }
@@ -90,23 +99,48 @@ public class Main_Activity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main_Activity.this, ProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
-            }
-        });
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                onRestart();
-                swipe.setRefreshing(false);
             }
         });
 
     }
+    public void setProfile(ImageButton profile){
+        Call<User> call = ProfileClient.getApiService().profileCall(tokenValue);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()){
+                    return;
+                }
+                if (response.body().getImage() != null){
+                    FireBase.firebaseDownlode(MainActivity.this,response.body().getImage(),profile);
+                }
+            }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        recipeFragment.listRefresh();
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
+    }
+    public void endDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("앱 종료")
+                .setMessage("종료하시겠습니까?")
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();
+                    }
+                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

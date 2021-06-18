@@ -12,10 +12,10 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class IngreList_adapter extends RecyclerView.Adapter<IngreList_adapter.ViewHolder> {
-    private ArrayList<ingredientListItem> items;
+public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.ViewHolder> {
+    private ArrayList<IngredientListItem> items;
 
-    public IngreList_adapter(ArrayList<ingredientListItem> items) {
+    public IngredientListAdapter(ArrayList<IngredientListItem> items) {
         this.items = items;
     }
 
@@ -28,7 +28,7 @@ public class IngreList_adapter extends RecyclerView.Adapter<IngreList_adapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ingredientListItem item = items.get(position);
+        IngredientListItem item = items.get(position);
         holder.onBind(item,position);
     }
 
@@ -43,13 +43,14 @@ public class IngreList_adapter extends RecyclerView.Adapter<IngreList_adapter.Vi
             super(itemView);
              ingretext = itemView.findViewById(R.id.ingre_item);
         }
-        public void onBind(ingredientListItem list, int position){
+        public void onBind(IngredientListItem list, int position){
             ingretext.setText(list.getText());
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     items.remove(position);
-                    return false;
+                    notifyItemRemoved(position);
+                    return true;
                 }
             });
         }

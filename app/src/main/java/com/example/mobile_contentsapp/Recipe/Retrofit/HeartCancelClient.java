@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.mobile_contentsapp.Login.Retrofit.NumberClient.BASE_URL;
 
-public class Heart_cancel_Client {
+public class HeartCancelClient {
 
-    public static Heart_Cancel_Api getApiService(){
-        return getInstance().create(Heart_Cancel_Api.class);
+    public static HeartCancelApi getApiService(){
+        return getInstance().create(HeartCancelApi.class);
     }
     private static Retrofit getInstance(){
         Gson gson = new GsonBuilder().setLenient().create();

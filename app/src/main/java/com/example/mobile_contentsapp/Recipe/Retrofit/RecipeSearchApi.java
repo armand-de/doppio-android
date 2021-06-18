@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 
-public interface Recipe_Search_Api {
+public interface RecipeSearchApi {
     @GET("/recipe/list/search")
-    Call<List<RecipeListGet>> recipe_SearchGetCall(@QueryMap Map<String, String> option);
+    Call<List<RecipeListGet>> recipeSearchCall(@QueryMap Map<String, String> option);
 }

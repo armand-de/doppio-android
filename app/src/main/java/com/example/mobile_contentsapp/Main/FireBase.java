@@ -2,6 +2,7 @@ package com.example.mobile_contentsapp.Main;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -9,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
-import com.example.mobile_contentsapp.Recipe.Recipe_Insert_Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -17,6 +17,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
 
 public class FireBase {
     private static FireBase instance;
@@ -40,6 +42,10 @@ public class FireBase {
                 public void onSuccess(Uri uri) {
                     Glide.with(context).load(uri).into(image);
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
             });
         }
     }
@@ -52,6 +58,10 @@ public class FireBase {
                 @Override
                 public void onSuccess(Uri uri) {
                     Glide.with(context).load(uri).into(image);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                 }
             });
         }

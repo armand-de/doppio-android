@@ -1,10 +1,10 @@
 package com.example.mobile_contentsapp.Recipe;
 
-public class RecipeDetailOrderItem {
+public class RecipeSeeMoreOrderItem {
     private String image;
     private String text;
 
-    public RecipeDetailOrderItem(String image, String text) {
+    public RecipeSeeMoreOrderItem(String image, String text) {
         this.image = image;
         this.text = text;
     }

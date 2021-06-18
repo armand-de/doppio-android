@@ -2,10 +2,10 @@ package com.example.mobile_contentsapp.Commu;
 
 import android.graphics.Bitmap;
 
-public class Commu_Image_Item {
+public class CommuImageItem {
     private Bitmap image;
 
-    public Commu_Image_Item(Bitmap image) {
+    public CommuImageItem(Bitmap image) {
         this.image = image;
     }
 

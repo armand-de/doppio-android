@@ -1,10 +1,10 @@
 package com.example.mobile_contentsapp.Login.Retrofit;
 
-public class Number_Post {
+public class NumberPost {
 
     private String phone;
 
-    public Number_Post(String phone) {
+    public NumberPost(String phone) {
         this.phone = phone;
     }
 

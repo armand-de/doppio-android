@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface Sign_in_Api {
+public interface SignInApi {
     @POST("auth/login")
-    Call<Authorization> sign_in_post_call(@Body SignInPost login_post);
+    Call<Authorization> signInCall(@Body SignInPost signInPost);
 }

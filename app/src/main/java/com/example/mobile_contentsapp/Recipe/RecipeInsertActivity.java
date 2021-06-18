@@ -1,12 +1,14 @@
 package com.example.mobile_contentsapp.Recipe;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,17 +29,11 @@ import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Main.FireBase;
 import com.example.mobile_contentsapp.R;
-import com.example.mobile_contentsapp.Recipe.Retrofit.Recipe_Client;
-import com.example.mobile_contentsapp.Recipe.Retrofit.Recipe_Post;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeCreateClient;
+import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeCreatePost;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,50 +42,46 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
-public class Recipe_Insert_Activity extends Activity {
+public class RecipeInsertActivity extends Activity {
 
     private Uri thunmbnailUri;
     private ArrayList<Uri> imgUri = new ArrayList<>();
     private ImageButton mainImgBtn;
-    private int categoryNum = 0;
-    private int recipePosition =1;
-    private boolean oven = true;
+    private int categoryNum = 1;
+    private int recipePosition = 1;
+    private boolean oven = false;
     private boolean thumbnail = true;
+    private boolean isUpload = false;
 
-    private Recipe_adapter adapter;
+    private RecipeWriteAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_);
+        setContentView(R.layout.recipe_create);
+
+        mainImgBtn = findViewById(R.id.imageadd);
 
         EditText titleEdit = findViewById(R.id.title_edit);
         EditText detailEdit = findViewById(R.id.recipe_detail_edit);
+
         TextView timeText = findViewById(R.id.time_text);
-        Button timeSet = findViewById(R.id.time_set);
-        Button upload = findViewById(R.id.upload_btn);
-        mainImgBtn = findViewById(R.id.imageadd);
-        ImageButton ingreAdd = findViewById(R.id.add_ingre_btn);
-        ImageButton recipeAdd = findViewById(R.id.add_recipe);
+
+        Button timeSetBtn = findViewById(R.id.time_set);
+        Button uploadBtn = findViewById(R.id.upload_btn);
+
+        ImageButton backBtn = findViewById(R.id.recipe_insert_back);
+        ImageButton ingreAddBtn = findViewById(R.id.add_ingre_btn);
+        ImageButton recipeAddBtn = findViewById(R.id.add_recipe);
+
         Spinner spinner = findViewById(R.id.spinner);
         CheckBox ovenCheck = findViewById(R.id.oven_check);
 
         categorySet(spinner);
-        
-        imgUri.add(null);
-        imgUri.add(null);
 
-        timeSet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timepicker timepicker = new Timepicker(Recipe_Insert_Activity.this);
-                timepicker.picker(timeText);
-            }
-        });
-
-        RecyclerView ingredientList = findViewById(R.id.ingre_recycler);
-        RecyclerView reciperecycler = findViewById(R.id.recipe_recycler);
-        ArrayList<ingreList_Item> ingrelist = new ArrayList<>();
-        ArrayList<Recipe_Item> recipelist = new ArrayList<>();
+        RecyclerView ingredientRecycler = findViewById(R.id.ingre_recycler);
+        RecyclerView recipeRecycler = findViewById(R.id.recipe_recycler);
+        ArrayList<IngredientListItem> ingreList = new ArrayList<>();
+        ArrayList<RecipeItem> recipeList = new ArrayList<>();
 
         mainImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,25 +96,23 @@ public class Recipe_Insert_Activity extends Activity {
 
         LinearLayoutManager manager1 = new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
         LinearLayoutManager manager2 = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        ingredientList.setLayoutManager(manager1);
-        reciperecycler.setLayoutManager(manager2);
 
-        ingreAdd.setOnClickListener(new View.OnClickListener() {
+        ingredientRecycler.setLayoutManager(manager1);
+        recipeRecycler.setLayoutManager(manager2);
+
+        ingreAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Ingre_dialog dialog = new Ingre_dialog(Recipe_Insert_Activity.this);
-                dialog.dialog(ingredientList,ingrelist);
+                IngreDialog dialog = new IngreDialog(RecipeInsertActivity.this);
+                dialog.dialog(ingredientRecycler,ingreList);
             }
         });
         Bitmap bitmap = getBitmap(R.drawable.ic_small_img);
 
-        recipelist.add(new Recipe_Item("",bitmap));
-        recipelist.add(new Recipe_Item("",bitmap));
+        adapter = new RecipeWriteAdapter(recipeList);
+        recipeRecycler.setAdapter(adapter);
 
-        adapter = new Recipe_adapter(recipelist);
-        reciperecycler.setAdapter(adapter);
-
-        adapter.setOnClickListener(new Recipe_adapter.OnClickListener() {
+        adapter.setOnClickListener(new RecipeWriteAdapter.OnClickListener() {
             @Override
             public void OnClick(View view, int pos, ImageButton imageButton) {
                 Intent intent = new Intent();
@@ -133,29 +123,26 @@ public class Recipe_Insert_Activity extends Activity {
                 startActivityForResult(intent,101);
             }
         });
-
-        adapter.setOnLongClickListener(new Recipe_adapter.OnLongClickListener() {
+        adapter.setOnLongClickListener(new RecipeWriteAdapter.OnLongClickListener() {
             @Override
             public void OnLongClick(View view, int pos) {
                 imgUri.remove(pos);
             }
         });
 
-        recipeAdd.setOnClickListener(new View.OnClickListener() {
+        recipeAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                adapter.additem(new Recipe_Item("",(bitmap)));
+                recipeList.add(new RecipeItem("", (bitmap)));
                 adapter.notifyDataSetChanged();
                 imgUri.add(null);
             }
         });
-        
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                categoryNum = position;
+                categoryNum = position+1;
             }
 
             @Override
@@ -163,109 +150,124 @@ public class Recipe_Insert_Activity extends Activity {
 
             }
         });
-
-        upload.setOnClickListener(new View.OnClickListener() {
+        timeSetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timepicker timepicker = new Timepicker(RecipeInsertActivity.this);
+                timepicker.picker(timeText);
+            }
+        });
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
             String contents = "";
             String ingredients = "";
             @Override
             public void onClick(View v) {
-                for(int i = 0; i < recipelist.size(); i++){
-                    if (recipelist.get(i) == null){
-                        contents += " ";
-                    }else{
-                        contents += recipelist.get(i).getText()+"|";
-                    }
-                    Log.d(TAG, "contents : "+ contents);
-                }
-                for (int i = 0; i < ingrelist.size(); i++){
-                    ingredients += ingrelist.get(i).getText()+"|";
-                    Log.d(TAG, "ingredients : "+ ingredients);
-                }
-                onCheckBoxClicked(ovenCheck);
+                if (!isUpload){
+                    isUpload = true;
+                    if (titleEdit.getText().length() < 3 || titleEdit.getText().length() > 20 || ingreList.isEmpty()
+                            || detailEdit.getText().length() == 0 || detailEdit.getText().length() > 100){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(RecipeInsertActivity.this)
+                                .setMessage("정확한 내용을 입력해주세요")
+                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                String imgs = "";
-                int size = imgUri.size();
-                for (int i = 0; i < size; i++){
-                    if (imgUri.get(i) == null){
-                        imgs += "|";
-                    }else{
-                        imgs += FireBase.firebaseUpload(v.getContext(), imgUri.get(i))+"|";
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
                     }
+
+                    ProgressDialog dialog = new ProgressDialog(RecipeInsertActivity.this);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setMessage("로딩중입니다.");
+                    dialog.show();
+
+                    for(int i = 0; i < recipeList.size(); i++){
+                        if (recipeList.get(i) == null){
+                            contents += " ";
+                        }else{
+                            contents += recipeList.get(i).getText()+"|";
+                        }
+                        Log.d(TAG, "contents : "+ contents);
+                    }
+                    for (int i = 0; i < ingreList.size(); i++){
+                        ingredients += ingreList.get(i).getText()+"|";
+                        Log.d(TAG, "ingredients : "+ ingredients);
+                    }
+                    onCheckBoxClicked(ovenCheck);
+
+                    String imgs = "";
+                    int size = imgUri.size();
+                    for (int i = 0; i < size; i++){
+                        if (imgUri.get(i) == null){
+                            imgs += "|";
+                        }else{
+                            imgs += FireBase.firebaseUpload(v.getContext(), imgUri.get(i))+"|";
+                        }
+                    }
+                    Log.d(TAG, "onClick: "+imgs);
+                    create(dialog,titleEdit.getText().toString(), FireBase.firebaseUpload(v.getContext(), thunmbnailUri)
+                            ,imgs,detailEdit.getText().toString(),ingredients,contents,
+                            categoryNum,timeText.getText().toString(),oven);
                 }
-                Log.d(TAG, "onClick: "+imgs);
-                create(titleEdit.getText().toString(), FireBase.firebaseUpload(v.getContext(), thunmbnailUri)
-                        ,imgs,detailEdit.getText().toString(),ingredients,contents,
-                        categoryNum,timeText.getText().toString(),oven);
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     private void categorySet(Spinner spinner){
-        ArrayList<Category_Item> category = new ArrayList<>();
-        category.add(new Category_Item("커피",1,0));
-        category.add(new Category_Item("음료",2,0));
-        category.add(new Category_Item("디저트",3,0));
-        category.add(new Category_Item("그 외",4,0));
+        ArrayList<CategoryItem> category = new ArrayList<>();
+        category.add(new CategoryItem("커피",1,0));
+        category.add(new CategoryItem("음료",2,0));
+        category.add(new CategoryItem("디저트",3,0));
+        category.add(new CategoryItem("그 외",4,0));
 
-        Category_Adapter category_adapter = new Category_Adapter(this,category);
+        CategoryAdapter category_adapter = new CategoryAdapter(this,category);
         spinner.setAdapter(category_adapter);
     }
-    
-    private String uploadFile(FirebaseStorage storage,Uri uri){
-        String imgname = "";
-        if(uri !=null){
-            String uuid = UUID.randomUUID().toString();
-            imgname = "images/"+uuid;
-            StorageReference storageReference = storage.getReferenceFromUrl("gs://mobile-contents-812ea.appspot.com").child(imgname);
 
-            storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Recipe_Insert_Activity.this, "업로드에 실패하였습니다", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-        return imgname;
-    }
-    private void selectFile(FirebaseStorage storage){
-        StorageReference storageReference = storage.getReference();
-
-    }
-
-    public void create(String name, String thumbnail,String image, String description,String ingredients ,String contents,
+    public void create(ProgressDialog dialog,String name,
+                       String thumbnail,String image, String description,
+                       String ingredients ,String contents,
                        int category, String time, boolean useOven){
+
         int timevalue = Integer.parseInt(time.split("분")[0]);
 
-        Recipe_Post recipe_post = new Recipe_Post(name, thumbnail,image,description,ingredients,contents,category,timevalue,useOven);
-        Call<Recipe_Post> call = Recipe_Client.getApiService().recipe_post_call(tokenValue,recipe_post);
+        RecipeCreatePost recipe_post = new RecipeCreatePost(name, thumbnail,image,description,
+                ingredients,contents,category,timevalue,useOven);
 
-        call.enqueue(new Callback<Recipe_Post>() {
+        Call<RecipeCreatePost> call = RecipeCreateClient.getApiService().recipeCreateCall(tokenValue,recipe_post);
+
+        call.enqueue(new Callback<RecipeCreatePost>() {
             @Override
-            public void onResponse(Call<Recipe_Post> call, Response<Recipe_Post> response) {
+            public void onResponse(Call<RecipeCreatePost> call, Response<RecipeCreatePost> response) {
                 if(!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
-                    return;
+                    Toast.makeText(RecipeInsertActivity.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
+                    isUpload = false;
+                    dialog.dismiss();
+                    finish();
                 }else{
-                    Log.d(TAG, "onResponse: 성공");
-                    Toast.makeText(Recipe_Insert_Activity.this, "성공", Toast.LENGTH_SHORT).show();
+                    isUpload = false;
+                    dialog.dismiss();
                     finish();
                 }
             }
 
             @Override
-            public void onFailure(Call<Recipe_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 실패"+t.getMessage());
+            public void onFailure(Call<RecipeCreatePost> call, Throwable t) {
             }
         });
     }
 
     public Bitmap getBitmap(int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(Recipe_Insert_Activity.this, drawableId);
+        Drawable drawable = ContextCompat.getDrawable(RecipeInsertActivity.this, drawableId);
 
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
                 drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);

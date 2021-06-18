@@ -1,6 +1,6 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
-public class RecipePost {
+public class RecipeCreatePost {
     String name;
     String thumbnail;
     String image;
@@ -11,7 +11,7 @@ public class RecipePost {
     int time;
     boolean useOven = true;
 
-    public RecipePost(String name, String thumbnail, String image, String description, String ingredients, String contents, int category, int time, boolean useOven) {
+    public RecipeCreatePost(String name, String thumbnail, String image, String description, String ingredients, String contents, int category, int time, boolean useOven) {
         this.name = name;
         this.thumbnail = thumbnail;
         this.image = image;

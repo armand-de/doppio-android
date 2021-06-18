@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Main.FireBase;
 import com.example.mobile_contentsapp.R;
@@ -34,7 +35,7 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeSeeMore extends AppCompatActivity {
 
     private boolean heartSelect;
     private int heartValue;
@@ -108,9 +109,9 @@ public class RecipeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RecipeFindGet> call, Response<RecipeFindGet> response) {
                 if(!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    finish();
+                    Toast.makeText(RecipeSeeMore.this, "레시피를 찾을 수 없습니다", Toast.LENGTH_SHORT).show();
                 }
-                Log.d(TAG, "onResponse: 성공");
                 RecipeFindGet recipe_find_get = response.body();
                 heartValue = recipe_find_get.getPreference();
 
@@ -120,7 +121,7 @@ public class RecipeActivity extends AppCompatActivity {
 
                 FireBase.firebaseDownlode(getApplicationContext(),recipe_find_get.getThumbnail(),recipeMainImage);
                 if (recipe_find_get.getUser().getImage() != null){
-                    FireBase.firebaseDownlode(RecipeActivity.this,recipe_find_get.getUser().getImage(),recipeProfile);
+                    FireBase.firebaseDownlode(RecipeSeeMore.this,recipe_find_get.getUser().getImage(),recipeProfile);
                 }
                 recipeTitle.setText(recipe_find_get.getName());
                 recipeTimeText.setText(recipe_find_get.getTime()+"분");
@@ -131,7 +132,7 @@ public class RecipeActivity extends AppCompatActivity {
                 Log.d(TAG, "onResponse: "+recipe_find_get.getPreference());
                 recipeCategoryImage.setColorFilter(Color.parseColor("#2d665f"));
                 if (recipe_find_get.getUser().getImage() != null){
-                    FireBase.firebaseDownlode(RecipeActivity.this,recipe_find_get.getUser().getImage(),recipeProfile);
+                    FireBase.firebaseDownlode(RecipeSeeMore.this,recipe_find_get.getUser().getImage(),recipeProfile);
                 }
 
                 setCategory(recipe_find_get.getCategory());
@@ -153,24 +154,24 @@ public class RecipeActivity extends AppCompatActivity {
         switch (num){
             case 1:
                 recipeCategoryText.setText("커피");
-                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeActivity.this,R.drawable.ic_coffee));
+                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeSeeMore.this,R.drawable.ic_coffee));
                 break;
             case 2:
                 recipeCategoryText.setText("음료");
-                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeActivity.this,R.drawable.ic_juice));
+                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeSeeMore.this,R.drawable.ic_juice));
                 break;
             case 3:
                 recipeCategoryText.setText("디저트");
-                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeActivity.this,R.drawable.ic_cake));
+                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeSeeMore.this,R.drawable.ic_cake));
                 break;
             case 4:
                 recipeCategoryText.setText("그 외");
-                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeActivity.this,R.drawable.circle));
+                recipeCategoryImage.setImageDrawable(ContextCompat.getDrawable(RecipeSeeMore.this,R.drawable.circle));
                 break;
         }
     }
     public void setIngre(String ingretext){
-        FlexboxLayoutManager manager = new FlexboxLayoutManager(RecipeActivity.this);
+        FlexboxLayoutManager manager = new FlexboxLayoutManager(RecipeSeeMore.this);
         ingreRecyclerView.setLayoutManager(manager);
         ArrayList<IngredientListItem> list = new ArrayList<>();
         String[] ingre = ingretext.split("\\|");
@@ -183,9 +184,9 @@ public class RecipeActivity extends AppCompatActivity {
         ingreRecyclerView.setAdapter(adapter);
     }
     public void setOrder(String image, String contents){
-        LinearLayoutManager manager = new LinearLayoutManager(RecipeActivity.this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(RecipeSeeMore.this,LinearLayoutManager.VERTICAL,false);
         orderRecyclerView.setLayoutManager(manager);
-        ArrayList<RecipeDetailOrderItem> list = new ArrayList<>();
+        ArrayList<RecipeSeeMoreOrderItem> list = new ArrayList<>();
 
         String[] img = image.split("\\|",-1);
         Log.d(TAG, "setOrder: "+image);
@@ -194,10 +195,10 @@ public class RecipeActivity extends AppCompatActivity {
         int len = (content.length < img.length)? img.length: content.length;
         for(int i = 0; i < len-1; i++){
             if (!img[i].isEmpty() || !content[i].isEmpty()) {
-                list.add(new RecipeDetailOrderItem(img[i], content[i]));
+                list.add(new RecipeSeeMoreOrderItem(img[i], content[i]));
             }
         }
-        RecipeDetailOrderAdapter adapter = new RecipeDetailOrderAdapter(list);
+        RecipeSeeMoreOrderAdapter adapter = new RecipeSeeMoreOrderAdapter(list);
         orderRecyclerView.setAdapter(adapter);
     }
     public void setHeart(HeartPostId heart_post_id){

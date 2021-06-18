@@ -8,10 +8,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.mobile_contentsapp.Login.Retrofit.NumberClient.BASE_URL;
 
-public class Commu_Comment_Post_Client {
+public class CommuCommentPostClient {
 
-    public static Commu_Comment_Post_Api getApiService(){
-        return getInstance().create(Commu_Comment_Post_Api.class);
+    public static CommuCommentPostApi getApiService(){
+        return getInstance().create(CommuCommentPostApi.class);
     }
     private static Retrofit getInstance(){
         Gson gson = new GsonBuilder().setLenient().create();

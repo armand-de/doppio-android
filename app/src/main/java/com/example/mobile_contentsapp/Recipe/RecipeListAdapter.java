@@ -21,13 +21,13 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
     ArrayList<RecipeListGet> items;
 
-    public Recipe_List_Adapter(ArrayList<RecipeListGet> items) {
+    public RecipeListAdapter(ArrayList<RecipeListGet> items) {
         this.items = items;
     }
 
@@ -108,7 +108,7 @@ public class Recipe_List_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
-                    Intent intent = new Intent(v.getContext(), RecipeActivity.class);
+                    Intent intent = new Intent(v.getContext(), RecipeSeeMore.class);
                     Log.d(TAG, "onClick: "+item.getId());
                     intent.putExtra("recipeId",item.getId());
                     context.startActivity(intent);

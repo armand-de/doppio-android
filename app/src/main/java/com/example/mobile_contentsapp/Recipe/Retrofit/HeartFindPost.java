@@ -1,6 +1,6 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
-public class Heart_Post {
+public class HeartFindPost {
     private boolean isExist;
 
     public boolean isExist() {

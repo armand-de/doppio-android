@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface Commu_Search_Api {
+public interface CommuSearchApi {
     @GET("/post/list/search/{keyword}")
-    Call<List<Commu_List_Get>> commuSearchCall(@Path("keyword") String keyword, @Query("start") int start);
+    Call<List<CommuListGet>> commuSearchCall(@Path("keyword") String keyword, @Query("start") int start);
 }

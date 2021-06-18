@@ -1,9 +1,9 @@
 package com.example.mobile_contentsapp.Commu.Retrofit;
 
-public class Commu_Heart_Select_Get {
+public class CommuHeartSelectGet {
     public boolean isExist;
 
-    public Commu_Heart_Select_Get(boolean isExist) {
+    public CommuHeartSelectGet(boolean isExist) {
         this.isExist = isExist;
     }
 

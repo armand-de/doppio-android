@@ -47,7 +47,7 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
-public class CommuActivity extends AppCompatActivity {
+public class CommuSeeMore extends AppCompatActivity {
 
     private int id;
     private int start = -1;
@@ -104,7 +104,7 @@ public class CommuActivity extends AppCompatActivity {
         id = intent.getIntExtra("commuId", 0);
         findCommu(id);
 
-        LinearLayoutManager manager = new LinearLayoutManager(CommuActivity.this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(CommuSeeMore.this, LinearLayoutManager.VERTICAL, false);
         commentList.setLayoutManager(manager);
 
         imageList = new ArrayList<>();
@@ -150,13 +150,13 @@ public class CommuActivity extends AppCompatActivity {
                 if (!isHeart){
                     isHeart = !isHeart;
                     heartUp();
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuActivity.this,R.drawable.ic_selectheart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_selectheart));
                     int heartValue = Integer.parseInt(heartText.getText().toString())+1;
                     heartText.setText(String.valueOf(heartValue));
                 }else{
                     isHeart = !isHeart;
                     heartDown();
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuActivity.this,R.drawable.ic_heart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_heart));
                     int heartValue = Integer.parseInt(heartText.getText().toString())-1;
                     if (heartValue == 0){
                         heartValue = 0;
@@ -267,16 +267,17 @@ public class CommuActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommuFindGet> call, Response<CommuFindGet> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     finish();
-                    Toast.makeText(CommuActivity.this, "게시물이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CommuSeeMore.this, "스토리를 찾을 수가 없습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
-                titleText.setText(response.body().getTitle());
-                contentsText.setText(response.body().getContents());
-                String[] allImage = response.body().getImage().split("\\|");
-                if (response.body().getImage().isEmpty()){
+                CommuFindGet commuFindGet = response.body();
+
+                titleText.setText(commuFindGet.getTitle());
+                contentsText.setText(commuFindGet.getContents());
+
+                String[] allImage = commuFindGet.getImage().split("\\|");
+                if (commuFindGet.getImage().isEmpty()){
                     pager2.setVisibility(View.GONE);
                 }else{
                     for (int i = 0; i <allImage.length; i++){
@@ -287,14 +288,14 @@ public class CommuActivity extends AppCompatActivity {
                 }
 
                 pager2.setOffscreenPageLimit(1);
-                pager2.setAdapter(new CommuImageSlideAdapter(CommuActivity.this,imageList));
+                pager2.setAdapter(new CommuImageSlideAdapter(CommuSeeMore.this,imageList));
 
-                commuId = response.body().getId();
+                commuId = commuFindGet.getId();
                 HeartSelect();
-                heartText.setText(String.valueOf(response.body().getPreference()));
-                nickname.setText(response.body().getUser().getNickname());
+                heartText.setText(String.valueOf(commuFindGet.getPreference()));
+                nickname.setText(commuFindGet.getUser().getNickname());
                 if (response.body().getUser().getImage() != null){
-                    FireBase.firebaseDownlode(CommuActivity.this,response.body().getUser().getImage(),profile);
+                    FireBase.firebaseDownlode(CommuSeeMore.this,response.body().getUser().getImage(),profile);
                 }
             }
 
@@ -302,7 +303,7 @@ public class CommuActivity extends AppCompatActivity {
             public void onFailure(Call<CommuFindGet> call, Throwable t) {
                 Log.d(TAG, "onFailure: 시스템 에러");
                 finish();
-                Toast.makeText(CommuActivity.this, "서버가 불안정합니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommuSeeMore.this, "서버가 불안정합니다", Toast.LENGTH_SHORT).show();
             }
 
         });

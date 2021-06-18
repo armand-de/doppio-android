@@ -12,10 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mobile_contentsapp.Commu.Retrofit.CommuCommentCountClient;
 import com.example.mobile_contentsapp.Commu.Retrofit.CommuCommentDeleteClient;
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_Comment_List_Get;
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_Find_Get;
+import com.example.mobile_contentsapp.Commu.Retrofit.CommuCommentListGet;
 import com.example.mobile_contentsapp.Main.FireBase;
 import com.example.mobile_contentsapp.R;
 
@@ -29,13 +27,13 @@ import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 import static com.example.mobile_contentsapp.Main.SplashActivity.userId;
 
-public class Commu_Comment_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommuCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private ArrayList<Commu_Comment_List_Get> items;
+    private ArrayList<CommuCommentListGet> items;
 
-    public Commu_Comment_Adapter(ArrayList<Commu_Comment_List_Get> items) {
+    public CommuCommentAdapter(ArrayList<CommuCommentListGet> items) {
         this.items = items;
     }
 
@@ -53,13 +51,13 @@ public class Commu_Comment_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
     } else {
         View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.roding_item, parent, false);
         return new LoadingViewHolder(vh);
-    }
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof NormalViewHolder){
-            Commu_Comment_List_Get item = items.get(position);
+            CommuCommentListGet item = items.get(position);
             onBind((NormalViewHolder) holder,item,position);
         }else if (holder instanceof LoadingViewHolder){
             showLoadingView((LoadingViewHolder) holder,position);
@@ -81,7 +79,7 @@ public class Commu_Comment_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
         notifyDataSetChanged();
     }
 
-    public void onBind(NormalViewHolder holder , Commu_Comment_List_Get item,int pos){
+    public void onBind(NormalViewHolder holder , CommuCommentListGet item, int pos){
         holder.delete.setVisibility(View.INVISIBLE);
         if (item.getUser().getId().equals(userId)){
             Log.d(TAG, "onBind: 일치");
@@ -119,7 +117,7 @@ public class Commu_Comment_Adapter extends RecyclerView.Adapter<RecyclerView.Vie
             contents = itemView.findViewById(R.id.commu_comment_contents);
         }
         public void deleteComment(int id){
-            Call<Void> call = CommuCommentDeleteClient.getApiService().commuHeartSelectApiCall(tokenValue,id);
+            Call<Void> call = CommuCommentDeleteClient.getApiService().commuHeartSelectCall(tokenValue,id);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {

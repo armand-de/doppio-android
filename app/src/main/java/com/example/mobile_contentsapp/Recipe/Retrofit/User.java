@@ -1,11 +1,11 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
-public class User_Data_List {
+public class User {
     private String id;
     private String nickname;
     private String image;
 
-    public User_Data_List(String id, String nickname, String image) {
+    public User(String id, String nickname, String image) {
         this.id = id;
         this.nickname = nickname;
         this.image = image;

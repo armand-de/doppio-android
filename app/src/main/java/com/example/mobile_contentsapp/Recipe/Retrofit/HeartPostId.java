@@ -1,9 +1,9 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
-public class Heart_Post_Id {
+public class HeartPostId {
     private String recipeId;
 
-    public Heart_Post_Id(String recipeId) {
+    public HeartPostId(String recipeId) {
         this.recipeId = recipeId;
     }
 

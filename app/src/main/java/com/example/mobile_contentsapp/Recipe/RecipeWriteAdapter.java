@@ -1,6 +1,5 @@
 package com.example.mobile_contentsapp.Recipe;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,22 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHolder> {
-    private final int VIEW_TYPE_NORMAL = 0;
-    private final int VIEW_TYPE_LOADING = 1;
-
+public class RecipeWriteAdapter extends RecyclerView.Adapter<RecipeWriteAdapter.ViewHolder> {
 
     public interface OnClickListener{
         void OnClick(View view, int pos, ImageButton imageButton);
@@ -34,15 +26,14 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
         void OnLongClick(View view, int pos);
     }
 
-
-    ArrayList<Recipe_Item> items;
+    ArrayList<RecipeItem> items;
 
     OnClickListener mlistener = null;
     OnLongClickListener mLonglistener = null;
 
     public void setOnClickListener(OnClickListener onClickListener){mlistener = onClickListener;}
     public void setOnLongClickListener(OnLongClickListener onLongClickListener){mLonglistener = onLongClickListener;}
-    public Recipe_adapter(ArrayList<Recipe_Item> items) {
+    public RecipeWriteAdapter(ArrayList<RecipeItem> items) {
         this.items = items;
     }
 
@@ -50,14 +41,14 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item,parent,false);
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_process_item,parent,false);
         return new ViewHolder(vh);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Recipe_Item item  = items.get(position);
+        RecipeItem item = items.get(position);
         holder.onBind(item,position);
     }
 
@@ -66,25 +57,26 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
         return items.size();
     }
 
-    public void additem(Recipe_Item item){
-        items.add(item);
-        notifyDataSetChanged();
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
+
     public void changeimg(int position, Bitmap bitmap){
         items.get(position).setBitmap(bitmap);
         notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        EditText recipe_edit;
-        ImageButton imgadd;
+        EditText recipeEdit;
+        ImageButton imgAdd;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            recipe_edit = itemView.findViewById(R.id.recipe_edit);
-            imgadd = itemView.findViewById(R.id.img_add);
+            recipeEdit = itemView.findViewById(R.id.recipe_edit);
+            imgAdd = itemView.findViewById(R.id.img_add);
         }
-        public void onBind(Recipe_Item item, int position){
-            recipe_edit.addTextChangedListener(new TextWatcher() {
+        public void onBind(RecipeItem item, int position){
+            recipeEdit.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -97,17 +89,17 @@ public class Recipe_adapter extends RecyclerView.Adapter<Recipe_adapter.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    item.setText(recipe_edit.getText().toString());
+                    item.setText(recipeEdit.getText().toString());
                 }
             });
-            imgadd.setImageBitmap(item.getBitmap());
-            imgadd.setOnClickListener(new View.OnClickListener() {
+            imgAdd.setImageBitmap(item.getBitmap());
+            imgAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                         int pos = position;
                         if (pos != RecyclerView.NO_POSITION){
-                            mlistener.OnClick(v,pos,imgadd);
+                            mlistener.OnClick(v,pos, imgAdd);
                         }
 
                     }

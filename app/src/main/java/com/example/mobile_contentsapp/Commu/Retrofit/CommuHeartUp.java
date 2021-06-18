@@ -1,9 +1,9 @@
 package com.example.mobile_contentsapp.Commu.Retrofit;
 
-public class Commu_Heart_Up {
+public class CommuHeartUp {
     private int postId;
 
-    public Commu_Heart_Up(int postId) {
+    public CommuHeartUp(int postId) {
         this.postId = postId;
     }
 

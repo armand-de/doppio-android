@@ -2,13 +2,13 @@ package com.example.mobile_contentsapp.Commu.Retrofit;
 
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
-public class Commu_Comment_List_Get {
+public class CommuCommentListGet {
     private int id;
     private String contents;
     private String createdDate;
     private User user;
 
-    public Commu_Comment_List_Get(int id, String contents, String createdDate, User user) {
+    public CommuCommentListGet(int id, String contents, String createdDate, User user) {
         this.id = id;
         this.contents = contents;
         this.createdDate = createdDate;

@@ -13,13 +13,13 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class Ingre_dialog {
+public class IngreDialog {
     private Context context;
 
-    public Ingre_dialog(Context context) {
+    public IngreDialog(Context context) {
         this.context = context;
     }
-    public void dialog(RecyclerView recyclerView,ArrayList<ingredientListItem> list){
+    public void dialog(RecyclerView recyclerView,ArrayList<IngredientListItem> list){
         Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -34,9 +34,9 @@ public class Ingre_dialog {
         posBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = ingreName.getText().toString()+" "+amountEdit.getText().toString();
-                list.add(new ingredientListItem(result));
-                IngreList_adapter adapter = new IngreList_adapter(list);
+                String result = ingredientName.getText().toString()+" "+amountEdit.getText().toString();
+                list.add(new IngredientListItem(result));
+                IngredientListAdapter adapter = new IngredientListAdapter(list);
                 recyclerView.setAdapter(adapter);
                 dialog.dismiss();
             }

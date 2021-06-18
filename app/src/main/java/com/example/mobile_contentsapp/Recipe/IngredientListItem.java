@@ -1,9 +1,9 @@
 package com.example.mobile_contentsapp.Recipe;
 
-public class ingreList_Item {
+public class IngredientListItem {
     private String Text;
 
-    public ingreList_Item(String text) {
+    public IngredientListItem(String text) {
         Text = text;
     }
 

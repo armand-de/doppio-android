@@ -6,10 +6,10 @@ import com.google.gson.GsonBuilder;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class TokenCheck_Client {
+public class TokenCheckClient {
 
-    public static TokenCheck_Api getApiService(){
-        return getInstance().create(TokenCheck_Api.class);
+    public static TokenCheckApi getApiService(){
+        return getInstance().create(TokenCheckApi.class);
     }
     public static Retrofit getInstance(){
         Gson gson = new GsonBuilder().setLenient().create();

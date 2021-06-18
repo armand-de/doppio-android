@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface Sign_Up_Api {
+public interface SignUpApi {
     @POST("auth/verify")
-    Call<SignUpPost> sign_up_postCall(@Body SignUpPost sign_up_post);
+    Call<SignUpPost> signUpCall(@Body SignUpPost signUpPost);
 }

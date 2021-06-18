@@ -5,7 +5,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-public interface Heart_Cancel_Api {
+public interface HeartCancelApi {
     @POST("/recipe/delete/preference")
-    Call<Heart_Post_Id> cancelCall(@Header("Authorization") String token, @Body Heart_Post_Id heart_post_id);
+    Call<HeartPostId> cancelCall(@Header("Authorization") String token, @Body HeartPostId heartPostId);
 }

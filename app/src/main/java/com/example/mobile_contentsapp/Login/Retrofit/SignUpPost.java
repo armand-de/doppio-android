@@ -1,12 +1,12 @@
 package com.example.mobile_contentsapp.Login.Retrofit;
 
-public class Sign_Up_Post {
+public class SignUpPost {
     private String nickname;
     private String password;
     private String phone;
     private String verifyNumber;
 
-    public Sign_Up_Post(String nickname, String password, String phone, String verifyNumber) {
+    public SignUpPost(String nickname, String password, String phone, String verifyNumber) {
         this.nickname = nickname;
         this.password = password;
         this.phone = phone;

@@ -2,15 +2,15 @@ package com.example.mobile_contentsapp.Commu;
 
 import android.os.AsyncTask;
 
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_List_Get;
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_Search_Client;
+import com.example.mobile_contentsapp.Commu.Retrofit.CommuListGet;
+import com.example.mobile_contentsapp.Commu.Retrofit.CommuSearchClient;
 
 import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 
-public class CommuSearchTask extends AsyncTask<Void,Void, List<Commu_List_Get>> {
+public class CommuSearchTask extends AsyncTask<Void,Void, List<CommuListGet>> {
     private String keyword;
     private int start;
 
@@ -20,8 +20,8 @@ public class CommuSearchTask extends AsyncTask<Void,Void, List<Commu_List_Get>> 
     }
 
     @Override
-    protected List<Commu_List_Get> doInBackground(Void... voids) {
-        Call<List<Commu_List_Get>> call = Commu_Search_Client.getApiService().commuSearchCall(keyword,start);
+    protected List<CommuListGet> doInBackground(Void... voids) {
+        Call<List<CommuListGet>> call = CommuSearchClient.getApiService().commuSearchCall(keyword,start);
         try {
             return call.execute().body();
         } catch (IOException e) {
@@ -36,7 +36,7 @@ public class CommuSearchTask extends AsyncTask<Void,Void, List<Commu_List_Get>> 
     }
 
     @Override
-    protected void onPostExecute(List<Commu_List_Get> commu_list_tasks) {
+    protected void onPostExecute(List<CommuListGet> commu_list_tasks) {
         super.onPostExecute(commu_list_tasks);
     }
 
@@ -46,7 +46,7 @@ public class CommuSearchTask extends AsyncTask<Void,Void, List<Commu_List_Get>> 
     }
 
     @Override
-    protected void onCancelled(List<Commu_List_Get> commu_list_tasks) {
+    protected void onCancelled(List<CommuListGet> commu_list_tasks) {
         super.onCancelled(commu_list_tasks);
     }
 }

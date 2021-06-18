@@ -16,12 +16,12 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class Category_Adapter extends BaseAdapter {
+public class CategoryAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<CategoryItem> items;
     private LayoutInflater inflater;
 
-    public Category_Adapter(Context context, ArrayList<CategoryItem> items) {
+    public CategoryAdapter(Context context, ArrayList<CategoryItem> items) {
         this.context = context;
         this.items = items;
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -1,6 +1,6 @@
 package com.example.mobile_contentsapp.Login.Retrofit;
 
-public class Check_Post {
+public class CheckPost {
     private boolean isExist;
 
     public boolean isExist() {

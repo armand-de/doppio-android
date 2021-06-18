@@ -1,21 +1,13 @@
 package com.example.mobile_contentsapp.Recipe;
 
-import android.graphics.Color;
-import android.media.Image;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.mobile_contentsapp.Commu.Commu_Fragment;
-
-import java.util.ArrayList;
+import com.example.mobile_contentsapp.Commu.CommuFragment;
 
 public class PagerAdapter extends FragmentStateAdapter {
 
@@ -32,9 +24,9 @@ public class PagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position==0){
-            return new Recipe_Fragment();
+            return new RecipeFragment();
         } else {
-            return new Commu_Fragment();
+            return new CommuFragment();
         }
     }
 

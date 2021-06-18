@@ -14,10 +14,12 @@ import org.w3c.dom.Text;
 
 public class Timepicker {
     private Context context;
+
     public Timepicker(Context context) {
         this.context = context;
     }
-    public void picker(TextView textView){
+
+    public void picker(TextView timeText){
         Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -41,7 +43,7 @@ public class Timepicker {
         pos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textView.setText(String.valueOf(hour.getValue()));
+                timeText.setText(hour.getValue()+"분");
                 dialog.dismiss();
             }
         });

@@ -4,8 +4,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface Nnmber_Api {
+public interface NnmberApi {
 
     @POST("auth/join")
-    Call<Number_Post> NumberpostCall(@Body Number_Post Number_Post);
+    Call<NumberPost> NumberCall(@Body NumberPost NumberPost);
 }

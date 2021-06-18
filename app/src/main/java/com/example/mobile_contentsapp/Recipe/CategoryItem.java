@@ -2,12 +2,12 @@ package com.example.mobile_contentsapp.Recipe;
 
 import android.graphics.drawable.Drawable;
 
-public class Category_Item {
+public class CategoryItem {
     private String text;
     private int image;
     private int typeCode;
 
-    public Category_Item(String text, int image, int typeCode) {
+    public CategoryItem(String text, int image, int typeCode) {
         this.text = text;
         this.image = image;
         this.typeCode = typeCode;

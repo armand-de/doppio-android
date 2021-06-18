@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckClient {
 
-    public static Check_Api getApiService(){
-        return getInstance().create(Check_Api.class);
+    public static CheckApi getApiService(){
+        return getInstance().create(CheckApi.class);
     }
     public static Retrofit getInstance(){
         Gson gson = new GsonBuilder().setLenient().create();

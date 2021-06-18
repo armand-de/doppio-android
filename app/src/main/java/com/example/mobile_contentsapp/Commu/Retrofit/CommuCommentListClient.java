@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.mobile_contentsapp.Login.Retrofit.NumberClient.BASE_URL;
 
-public class Commu_Comment_List_Client {
+public class CommuCommentListClient {
 
     public static CommuCommentListApi getApiService(){
         return getInstance().create(CommuCommentListApi.class);

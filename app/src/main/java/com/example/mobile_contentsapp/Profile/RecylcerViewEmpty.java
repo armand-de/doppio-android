@@ -1,4 +1,4 @@
-package com.example.mobile_contentsapp.Main;
+package com.example.mobile_contentsapp.Profile;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,10 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecylcerViewEmpty extends RecyclerView {
+    private View emptyView;
+
     public RecylcerViewEmpty(@NonNull Context context) {
         super(context);
     }
-    private View emptyView;
+
+    public RecylcerViewEmpty(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+    }
 
     private AdapterDataObserver emptyObserver = new AdapterDataObserver()
     {
@@ -49,18 +54,4 @@ public class RecylcerViewEmpty extends RecyclerView {
         this.emptyView = emptyView;
     }
 
-    public RecylcerViewEmpty(@NonNull Context context, View emptyView) {
-        super(context);
-        this.emptyView = emptyView;
-    }
-
-    public RecylcerViewEmpty(@NonNull Context context, @Nullable AttributeSet attrs, View emptyView) {
-        super(context, attrs);
-        this.emptyView = emptyView;
-    }
-
-    public RecylcerViewEmpty(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, View emptyView) {
-        super(context, attrs, defStyleAttr);
-        this.emptyView = emptyView;
-    }
 }

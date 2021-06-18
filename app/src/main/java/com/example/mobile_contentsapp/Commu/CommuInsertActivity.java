@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,9 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_Create_Client;
-import com.example.mobile_contentsapp.Commu.Retrofit.Commu_Create_Post;
+import com.example.mobile_contentsapp.Commu.Retrofit.CommuCreateClient;
+import com.example.mobile_contentsapp.Commu.Retrofit.CommuCreatePost;
 import com.example.mobile_contentsapp.Main.FireBase;
 import com.example.mobile_contentsapp.R;
 
@@ -31,15 +35,18 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
-public class Commu_Insert_Activity extends AppCompatActivity {
+public class CommuInsertActivity extends AppCompatActivity {
 
-    ArrayList<Commu_Image_Item> list;
-    Commu_Image_Adapter adapter;
-    ArrayList<Uri> uriList;
+    private ArrayList<CommuImageItem> list;
+    private CommuImageAdapter adapter;
+    private ArrayList<Uri> uriList;
+    private AlertDialog dialog;
+
+    private boolean isUpload = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_commu__insert_);
+        setContentView(R.layout.commu_create);
 
         RecyclerView imageRecycler = findViewById(R.id.commu_image_recycler);
         EditText titleEdit = findViewById(R.id.commu_create_tilte_edit);
@@ -47,11 +54,11 @@ public class Commu_Insert_Activity extends AppCompatActivity {
         Button uplodeBtn = findViewById(R.id.commu_upload_btn);
         ImageButton imageAddBtn = findViewById(R.id.commu_image_add);
 
-        LinearLayoutManager manager = new LinearLayoutManager(Commu_Insert_Activity.this ,LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(CommuInsertActivity.this ,LinearLayoutManager.HORIZONTAL,false);
         imageRecycler.setLayoutManager(manager);
 
         list = new ArrayList<>();
-        adapter = new Commu_Image_Adapter(list);
+        adapter = new CommuImageAdapter(list);
         uriList = new ArrayList<>();
 
         imageRecycler.setAdapter(adapter);
@@ -68,11 +75,32 @@ public class Commu_Insert_Activity extends AppCompatActivity {
         uplodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String allImageName = "";
-                for (int i = 0; i < uriList.size(); i++){
-                    allImageName += FireBase.firebaseUpload(v.getContext(),uriList.get(i))+"|";
+                if (!isUpload){
+                    isUpload = true;
+                    if (titleEdit.getText().length() == 0 || titleEdit.getText().length() > 40
+                            || contentsEdit.getText().length() == 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CommuInsertActivity.this)
+                                .setMessage("정확한 내용을 입력해주세요")
+                                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                        dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                    ProgressDialog dialog = new ProgressDialog(CommuInsertActivity.this);
+                    dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                    dialog.setMessage("로딩중입니다.");
+
+                    String allImageName = "";
+                    for (int i = 0; i < uriList.size(); i++){
+                        allImageName += FireBase.firebaseUpload(v.getContext(),uriList.get(i))+"|";
+                    }
+                    uplode(titleEdit.getText().toString(),allImageName,contentsEdit.getText().toString());
                 }
-                uplode(titleEdit.getText().toString(),allImageName,contentsEdit.getText().toString());
             }
         });
 
@@ -80,22 +108,22 @@ public class Commu_Insert_Activity extends AppCompatActivity {
     }
 
     public void uplode(String title, String image, String contents){
-        Commu_Create_Post commu_create_post = new Commu_Create_Post(title, image, contents);
-        Call<Commu_Create_Post> call = Commu_Create_Client.getApiService().commuCreateApi(tokenValue,commu_create_post);
-        call.enqueue(new Callback<Commu_Create_Post>() {
+        CommuCreatePost commuCreatePost = new CommuCreatePost(title, image, contents);
+        Call<CommuCreatePost> call = CommuCreateClient.getApiService().commuCreateApi(tokenValue,commuCreatePost);
+        call.enqueue(new Callback<CommuCreatePost>() {
             @Override
-            public void onResponse(Call<Commu_Create_Post> call, Response<Commu_Create_Post> response) {
+            public void onResponse(Call<CommuCreatePost> call, Response<CommuCreatePost> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    Toast.makeText(CommuInsertActivity.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
+                isUpload = false;
+                dialog.dismiss();
                 finish();
             }
 
             @Override
-            public void onFailure(Call<Commu_Create_Post> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 에러"+t.getMessage());
+            public void onFailure(Call<CommuCreatePost> call, Throwable t) {
             }
         });
 
@@ -113,7 +141,7 @@ public class Commu_Insert_Activity extends AppCompatActivity {
                     in.close();
 
                     uriList.add(data.getData());
-                    list.add(new Commu_Image_Item(img));
+                    list.add(new CommuImageItem(img));
                     adapter.notifyDataSetChanged();
                     Log.d(TAG, "onActivityResult: 업로드");
                 }catch (Exception e){

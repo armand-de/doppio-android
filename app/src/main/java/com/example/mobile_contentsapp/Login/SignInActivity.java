@@ -11,13 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_In_Client;
-import com.example.mobile_contentsapp.Login.Retrofit.Sign_in_Post;
+import com.example.mobile_contentsapp.Login.Retrofit.SignInClient;
+import com.example.mobile_contentsapp.Login.Retrofit.SignInPost;
 import com.example.mobile_contentsapp.Login.Retrofit.Authorization;
-import com.example.mobile_contentsapp.Login.Retrofit.TokenCheck_Client;
-import com.example.mobile_contentsapp.Login.Retrofit.TokenCheck_Get;
 import com.example.mobile_contentsapp.R;
-import com.example.mobile_contentsapp.Main.Main_Activity;
+import com.example.mobile_contentsapp.Main.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,10 +24,11 @@ import retrofit2.Response;
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
-public class Sign_in_Activity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
-    public EditText nicknameEdit;
-    public EditText passwordEdit;
+    private EditText nicknameEdit;
+    private EditText passwordEdit;
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +38,34 @@ public class Sign_in_Activity extends AppCompatActivity {
         nicknameEdit = findViewById(R.id.nickname_edit);
         passwordEdit = findViewById(R.id.password_edit);
 
+        Button findPass = findViewById(R.id.find_pass);
         Button signIn = findViewById(R.id.singinbtn);
         Button signUp = findViewById(R.id.signupbtn);
+
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), Signup_Activity.class);
-            startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
             }
         });
 
+
+        findPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(SignInActivity.this, "개발 중인 기능입니다", Toast.LENGTH_SHORT).show();
+            }
+        });
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isLoading = true;
                 if (nicknameEdit.getText().toString().isEmpty() && passwordEdit.getText().toString().isEmpty()){
-                    Toast.makeText(Sign_in_Activity.this, "닉네임또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(SignInActivity.this, "닉네임또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+                    isLoading = false;
+                    return;
                 }
                 signin(nicknameEdit.getText().toString(), passwordEdit.getText().toString());
             }
@@ -63,27 +73,31 @@ public class Sign_in_Activity extends AppCompatActivity {
     }
     public void signin(String nick, String pass){
 
-        Sign_in_Post sign_in_post = new Sign_in_Post(nick,pass);
-        Call<Authorization> call = Sign_In_Client.getApiService().sign_in_post_call(sign_in_post);
+        SignInPost signInPost = new SignInPost(nick,pass);
+        Call<Authorization> call = SignInClient.getApiService().signInCall(signInPost);
 
         call.enqueue(new Callback<Authorization>() {
             @Override
             public void onResponse(Call<Authorization> call, Response<Authorization> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
-                    Toast.makeText(Sign_in_Activity.this, "닉네임또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this, "닉네임또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공"+response.code());
-                Intent intent = new Intent(getApplicationContext(), Main_Activity.class);
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+
                 Authorization token = response.body();
+
                 SharedPreferences sharedPreferences =  getSharedPreferences("sp",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 tokenValue = token.getAccessToken();
                 Log.d(TAG, "토큰값"+ tokenValue);
+
                 editor.putString("token",tokenValue);
                 editor.commit();
+                isLoading = false;
             }
 
             @Override

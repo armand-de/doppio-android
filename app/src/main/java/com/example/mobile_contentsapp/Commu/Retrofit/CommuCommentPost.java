@@ -1,10 +1,10 @@
 package com.example.mobile_contentsapp.Commu.Retrofit;
 
-public class Commu_Comment_Post {
+public class CommuCommentPost {
     private int postId;
     private String contents;
 
-    public Commu_Comment_Post(int postId, String contents) {
+    public CommuCommentPost(int postId, String contents) {
         this.postId = postId;
         this.contents = contents;
     }

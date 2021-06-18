@@ -5,8 +5,8 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-public interface Commu_Create_Api {
+public interface CommuCreateApi {
     @POST("/post/create")
-    Call<Commu_Create_Post> commuCreateApi(@Header ("Authorization") String token , @Body Commu_Create_Post commu_create_post);
+    Call<CommuCreatePost> commuCreateApi(@Header ("Authorization") String token , @Body CommuCreatePost commu_create_post);
 
 }

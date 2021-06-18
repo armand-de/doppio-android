@@ -3,11 +3,11 @@ package com.example.mobile_contentsapp.Recipe;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-public class Recipe_Item {
+public class RecipeItem {
     private String text;
     private Bitmap bitmap;
 
-    public Recipe_Item(String text, Bitmap bitmap) {
+    public RecipeItem(String text, Bitmap bitmap) {
         this.text = text;
         this.bitmap = bitmap;
     }

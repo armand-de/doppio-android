@@ -14,12 +14,12 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class Commu_Image_Slide_Adapter extends RecyclerView.Adapter<Commu_Image_Slide_Adapter.ViewHolder> {
+public class CommuImageSlideAdapter extends RecyclerView.Adapter<CommuImageSlideAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<String> items;
 
-    public Commu_Image_Slide_Adapter(Context context, ArrayList<String> items) {
+    public CommuImageSlideAdapter(Context context, ArrayList<String> items) {
         this.context = context;
         this.items = items;
     }

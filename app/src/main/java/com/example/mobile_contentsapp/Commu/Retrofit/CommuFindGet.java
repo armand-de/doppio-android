@@ -2,7 +2,7 @@ package com.example.mobile_contentsapp.Commu.Retrofit;
 
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
-public class Commu_Find_Get {
+public class CommuFindGet {
     private int id;
     private String title;
     private String image;
@@ -11,7 +11,7 @@ public class Commu_Find_Get {
     private int preference;
     private User user;
 
-    public Commu_Find_Get(int id, String title, String image, String contents, String createdDate, int preference, User user) {
+    public CommuFindGet(int id, String title, String image, String contents, String createdDate, int preference, User user) {
         this.id = id;
         this.title = title;
         this.image = image;

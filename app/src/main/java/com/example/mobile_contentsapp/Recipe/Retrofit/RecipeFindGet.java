@@ -1,6 +1,6 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
-public class Recipe_Find_Get {
+public class RecipeFindGet {
       private String id;
       private String name;
       private int time;
@@ -15,10 +15,10 @@ public class Recipe_Find_Get {
       private String createDate;
       private int preference;
 
-      public Recipe_Find_Get(String id, String name, int time, String thumbnail,
-                             User user, String image, String description,
-                             String ingredients, String contents, int category,
-                             boolean useOven, String createDate, int preference) {
+      public RecipeFindGet(String id, String name, int time, String thumbnail,
+                           User user, String image, String description,
+                           String ingredients, String contents, int category,
+                           boolean useOven, String createDate, int preference) {
             this.id = id;
             this.name = name;
             this.time = time;

@@ -4,7 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-public interface Recipe_Find_Api {
+public interface RecipeFindApi {
     @GET("/recipe/find/id/{id}/user")
-    Call<Recipe_Find_Get> recipe_find_call(@Path("id") int id);
+    Call<RecipeFindGet> recipeFindCall(@Path("id") int id);
 }
