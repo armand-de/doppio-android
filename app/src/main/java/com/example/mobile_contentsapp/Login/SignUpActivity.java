@@ -43,17 +43,15 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_sign_up);
+
+        getWindow().setStatusBarColor(Color.parseColor("#3F7972"));
 
         Button phoneBtn = findViewById(R.id.number_btn);
         Button signUpBtn = findViewById(R.id.sign_up_btn);
-        Button signInbtn = findViewById(R.id.sign_in_intent_btn);
+        TextView signInbtn = findViewById(R.id.sign_in_intent_btn);
         Button checkBtn = findViewById(R.id.check_nick_btn);
 
-        TextView nickLimit = findViewById(R.id.nick_limit);
-        TextView passLimit = findViewById(R.id.pass_limit);
-        nickLimit.setVisibility(View.INVISIBLE);
-        passLimit.setVisibility(View.INVISIBLE);
 
         nicknameEdit = findViewById(R.id.nickname_edit);
         passwordEdit = findViewById(R.id.password_edit);
@@ -94,17 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!(nicknameEdit.getText().toString().length() >= 3) || !(nicknameEdit.getText().toString().length() <= 8)){
-                    nickLimit.setVisibility(View.VISIBLE);
-                }else{
-                    nickLimit.setVisibility(View.INVISIBLE);
-                }
-                if (exist == true){
-                    checkBtn.setText("중복 확인");
-                    checkBtn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_line_btn));
-                    checkBtn.setTextColor(Color.parseColor("#2D665F"));
-                    exist = false;
-                }
+
             }
         });
 
@@ -121,11 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!(passwordEdit.getText().toString().length() >= 7) || !(passwordEdit.getText().toString().length() <= 30)){
-                    passLimit.setVisibility(View.VISIBLE);
-                }else{
-                    passLimit.setVisibility(View.INVISIBLE);
-                }
+
             }
         });
 
@@ -148,9 +132,7 @@ public class SignUpActivity extends AppCompatActivity {
         signInbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
                 finish();
-                startActivity(intent);
             }
         });
 
@@ -212,8 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 CheckPost result = response.body();
-                Log.d(TAG, "onResponse: "+result.isExist());
-                if (result.isExist() == false){
+                if (!result.isExist()){
                     exist = true;
                     btn.setText("확인 완료");
                     btn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_btn));

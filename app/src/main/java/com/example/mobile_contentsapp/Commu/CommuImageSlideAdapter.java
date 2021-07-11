@@ -27,7 +27,7 @@ public class CommuImageSlideAdapter extends RecyclerView.Adapter<CommuImageSlide
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.commu_image_slider_item,parent,false);
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commu_image_slider_item,parent,false);
         return new ViewHolder(vh);
     }
 

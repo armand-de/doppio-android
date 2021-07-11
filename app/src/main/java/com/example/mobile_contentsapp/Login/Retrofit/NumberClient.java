@@ -7,8 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NumberClient {
-    public static final String BASE_URL = "http://165.22.246.57:5000/";
-
+    public static final String BASE_URL = "http://doppio.khjcode.com";
     public static NnmberApi getApiService(){
         return getInstance().create(NnmberApi.class);
     }

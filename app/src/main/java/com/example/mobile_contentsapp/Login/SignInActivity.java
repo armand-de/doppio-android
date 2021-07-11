@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.SignInClient;
@@ -33,20 +35,22 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sign_in);
+        setContentView(R.layout.activity_sign_in);
+
+        getWindow().setStatusBarColor(Color.parseColor("#3F7972"));
 
         nicknameEdit = findViewById(R.id.nickname_edit);
         passwordEdit = findViewById(R.id.password_edit);
 
-        Button findPass = findViewById(R.id.find_pass);
+        TextView findPass = findViewById(R.id.find_pass);
+        TextView signUp = findViewById(R.id.signupbtn);
         Button signIn = findViewById(R.id.singinbtn);
-        Button signUp = findViewById(R.id.signupbtn);
 
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
@@ -84,7 +88,7 @@ public class SignInActivity extends AppCompatActivity {
                     return;
                 }
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
 
                 Authorization token = response.body();

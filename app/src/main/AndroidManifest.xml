@@ -10,7 +10,7 @@
         android:label="Doppio"
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/Theme.Mobile_Contentsapp"
         android:usesCleartextTraffic="true">
         <activity android:name=".Profile.Setting"/>
         <activity android:name=".Profile.ProfileActivity"></activity>

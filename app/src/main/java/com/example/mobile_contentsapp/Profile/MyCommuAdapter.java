@@ -31,7 +31,7 @@ public class MyCommuAdapter extends RecyclerView.Adapter<MyCommuAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.commu_list_item,parent,false);
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commu_list,parent,false);
         return new ViewHolder(vh);
     }
 

@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 
 public interface ProfileApi {
-    @GET("/auth/profile")
+    @GET("/user/my")
     Call<User> profileCall (@Header("Authorization") String token);
 
 }

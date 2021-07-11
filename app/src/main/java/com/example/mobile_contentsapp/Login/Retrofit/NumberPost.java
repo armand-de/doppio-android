@@ -15,11 +15,4 @@ public class NumberPost {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    @Override
-    public String toString() {
-        return "Sign_Up_Post{" +
-                "phone='" + phone + '\'' +
-                '}';
-    }
 }

@@ -62,7 +62,7 @@ public class RecipeSeeMore extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_see_more);
+        setContentView(R.layout.activity_recipe_see_more);
 
         recipeMainImage = findViewById(R.id.recipe_detail_main_img);
         recipeCategoryImage = findViewById(R.id.recipe_detail_catrgory);

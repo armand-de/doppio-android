@@ -46,7 +46,7 @@ public class CommuInsertActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.commu_create);
+        setContentView(R.layout.activity_commu_create);
 
         RecyclerView imageRecycler = findViewById(R.id.commu_image_recycler);
         EditText titleEdit = findViewById(R.id.commu_create_tilte_edit);

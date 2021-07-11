@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -49,129 +50,111 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7"
-        android:background="#f3f2f1">
+        android:background="#f1f2f3">
 
-        <TextView
-            android:id="@+id/nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="닉네임"
-            android:fontFamily="@font/notosanskrm"
-            android:includeFontPadding="false"
-            android:textSize="14sp"
-            android:textColor="#2D665F"
-            android:layout_marginLeft="30dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.2"/>
-        <EditText
-            android:id="@+id/nickname_edit"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nickname_inputbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:hint="  닉네임"
-            android:fontFamily="@font/notosanskrr"
-            android:includeFontPadding="false"
-            android:textSize="14sp"
-            android:textColor="#3d3d3d"
-            android:textColorHint="#BEBEBE"
-            android:backgroundTint="#BEBEBE"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="100dp"
             android:layout_marginRight="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/nickname"
-            />
-
-        <TextView
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호"
-            android:fontFamily="@font/notosanskrm"
-            android:includeFontPadding="false"
-            android:textSize="14sp"
-            android:textColor="#2D665F"
             android:layout_marginLeft="30dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nickname_edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.1"/>
+            android:fontFamily="@font/notosanskrb"
+            app:hintTextColor="#3F7972"
+            android:textColorHint="#BEBEBE"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/password_edit"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nickname_edit"
+                android:gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="#00000000"
+                android:backgroundTint="#BEBEBE"
+                android:fontFamily="@font/notosanskrr"
+                android:includeFontPadding="false"
+                android:hint="닉네임"
+                android:paddingStart="15dp"
+                android:textColor="#3d3d3d"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_inputbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="20dp"
-            android:inputType="textPassword"
-            android:hint="  비밀번호"
-            android:fontFamily="@font/notosanskrr"
-            android:includeFontPadding="false"
-            android:textColor="#3d3d3d"
-            android:textColorHint="#BEBEBE"
-            android:backgroundTint="#BEBEBE"
-            android:textSize="14sp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="70dp"
             android:layout_marginRight="30dp"
-            app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
+            android:layout_marginLeft="30dp"
+            android:fontFamily="@font/notosanskrb"
+            app:hintTextColor="#3F7972"
+            android:textColorHint="#BEBEBE"
+            app:layout_constraintTop_toBottomOf="@id/nickname_inputbox">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_edit"
+                android:gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:background="#00000000"
+                android:backgroundTint="#BEBEBE"
+                android:fontFamily="@font/notosanskrr"
+                android:includeFontPadding="false"
+                android:hint="비밀번호"
+                android:paddingStart="15dp"
+                android:textColor="#3d3d3d"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/singinbtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_margin="70dp"
-            android:background="@drawable/round_btn"
+            app:cornerRadius="30dp"
+            android:backgroundTint="@color/purple_700"
             android:text="로그인"
             android:fontFamily="@font/notosanskrm"
             android:includeFontPadding="false"
             android:textSize="18sp"
             android:textColor="#fff"
-            app:layout_constraintTop_toBottomOf="@id/password_edit"
+            app:layout_constraintTop_toBottomOf="@id/password_inputbox"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/singinbtn"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
 
-            <Button
+            <TextView
                 android:id="@+id/find_pass"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:background="#00000000"
                 android:text="비밀번호 찾기 · "
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:textColor="#BEBEBE"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/singinbtn"
                 app:layout_constraintRight_toLeftOf="@+id/signupbtn"/>
 
-            <Button
+            <TextView
                 android:id="@+id/signupbtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:background="#00000000"
                 android:text="회원가입"
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
                 android:layout_marginRight="15dp"
-                android:minWidth="0dp"
-                android:minHeight="0dp"
                 android:textColor="#2D665F"
                 app:layout_constraintTop_toBottomOf="@+id/singinbtn"
                 app:layout_constraintRight_toRightOf="@+id/singinbtn"/>

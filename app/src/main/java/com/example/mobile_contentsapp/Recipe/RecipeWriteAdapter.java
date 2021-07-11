@@ -41,7 +41,7 @@ public class RecipeWriteAdapter extends RecyclerView.Adapter<RecipeWriteAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_process_item,parent,false);
+        View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recipe_process,parent,false);
         return new ViewHolder(vh);
     }
 

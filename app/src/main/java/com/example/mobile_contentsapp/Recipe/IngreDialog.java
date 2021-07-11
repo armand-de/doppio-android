@@ -23,7 +23,7 @@ public class IngreDialog {
         Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.ingre_dialog);
+        dialog.setContentView(R.layout.dialog_ingredient);
         dialog.show();
 
         EditText ingredientName = dialog.findViewById(R.id.ingre_name_edit);

@@ -35,7 +35,7 @@ public class CategoryAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null){
-            convertView = inflater.inflate(R.layout.spinner_getview,parent,false);
+            convertView = inflater.inflate(R.layout.spinner_get_view,parent,false);
         }
         if (items != null){
             ConstraintLayout spinnerConstraint = convertView.findViewById(R.id.spinner_constraint);

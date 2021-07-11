@@ -30,7 +30,7 @@ public class My_Commu_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.my_commu,container,false);
+        View view = inflater.inflate(R.layout.fragment_my_commu,container,false);
         RecylcerViewEmpty recipeList = view.findViewById(R.id.profile_my_commu_recycler);
         TextView emptyText = view.findViewById(R.id.commu_empty_text);
         emptyText.setVisibility(View.INVISIBLE);

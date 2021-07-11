@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile_contentsapp.Profile.Retrofit.MyRecipeListClient;
 import com.example.mobile_contentsapp.R;
@@ -32,7 +31,7 @@ public class My_Recipe_Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.my_recipe,container,false);
+        View view = inflater.inflate(R.layout.fragment_my_recipe,container,false);
         RecylcerViewEmpty recipeList = view.findViewById(R.id.profile_my_recipe_recycler);
         TextView emptyText = view.findViewById(R.id.recipe_empty_text);
         emptyText.setVisibility(View.INVISIBLE);

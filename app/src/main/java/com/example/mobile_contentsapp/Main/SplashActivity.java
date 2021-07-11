@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.splash);
+        setContentView(R.layout.activity_splash);
 
         SharedPreferences sharedPreferences = getSharedPreferences("sp",MODE_PRIVATE);
         tokenValue = sharedPreferences.getString("token","");

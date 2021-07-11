@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.example.mobile_contentsapp.R;
 
-import org.w3c.dom.Text;
-
 public class Timepicker {
     private Context context;
 
@@ -23,7 +21,7 @@ public class Timepicker {
         Dialog dialog = new Dialog(context);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.timedialog);
+        dialog.setContentView(R.layout.dialog_time);
         dialog.show();
 
         NumberPicker hour = dialog.findViewById(R.id.hourpicker);

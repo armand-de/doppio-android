@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.profile);
+        setContentView(R.layout.activity_profile);
 
         pager2 = findViewById(R.id.profile_pager);
         tabLayout = findViewById(R.id.profile_tab);
@@ -198,6 +197,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패 " +response.code());
                     finish();
                     Toast.makeText(ProfileActivity.this, "프로필을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                     return;

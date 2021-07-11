@@ -57,7 +57,7 @@ public class RecipeInsertActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recipe_create);
+        setContentView(R.layout.activity_recipe_create);
 
         mainImgBtn = findViewById(R.id.imageadd);
 

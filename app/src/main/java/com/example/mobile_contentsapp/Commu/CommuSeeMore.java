@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,7 +83,7 @@ public class CommuSeeMore extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.commu_see_more);
+        setContentView(R.layout.activity_commu_see_more);
 
         pager2 = findViewById(R.id.commu_detail_pager);
         titleText = findViewById(R.id.commu_detail_title);
@@ -94,6 +96,7 @@ public class CommuSeeMore extends AppCompatActivity {
         profile = findViewById(R.id.commu_detail_profile);
         heartBtn = findViewById(R.id.commu_detail_heart);
 
+        LinearLayout indicator = findViewById(R.id.commu_image_indicator);
         EditText commentEdit = findViewById(R.id.commu_comment_edit);
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         ImageButton backBtn = findViewById(R.id.commu_detail_back_btn);
@@ -102,7 +105,7 @@ public class CommuSeeMore extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getIntExtra("commuId", 0);
-        findCommu(id);
+        findCommu(id, indicator);
 
         LinearLayoutManager manager = new LinearLayoutManager(CommuSeeMore.this, LinearLayoutManager.VERTICAL, false);
         commentList.setLayoutManager(manager);
@@ -118,6 +121,7 @@ public class CommuSeeMore extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                setSelectIndicator(position,indicator);
             }
         });
 
@@ -206,6 +210,8 @@ public class CommuSeeMore extends AppCompatActivity {
     }
 
 
+
+
     public void postComment(String contents,int id,EditText commentEdit){
         CommuCommentPost commu_comment_post = new CommuCommentPost(id,contents);
         Call<CommuCommentPost> call = CommuCommentPostClient
@@ -261,7 +267,7 @@ public class CommuSeeMore extends AppCompatActivity {
         });
     }
 
-    public void findCommu(int id){
+    public void findCommu(int id, LinearLayout indicator){
         Call<CommuFindGet> call = CommuFindClient.getApiService().commuFindApiCall(id);
         call.enqueue(new Callback<CommuFindGet>() {
             @Override
@@ -285,6 +291,7 @@ public class CommuSeeMore extends AppCompatActivity {
                             imageList.add(allImage[i]);
                         }
                     }
+                    setIndicator(allImage.length,indicator);
                 }
 
                 pager2.setOffscreenPageLimit(1);
@@ -307,6 +314,33 @@ public class CommuSeeMore extends AppCompatActivity {
             }
 
         });
+    }
+
+    public void setIndicator(int count, LinearLayout indicator){
+        ArrayList<ImageView> indicators = new ArrayList<>();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(16,8,16,8);
+
+        for (int i = 0; i < count; i++){
+            indicators.add(new ImageView(CommuSeeMore.this));
+            indicators.get(i).setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.indicator));
+            indicators.get(i).setLayoutParams(params);
+            indicator.addView(indicators.get(i));
+        }
+        setSelectIndicator(0,indicator);
+    }
+
+    public void setSelectIndicator(int position, LinearLayout indicator){
+        int indicatorCount = indicator.getChildCount();
+        for (int i = 0; i < indicatorCount; i++){
+            ImageView imageView = (ImageView) indicator.getChildAt(i);
+            if (i == position){
+                imageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.indicator_select));
+            } else{
+                imageView.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.indicator));
+            }
+        }
     }
 
     public void commentCount(){

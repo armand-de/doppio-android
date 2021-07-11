@@ -34,10 +34,10 @@ public class CommuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.commu_list_item, parent, false);
+            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_commu_list, parent, false);
             return new NormalViewHolder(vh);
         } else {
-            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.roding_item, parent, false);
+            View vh = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
             return new LoadingViewHolder(vh);
         }
     }
