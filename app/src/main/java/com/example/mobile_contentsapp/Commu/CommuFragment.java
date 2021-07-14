@@ -149,8 +149,11 @@ public class CommuFragment extends Fragment {
                     return;
                 }
                 listGet = response.body();
-                list.remove(list.size()-1);
-                adapter.notifyItemRemoved(list.size());
+                if (listGet.isEmpty()){
+                    list.clear();
+                }else {
+                    list.remove(list.size()-1);
+                }
 
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();

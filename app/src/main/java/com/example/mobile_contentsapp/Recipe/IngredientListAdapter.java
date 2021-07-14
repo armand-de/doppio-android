@@ -45,12 +45,11 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
         }
         public void onBind(IngredientListItem list, int position){
             ingretext.setText(list.getText());
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     items.remove(position);
                     notifyItemRemoved(position);
-                    return true;
                 }
             });
         }

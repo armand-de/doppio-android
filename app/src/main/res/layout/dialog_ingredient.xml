@@ -41,6 +41,8 @@
         android:backgroundTint="#bebebe"
         android:textSize="14sp"
         android:textColorHint="#bebebe"
+        android:singleLine = "true"
+        android:lines = "1"
         app:layout_constraintTop_toBottomOf="@id/ingre_name"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -67,6 +69,8 @@
         android:backgroundTint="#bebebe"
         android:textSize="14sp"
         android:textColorHint="#bebebe"
+        android:singleLine = "true"
+        android:lines = "1"
         app:layout_constraintTop_toBottomOf="@id/ingre_amount_text"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>

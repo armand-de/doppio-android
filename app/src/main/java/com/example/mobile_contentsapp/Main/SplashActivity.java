@@ -23,7 +23,7 @@ import static android.content.ContentValues.TAG;
 public class SplashActivity extends AppCompatActivity {
 
     public static String tokenValue;
-    public static String userId;
+    public static String userId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

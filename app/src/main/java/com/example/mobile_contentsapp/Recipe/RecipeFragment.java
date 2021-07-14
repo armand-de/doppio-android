@@ -25,9 +25,7 @@ import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeListGet;
 import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeSearchClient;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +56,7 @@ public class RecipeFragment extends Fragment {
             list.clear();
             isLoding = true;
             adapter.notifyDataSetChanged();
-            searchMore(-1, null, 0);
+            search(-1, null, 0);
         }
     }
 
@@ -70,29 +68,15 @@ public class RecipeFragment extends Fragment {
         recipeRecyclerView = view.findViewById(R.id.recipe_list_recycler);
         emptyText = view.findViewById(R.id.recipe_empty_text);
         searchBtn = view.findViewById(R.id.recipe_search);
-        SwipeRefreshLayout swipe = view.findViewById(R.id.recipe_swipe);
         categorySpinner = view.findViewById(R.id.search_category_spinner);
+
         EditText recipeSearchEdit = view.findViewById(R.id.recipe_search_edit);
+        SwipeRefreshLayout swipe = view.findViewById(R.id.recipe_swipe);
 
         ArrayList<CategoryItem> categoryList = new ArrayList<>();
         setCategory(categoryList);
         CategoryAdapter categoryAdapter = new CategoryAdapter(view.getContext(),categoryList);
         categorySpinner.setAdapter(categoryAdapter);
-
-        recipeSearchEdit.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    list.clear();
-                    adapter.notifyDataSetChanged();
-                    keyword = recipeSearchEdit.getText().toString();
-                    searchMore(-1,keyword,categoryNumber);
-                    adapter.notifyDataSetChanged();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -100,7 +84,7 @@ public class RecipeFragment extends Fragment {
                 categoryNumber = position;
                 list.clear();
                 adapter.notifyDataSetChanged();
-                searchMore(-1,null,categoryNumber);
+                search(-1,null,categoryNumber);
             }
 
             @Override
@@ -109,10 +93,27 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+        recipeSearchEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    keyword = recipeSearchEdit.getText().toString();
+                    search(-1,keyword,categoryNumber);
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         list = new ArrayList<>();
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
         recipeRecyclerView.setLayoutManager(manager);
         adapter = new RecipeListAdapter(list);
+        recipeRecyclerView.setAdapter(adapter);
+
 
         recipeRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -128,12 +129,11 @@ public class RecipeFragment extends Fragment {
                     if (manager != null && manager.findLastCompletelyVisibleItemPosition() == list.size()-1 &&
                             remainList){
                         isLoding = true;
-                        searchMore(start,keyword,categoryNumber);
+                        search(start,keyword,categoryNumber);
                     }
                 }
             }
         });
-        recipeRecyclerView.setAdapter(adapter);
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +141,7 @@ public class RecipeFragment extends Fragment {
                 list.clear();
                 adapter.notifyDataSetChanged();
                 keyword = recipeSearchEdit.getText().toString();
-                searchMore(-1,keyword,categoryNumber);
+                search(-1,keyword,categoryNumber);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -152,7 +152,7 @@ public class RecipeFragment extends Fragment {
                 categorySpinner.setSelection(0);
                 list.clear();
                 adapter.notifyDataSetChanged();
-                searchMore(-1,null,0);
+                search(-1,null,0);
                 swipe.setRefreshing(false);
             }
         });
@@ -168,11 +168,12 @@ public class RecipeFragment extends Fragment {
 
     }
 
-    private void searchMore(int startValue, String keyword, int categoryNumber){
+    private void search(int startValue, String keyword, int categoryNumber){
         list.add(null);
         adapter.notifyItemInserted(list.size()-1);
 
-        Call<List<RecipeListGet>> call = RecipeSearchClient.getApiService().recipeSearchCall(String.valueOf(startValue),keyword,categoryNumber);
+        Call<List<RecipeListGet>> call = RecipeSearchClient
+                .getApiService().recipeSearchCall(String.valueOf(startValue),keyword,categoryNumber);
         call.enqueue(new Callback<List<RecipeListGet>>() {
             @Override
             public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
@@ -181,6 +182,7 @@ public class RecipeFragment extends Fragment {
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
+
                 listGet = response.body();
                 if (listGet.isEmpty()){
                     list.clear();
@@ -188,6 +190,7 @@ public class RecipeFragment extends Fragment {
                     list.remove(list.size()-1);
                 }
                 adapter.notifyItemRemoved(list.size());
+
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();
                     for (int i = 0;  i < listGet.size(); i++){

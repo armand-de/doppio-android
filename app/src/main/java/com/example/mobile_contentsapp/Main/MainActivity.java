@@ -3,13 +3,10 @@ package com.example.mobile_contentsapp.Main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +18,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mobile_contentsapp.Commu.CommuFragment;
 import com.example.mobile_contentsapp.Commu.CommuInsertActivity;
-import com.example.mobile_contentsapp.Profile.ProfileActivity;
 import com.example.mobile_contentsapp.Profile.ProfileActivityOther;
 import com.example.mobile_contentsapp.Profile.Retrofit.ProfileClient;
 import com.example.mobile_contentsapp.R;
@@ -29,8 +25,6 @@ import com.example.mobile_contentsapp.Recipe.RecipeInsertActivity;
 import com.example.mobile_contentsapp.Recipe.PagerAdapter;
 import com.example.mobile_contentsapp.Recipe.RecipeFragment;
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
-
-import org.w3c.dom.Text;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         recipeFragment = new RecipeFragment();
         commuFragment = new CommuFragment();
 
-
         profileBtn = findViewById(R.id.profile_btn);
 
         LinearLayout recipeBox = findViewById(R.id.recipe_btn_layout);
@@ -87,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+
         params.setMargins(0,0,0,0);
         params2.setMargins(50,0,0,0);
 

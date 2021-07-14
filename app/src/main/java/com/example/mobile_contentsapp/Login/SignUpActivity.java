@@ -107,9 +107,9 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 exist = false;
                 checkBtn.setText("중복 확인");
-                checkBtn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(SignUpActivity.this,R.color.purple_500)));
-                checkBtn.setElevation(0);
-                checkBtn.setTextColor(Color.parseColor("#ffffff"));
+                checkBtn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(SignUpActivity.this,R.color.white)));
+                checkBtn.setElevation(3);
+                checkBtn.setTextColor(Color.parseColor("#3d3d3d"));
             }
         });
 
