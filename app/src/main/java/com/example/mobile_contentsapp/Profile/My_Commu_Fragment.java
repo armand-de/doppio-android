@@ -110,7 +110,6 @@ public class My_Commu_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<CommuListGet>> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 에러");
             }
         });
     }
@@ -120,10 +119,8 @@ public class My_Commu_Fragment extends Fragment {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
 
             }
 

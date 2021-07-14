@@ -93,7 +93,9 @@ public class SignInActivity extends AppCompatActivity {
                     isLoading = false;
                     return;
                 }
-                signin(nicknameEdit.getText().toString(), passwordEdit.getText().toString());
+                if (isLoading){
+                    signin(nicknameEdit.getText().toString(), passwordEdit.getText().toString());
+                }
             }
         });
     }
@@ -117,7 +119,6 @@ public class SignInActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 tokenValue = token.getAccessToken();
-                Log.d(TAG, "토큰값"+ tokenValue);
 
                 editor.putString("token",tokenValue);
                 editor.commit();
@@ -127,6 +128,7 @@ public class SignInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
+                Toast.makeText(SignInActivity.this, "로그인에 실패하였습니다", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onFailure: 시스템 오류 "+t.getMessage());
             }
         });
@@ -164,12 +166,9 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
                 userId = response.body().getId();
-                Log.d(TAG, "onResponse: "+userId);
 
             }
 

@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.mobile_contentsapp.Main.SplashActivity;
-import com.example.mobile_contentsapp.Profile.Retrofit.CommuDeleteClient;
 import com.example.mobile_contentsapp.Profile.Retrofit.MyRecipeListClient;
 import com.example.mobile_contentsapp.Profile.Retrofit.RecipeDeleteClient;
 import com.example.mobile_contentsapp.R;
@@ -77,7 +76,7 @@ public class My_Recipe_Fragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int which) {
                                             list.remove(pos);
                                             adapter.notifyItemRemoved(pos);
-                                            deleteCommu(id);
+                                            deleteRecipe(id);
                                         }
                                     });
                             Dialog dialog = builder.create();
@@ -96,10 +95,8 @@ public class My_Recipe_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
                 for (int i = 0; i < response.body().size(); i++){
                     list.add(response.body().get(i));
                 }
@@ -108,21 +105,18 @@ public class My_Recipe_Fragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<RecipeListGet>> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 에러"+t.getMessage());
+
             }
         });
     }
-    public void deleteCommu(int id){
+    public void deleteRecipe(int id){
         Call<Void> call = RecipeDeleteClient.getApiService().deleterecipe(tokenValue,id);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if(!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
-
             }
 
             @Override

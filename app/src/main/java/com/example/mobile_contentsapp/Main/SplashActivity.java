@@ -67,10 +67,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
                 userId = response.body().getId();
                 Log.d(TAG, "onResponse: "+userId);
                 

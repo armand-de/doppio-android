@@ -269,16 +269,14 @@ public class ProfileActivityOther extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     Toast.makeText(ProfileActivityOther.this, "프로필 변경을 실패하였습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d(TAG, "onFailure: 시스템 에러");
+
             }
         });
     }
@@ -297,7 +295,6 @@ public class ProfileActivityOther extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 restart();

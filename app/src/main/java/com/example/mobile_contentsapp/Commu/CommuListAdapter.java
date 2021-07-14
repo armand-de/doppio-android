@@ -97,7 +97,6 @@ public class CommuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), CommuSeeMore.class);
                     intent.putExtra("commuId",item.getId());
-                    Log.d(TAG, "onClick: 인텐트");
                     v.getContext().startActivity(intent);
                 }
             });

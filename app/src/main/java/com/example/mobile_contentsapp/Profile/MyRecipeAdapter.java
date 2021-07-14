@@ -97,7 +97,6 @@ public class MyRecipeAdapter extends RecyclerView.Adapter<MyRecipeAdapter.ViewHo
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(v.getContext(), RecipeSeeMore.class);
-                    Log.d(TAG, "onClick: "+item.getId());
                     intent.putExtra("recipeId",item.getId());
                     context.startActivity(intent);
                 }
