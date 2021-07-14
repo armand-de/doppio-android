@@ -1,18 +1,14 @@
 package com.example.mobile_contentsapp.Commu.Retrofit;
 
 public class CommuHeartSelectGet {
-    public boolean isExist;
-
-    public CommuHeartSelectGet(boolean isExist) {
-        this.isExist = isExist;
-    }
+    public boolean exist;
 
     public boolean isExist() {
-        return isExist;
+        return exist;
     }
 
     public void setExist(boolean exist) {
-        isExist = exist;
+        this.exist = exist;
     }
 }
 

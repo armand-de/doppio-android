@@ -5,7 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface CommuCommentCountApi {
-    @GET("/comment/count/list/{postId}")
-    Call<CommuCommentCountGet> commuCommentCountCall(@Path("postId") int count);
+    @GET("/comment/count/{id}")
+    Call<CommuCommentCountGet> commuCommentCountCall(@Path("id") int id);
 
 }

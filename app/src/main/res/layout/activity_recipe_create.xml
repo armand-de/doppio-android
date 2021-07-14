@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Recipe.RecipeInsertActivity"
-    android:background="#F5F6F8">
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -20,12 +21,12 @@
             android:layout_height="match_parent">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/imageadd_card"
+                android:id="@+id/image_add_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="10dp"
+                android:layout_margin="24dp"
+                app:cardElevation="3dp"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintTop_toBottomOf="@id/upload_btn"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -35,31 +36,42 @@
                     android:id="@+id/imageadd"
                     android:layout_width="match_parent"
                     android:layout_height="220dp"
-                    android:padding="10dp"
                     android:background="#f5f6f8"
-                    android:src="@drawable/ic_small_img"
                     android:scaleType="centerCrop"/>
             </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/image_add_btn"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:elevation="3dp"
+                android:background="#00000000"
+                android:src="@drawable/ic_plus_big"
+                app:layout_constraintTop_toTopOf="@id/image_add_card"
+                app:layout_constraintRight_toRightOf="@id/image_add_card"
+                app:layout_constraintBottom_toBottomOf="@id/image_add_card"
+                app:layout_constraintLeft_toLeftOf="@id/image_add_card"/>
+
             <TextView
                 android:id="@+id/recipe_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="레시피 이름"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="28dp"
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
+                android:text="레시피 이름"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textColor="#2d665f"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
-                app:layout_constraintTop_toBottomOf="@id/imageadd_card"
-                app:layout_constraintLeft_toLeftOf="parent"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_add_card" />
 
             <EditText
                 android:id="@+id/title_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="24dp"
                 android:paddingBottom="20dp"
                 android:backgroundTint="#BEBEBE"
                 android:fontFamily="@font/notosanskrr"
@@ -77,11 +89,12 @@
                 android:id="@+id/spinner"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:dropDownWidth="100dp"
-                android:layout_marginRight="30dp"
+                android:elevation="3dp"
+                android:background="@drawable/white_round_btn"
+                android:layout_marginRight="24dp"
                 app:layout_constraintTop_toTopOf="@id/title_edit"
-                app:layout_constraintRight_toRightOf="parent"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/title_edit"/>
             <TextView
                 android:id="@+id/time_title"
                 android:layout_width="wrap_content"
@@ -90,9 +103,9 @@
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
-                android:textColor="#2d665f"
+                android:textColor="@color/black"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="24dp"
                 app:layout_constraintTop_toBottomOf="@id/title_edit"
                 app:layout_constraintLeft_toLeftOf="parent"/>
             <ImageView
@@ -102,7 +115,7 @@
                 android:background="#00000000"
                 android:src="@drawable/ic_clock"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="45dp"
                 android:paddingTop="3dp"
                 app:layout_constraintTop_toBottomOf="@id/time_title"
                 app:layout_constraintLeft_toLeftOf="parent"/>
@@ -111,27 +124,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="30분"
+                android:text="0분"
                 android:textSize="18sp"
                 android:textColor="#3d3d3d"
                 app:layout_constraintTop_toTopOf="@id/time_clock"
                 app:layout_constraintLeft_toRightOf="@id/time_clock"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/time_set"
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
-                android:minHeight="0dp"
                 android:minWidth="0dp"
+                android:minHeight="0dp"
                 android:layout_marginLeft="15dp"
-                android:paddingTop="3dp"
-                android:paddingRight="25dp"
-                android:paddingBottom="3dp"
-                android:paddingLeft="25dp"
+                android:elevation="3dp"
+                app:cornerRadius="30dp"
+                android:backgroundTint="@color/white"
                 android:text="설정"
                 android:textSize="14sp"
-                android:textColor="#ffffff"
-                android:background="@drawable/round_btn"
+                android:textColor="@color/black"
+                android:fontFamily="@font/notosanskrm"
+                android:includeFontPadding="false"
                 app:layout_constraintTop_toTopOf="@id/time_clock"
                 app:layout_constraintBottom_toBottomOf="@id/time_clock"
                 app:layout_constraintLeft_toRightOf="@id/time_text" />
@@ -140,12 +153,12 @@
                 android:id="@+id/oven_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="24dp"
                 android:text="오븐"
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
-                android:textColor="#2d665f"
-                android:buttonTint="#2d665f"
+                android:textColor="@color/black"
+                android:buttonTint="#3f7972"
                 app:layout_constraintTop_toTopOf="@id/time_set"
                 app:layout_constraintRight_toRightOf="parent"
                 android:onClick="onCheckBoxClicked"/>
@@ -158,9 +171,9 @@
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
-                android:textColor="#2d665f"
+                android:textColor="@color/black"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="24dp"
                 app:layout_constraintTop_toBottomOf="@id/time_clock"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -168,13 +181,13 @@
                 android:id="@+id/ingre_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                app:layout_constraintTop_toBottomOf="@+id/ingre_text"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginRight="45dp"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingre_text" />
 
             <ImageButton
                 android:id="@+id/add_ingre_btn"
@@ -182,9 +195,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="30dp"
+                android:elevation="3dp"
                 android:padding="5dp"
-                android:background="@drawable/round_btn"
-                android:src="@drawable/ic_add"
+                android:background="@drawable/white_round_btn"
+                android:src="@drawable/ic_plus_small_black"
                 app:layout_constraintTop_toTopOf="@id/ingre_text"
                 app:layout_constraintLeft_toRightOf="@id/ingre_text"/>
 
@@ -196,9 +210,9 @@
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
-                android:textColor="#2d665f"
+                android:textColor="@color/black"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="24dp"
                 app:layout_constraintTop_toBottomOf="@id/ingre_recycler"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -206,8 +220,8 @@
                 android:id="@+id/recipe_detail_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:backgroundTint="#BEBEBE"
                 android:fontFamily="@font/notosanskrr"
                 android:hint="레시피 소개 (최대 100자)"
@@ -228,9 +242,9 @@
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textSize="14sp"
-                android:textColor="#2d665f"
+                android:textColor="@color/black"
                 android:layout_marginTop="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="24dp"
                 app:layout_constraintTop_toBottomOf="@id/recipe_detail_edit"
                 app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -239,8 +253,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
                 android:overScrollMode="never"
                 app:layout_constraintTop_toBottomOf="@id/recipe_text"
                 app:layout_constraintRight_toRightOf="parent"
@@ -251,11 +265,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/round_btn"
-                android:src="@drawable/ic_big_add"
+                android:src="@drawable/ic_plus_small_white"
                 app:layout_constraintTop_toBottomOf="@id/recipe_recycler"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -263,25 +277,31 @@
                 app:layout_constraintVertical_bias="1.0"
                 />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                android:theme="@style/Theme.Mobile_Contentsapp"
                 android:id="@+id/upload_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00000000"
+                android:elevation="3dp"
+                app:cornerRadius="30dp"
+                android:layout_marginRight="24dp"
+                android:backgroundTint="#ffffff"
                 android:text="업로드"
                 android:fontFamily="@font/notosanskrm"
                 android:includeFontPadding="false"
                 android:textColor="#2d665f"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="@id/recipe_insert_back"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/recipe_insert_back"
                 />
 
             <ImageButton
                 android:id="@+id/recipe_insert_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="24dp"
                 android:background="#00000000"
                 android:src="@drawable/ic_back"
                 app:layout_constraintTop_toTopOf="parent"

@@ -1,12 +1,12 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
 public class RecipeCreatePost {
-    String name;
-    String thumbnail;
-    String image;
-    String description;
-    String ingredients;
-    String contents;
+    private String name;
+    private String thumbnail;
+    private String image;
+    private String description;
+    private String ingredients;
+    private String contents;
     int category;
     int time;
     boolean useOven = true;

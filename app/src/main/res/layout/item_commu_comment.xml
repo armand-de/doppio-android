@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:id="@+id/commentn_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="left"
     android:minHeight="50dp"
     android:layout_marginRight="20dp"
     android:layout_marginBottom="20dp"
     android:layout_marginLeft="20dp"
     android:elevation="3dp"
-    android:background="@drawable/white_round_btn_recipe_item2"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/commu_comment_profile_card"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_vertical"
         app:cardCornerRadius="100dp"
-        android:layout_margin="10dp"
         android:background="#ffffff"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         >
         <ImageView
             android:id="@+id/commu_comment_profile"
@@ -33,46 +33,56 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.cardview.widget.CardView>
 
-    
-    <TextView
-        android:id="@+id/comment_profile_name"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/comment_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:text="김병주"
-        android:fontFamily="@font/notosanskrm"
-        android:includeFontPadding="false"
-        android:textColor="#2d665f"
-        android:textSize="12sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/commu_comment_profile_card"/>
-
-    <TextView
-        android:id="@+id/commu_comment_contents"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="댓글 내용"
-        android:fontFamily="@font/notosanskrm"
-        android:includeFontPadding="false"
-        android:textColor="#3d3d3d"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/comment_profile_name"
-        app:layout_constraintRight_toLeftOf="@id/commu_comment_delete"
-        app:layout_constraintLeft_toLeftOf="@id/comment_profile_name"
-        app:layout_constraintHorizontal_bias="0.0"/>
-    <ImageButton
-        android:id="@+id/commu_comment_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="#00000000"
-        android:src="@drawable/ic_delete"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/comment_box"
+        android:elevation="3dp"
+        android:paddingRight="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/commu_comment_profile_card"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/comment_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/notosanskrm"
+            android:includeFontPadding="false"
+            android:text="김병주"
+            android:textColor="#2d665f"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="@id/comment_box"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/commu_comment_contents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/notosanskrm"
+            android:includeFontPadding="false"
+            android:text=""
+            android:textColor="#3d3d3d"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@id/comment_profile_name"
+            app:layout_constraintTop_toBottomOf="@id/comment_profile_name" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -5,6 +5,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface RecipeFindApi {
-    @GET("/recipe/find/id/{id}/user")
+    @GET("/recipe/{id}")
     Call<RecipeFindGet> recipeFindCall(@Path("id") int id);
 }

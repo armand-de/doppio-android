@@ -1,13 +1,13 @@
 package com.example.mobile_contentsapp.Recipe.Retrofit;
 
 public class HeartFindPost {
-    private boolean isExist;
+    private boolean exist;
 
     public boolean isExist() {
-        return isExist;
+        return exist;
     }
 
     public void setExist(boolean exist) {
-        isExist = exist;
+        this.exist = exist;
     }
 }

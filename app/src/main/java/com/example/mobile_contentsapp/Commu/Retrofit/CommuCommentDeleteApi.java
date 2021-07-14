@@ -7,7 +7,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface CommuCommentDeleteApi {
-    @DELETE("/comment/delete/{postId}")
-    Call<Void> commuHeartSelectCall(@Header("Authorization") String token, @Path("postId") int id);
+    @DELETE("/comment/{id}")
+    Call<Void> commuHeartSelectCall(@Header("Authorization") String token , @Path("id") int id);
 
 }

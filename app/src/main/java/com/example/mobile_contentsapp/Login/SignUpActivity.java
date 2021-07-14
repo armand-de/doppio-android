@@ -1,9 +1,12 @@
 package com.example.mobile_contentsapp.Login;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,12 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mobile_contentsapp.Login.Retrofit.CheckClient;
-import com.example.mobile_contentsapp.Login.Retrofit.CheckPost;
+import com.example.mobile_contentsapp.Login.Retrofit.CheckGet;
 import com.example.mobile_contentsapp.Login.Retrofit.NumberClient;
 import com.example.mobile_contentsapp.Login.Retrofit.NumberPost;
 import com.example.mobile_contentsapp.Login.Retrofit.SignUpClient;
 import com.example.mobile_contentsapp.Login.Retrofit.SignUpPost;
 import com.example.mobile_contentsapp.R;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +37,7 @@ import static android.content.ContentValues.TAG;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private boolean isVerify = false;
     private boolean exist = false;
     private boolean isLoading = false;
 
@@ -52,9 +59,11 @@ public class SignUpActivity extends AppCompatActivity {
         TextView signInbtn = findViewById(R.id.sign_in_intent_btn);
         Button checkBtn = findViewById(R.id.check_nick_btn);
 
+        TextInputLayout nickname_box = findViewById(R.id.nickname_inputbox);
+        TextInputLayout password_box = findViewById(R.id.password_inputbox);
 
-        nicknameEdit = findViewById(R.id.nickname_edit);
-        passwordEdit = findViewById(R.id.password_edit);
+        nicknameEdit = nickname_box.getEditText();
+        passwordEdit = password_box.getEditText();
         passConfirmEdit = findViewById(R.id.password_confirm_edit);
         phoneEdit = findViewById(R.id.phone_edit);
         verify = findViewById(R.id.number_edit);
@@ -92,7 +101,15 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                nickname_box.setError(null);
+                if (nicknameEdit.getText().toString().length() < 3) {
+                    nickname_box.setError("3자 이상 입력해주세요");
+                }
+                exist = false;
+                checkBtn.setText("중복 확인");
+                checkBtn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(SignUpActivity.this,R.color.purple_500)));
+                checkBtn.setElevation(0);
+                checkBtn.setTextColor(Color.parseColor("#ffffff"));
             }
         });
 
@@ -109,14 +126,37 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                password_box.setError(null);
+                if (s.length() < 7) {
+                    password_box.setError("7자 이상 입력해주세요");
+                }
             }
         });
 
         phoneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                phoneNumber(phoneEdit.getText().toString());
+                String pattern = "^01(?:0|1|[6-9])?(\\d{3}|\\d{4})?(\\d{4})$";
+                if(Pattern.matches(pattern,phoneEdit.getText().toString())){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this)
+                            .setMessage("인증번호를 전송하시겠습니까?")
+                            .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    }
+                            }).setPositiveButton("네", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    phoneNumber(phoneEdit.getText().toString(),phoneBtn);
+                                }
+                            });
+                    Dialog dialog = builder.create();
+                    dialog.show();
+
+                }else{
+                    Log.d(TAG, "onClick: 불일치");
+                    Toast.makeText(SignUpActivity.this, "유효한 전화번호를 입력해주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         checkBtn.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void phoneNumber(String phone){
+    public void phoneNumber(String phone,Button btn){
         NumberPost number_post = new NumberPost(phone);
         Call<NumberPost> call = NumberClient.getApiService().NumberCall(number_post);
         call.enqueue(new Callback<NumberPost>() {
@@ -150,6 +190,8 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.body().toString());
+                btn.setText("인증번호 재전송");
+                isVerify = true;
             }
 
             @Override
@@ -184,26 +226,27 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     public void check(String nick, Button btn){
-        Call<CheckPost> call = CheckClient.getApiService().checkCall(nick);
-        call.enqueue(new Callback<CheckPost>() {
+        Call<CheckGet> call = CheckClient.getApiService().checkCall(nick);
+        call.enqueue(new Callback<CheckGet>() {
             @Override
-            public void onResponse(Call<CheckPost> call, Response<CheckPost> response) {
+            public void onResponse(Call<CheckGet> call, Response<CheckGet> response) {
                 if (!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
-                CheckPost result = response.body();
+                CheckGet result = response.body();
                 if (!result.isExist()){
                     exist = true;
                     btn.setText("확인 완료");
-                    btn.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.round_btn));
+                    btn.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(SignUpActivity.this,R.color.purple_500)));
+                    btn.setElevation(0);
                     btn.setTextColor(Color.parseColor("#ffffff"));
                 }
             }
 
             @Override
-            public void onFailure(Call<CheckPost> call, Throwable t) {
+            public void onFailure(Call<CheckGet> call, Throwable t) {
                 Log.d(TAG, "onFailure: 시스템 에러" + t.getMessage());
             }
         });

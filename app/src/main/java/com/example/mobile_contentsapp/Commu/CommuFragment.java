@@ -1,11 +1,14 @@
 package com.example.mobile_contentsapp.Commu;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.mobile_contentsapp.Commu.Retrofit.CommuListGet;
 import com.example.mobile_contentsapp.Commu.Retrofit.CommuSearchClient;
+import com.example.mobile_contentsapp.Profile.RecylcerViewEmpty;
 import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
@@ -24,6 +28,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
 
 public class CommuFragment extends Fragment {
 
@@ -35,6 +41,18 @@ public class CommuFragment extends Fragment {
     private boolean remainList = false;
     private boolean isLoding = false;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!isLoding){
+            list.clear();
+            adapter.notifyDataSetChanged();
+            isLoding = true;
+            search(-1,null);
+        }
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,16 +61,31 @@ public class CommuFragment extends Fragment {
         SwipeRefreshLayout swipe = view.findViewById(R.id.commu_swipe);
         EditText searchEdit = view.findViewById(R.id.commu_search_edit);
         ImageButton searchBtn = view.findViewById(R.id.commu_search_btn);
-        RecyclerView commuRecycler = view.findViewById(R.id.commu_list_recycler);
+        RecylcerViewEmpty commuRecycler = view.findViewById(R.id.commu_list_recycler);
+        TextView emptyText = view.findViewById(R.id.commu_empty_text);
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
         commuRecycler.setLayoutManager(manager);
+
+        searchEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    keyword = searchEdit.getText().toString();
+                    search(-1,keyword);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         list = new ArrayList<>();
         adapter = new CommuListAdapter(list);
 
         commuRecycler.setAdapter(adapter);
-
+        commuRecycler.setEmptyView(emptyText);
         commuRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -91,24 +124,13 @@ public class CommuFragment extends Fragment {
                 if (!isLoding){
                     list.clear();
                     adapter.notifyDataSetChanged();
-                    search(start,null);
+                    search(-1,null);
                     swipe.setRefreshing(false);
                 }
                 swipe.setRefreshing(false);
             }
         });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(!isLoding){
-            list.clear();
-            adapter.notifyDataSetChanged();
-            isLoding = true;
-            search(-1,null);
-        }
     }
 
     public void search(int startValue, String keyword){
@@ -120,6 +142,7 @@ public class CommuFragment extends Fragment {
             @Override
             public void onResponse(Call<List<CommuListGet>> call, Response<List<CommuListGet>> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 listGet = response.body();

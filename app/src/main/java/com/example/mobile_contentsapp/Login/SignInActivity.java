@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,11 @@ public class SignInActivity extends AppCompatActivity {
     private boolean isLoading = false;
 
     @Override
+    public void onBackPressed() {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
@@ -41,6 +47,16 @@ public class SignInActivity extends AppCompatActivity {
 
         nicknameEdit = findViewById(R.id.nickname_edit);
         passwordEdit = findViewById(R.id.password_edit);
+
+        passwordEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER){
+                    signin(nicknameEdit.getText().toString(),passwordEdit.getText().toString());
+                }
+                return false;
+            }
+        });
 
         TextView findPass = findViewById(R.id.find_pass);
         TextView signUp = findViewById(R.id.signupbtn);
@@ -59,7 +75,8 @@ public class SignInActivity extends AppCompatActivity {
         findPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SignInActivity.this, "개발 중인 기능입니다", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignInActivity.this, FindPasswordActivity1.class);
+                startActivity(intent);
             }
         });
         signIn.setOnClickListener(new View.OnClickListener() {

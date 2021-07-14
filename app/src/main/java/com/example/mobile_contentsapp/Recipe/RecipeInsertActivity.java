@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,12 +42,14 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
+import static com.example.mobile_contentsapp.Recipe.Timepicker.time;
 
 public class RecipeInsertActivity extends Activity {
 
     private Uri thunmbnailUri;
     private ArrayList<Uri> imgUri = new ArrayList<>();
     private ImageButton mainImgBtn;
+    private ImageButton imageBtn;
     private int categoryNum = 1;
     private int recipePosition = 1;
     private boolean oven = false;
@@ -59,6 +62,10 @@ public class RecipeInsertActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_create);
 
+        getWindow().setStatusBarColor(Color.parseColor("#f1f2f3"));
+
+        time = 0;
+
         mainImgBtn = findViewById(R.id.imageadd);
 
         EditText titleEdit = findViewById(R.id.title_edit);
@@ -69,6 +76,7 @@ public class RecipeInsertActivity extends Activity {
         Button timeSetBtn = findViewById(R.id.time_set);
         Button uploadBtn = findViewById(R.id.upload_btn);
 
+        imageBtn = findViewById(R.id.image_add_btn);
         ImageButton backBtn = findViewById(R.id.recipe_insert_back);
         ImageButton ingreAddBtn = findViewById(R.id.add_ingre_btn);
         ImageButton recipeAddBtn = findViewById(R.id.add_recipe);
@@ -82,6 +90,17 @@ public class RecipeInsertActivity extends Activity {
         RecyclerView recipeRecycler = findViewById(R.id.recipe_recycler);
         ArrayList<IngredientListItem> ingreList = new ArrayList<>();
         ArrayList<RecipeItem> recipeList = new ArrayList<>();
+
+        imageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                thumbnail = true;
+                startActivityForResult(intent,101);
+            }
+        });
 
         mainImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +126,7 @@ public class RecipeInsertActivity extends Activity {
                 dialog.dialog(ingredientRecycler,ingreList);
             }
         });
-        Bitmap bitmap = getBitmap(R.drawable.ic_small_img);
+        Bitmap bitmap = getBitmap(R.drawable.ic_plus_small);
 
         adapter = new RecipeWriteAdapter(recipeList);
         recipeRecycler.setAdapter(adapter);
@@ -123,9 +142,9 @@ public class RecipeInsertActivity extends Activity {
                 startActivityForResult(intent,101);
             }
         });
-        adapter.setOnLongClickListener(new RecipeWriteAdapter.OnLongClickListener() {
+        adapter.setOnClickListener2(new RecipeWriteAdapter.OnClickListener2() {
             @Override
-            public void OnLongClick(View view, int pos) {
+            public void OnClick(View view, int pos) {
                 imgUri.remove(pos);
             }
         });
@@ -171,7 +190,7 @@ public class RecipeInsertActivity extends Activity {
                                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                      isUpload = false;
                                     }
                                 });
                         AlertDialog dialog = builder.create();
@@ -210,7 +229,7 @@ public class RecipeInsertActivity extends Activity {
                     Log.d(TAG, "onClick: "+imgs);
                     create(dialog,titleEdit.getText().toString(), FireBase.firebaseUpload(v.getContext(), thunmbnailUri)
                             ,imgs,detailEdit.getText().toString(),ingredients,contents,
-                            categoryNum,timeText.getText().toString(),oven);
+                            categoryNum,time,oven);
                 }
             }
         });
@@ -236,12 +255,10 @@ public class RecipeInsertActivity extends Activity {
     public void create(ProgressDialog dialog,String name,
                        String thumbnail,String image, String description,
                        String ingredients ,String contents,
-                       int category, String time, boolean useOven){
-
-        int timevalue = Integer.parseInt(time.split("분")[0]);
+                       int category, int time, boolean useOven){
 
         RecipeCreatePost recipe_post = new RecipeCreatePost(name, thumbnail,image,description,
-                ingredients,contents,category,timevalue,useOven);
+                ingredients,contents,category,time,useOven);
 
         Call<RecipeCreatePost> call = RecipeCreateClient.getApiService().recipeCreateCall(tokenValue,recipe_post);
 
@@ -249,6 +266,7 @@ public class RecipeInsertActivity extends Activity {
             @Override
             public void onResponse(Call<RecipeCreatePost> call, Response<RecipeCreatePost> response) {
                 if(!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response);
                     Toast.makeText(RecipeInsertActivity.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                     isUpload = false;
                     dialog.dismiss();
@@ -297,6 +315,7 @@ public class RecipeInsertActivity extends Activity {
                             Log.d(TAG, "onActivityResult: 썸네일");
                             thunmbnailUri = data.getData();
                             mainImgBtn.setImageBitmap(img);
+                            imageBtn.setVisibility(View.GONE);
                         }
 
                 }catch (Exception e){

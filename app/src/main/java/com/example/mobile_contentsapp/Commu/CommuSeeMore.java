@@ -1,6 +1,7 @@
 package com.example.mobile_contentsapp.Commu;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,6 +38,7 @@ import com.example.mobile_contentsapp.Commu.Retrofit.CommuHeartSelectGet;
 import com.example.mobile_contentsapp.Commu.Retrofit.CommuHeartUp;
 import com.example.mobile_contentsapp.Commu.Retrofit.CommuHeartUpClient;
 import com.example.mobile_contentsapp.Main.FireBase;
+import com.example.mobile_contentsapp.Profile.ProfileActivityOther;
 import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 public class CommuSeeMore extends AppCompatActivity {
 
     private int id;
+    private String userId;
     private int start = -1;
     private boolean ispost = false;
     private boolean leftList = false;
@@ -80,10 +83,13 @@ public class CommuSeeMore extends AppCompatActivity {
         super.onDestroy();
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commu_see_more);
+
+        getWindow().setStatusBarColor(Color.parseColor("#f1f2f3"));
 
         pager2 = findViewById(R.id.commu_detail_pager);
         titleText = findViewById(R.id.commu_detail_title);
@@ -94,7 +100,7 @@ public class CommuSeeMore extends AppCompatActivity {
 
         nickname = findViewById(R.id.commu_detail_nickname);
         profile = findViewById(R.id.commu_detail_profile);
-        heartBtn = findViewById(R.id.commu_detail_heart);
+        heartBtn = findViewById(R.id.commu_heart_btn);
 
         LinearLayout indicator = findViewById(R.id.commu_image_indicator);
         EditText commentEdit = findViewById(R.id.commu_comment_edit);
@@ -116,6 +122,13 @@ public class CommuSeeMore extends AppCompatActivity {
         commentList.setAdapter(adapter);
 
         commentCount();
+        setComment(-1);
+        adapter.setOnClickListener(new CommuCommentAdapter.OnLongClickListener() {
+            @Override
+            public void OnClick(View view, int pos) {
+                commentCount();
+            }
+        });
 
         pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -143,24 +156,31 @@ public class CommuSeeMore extends AppCompatActivity {
                     ispost = true;
                     postComment(commentEdit.getText().toString(),commuId,commentEdit);
                     imm.hideSoftInputFromWindow(commentEdit.getWindowToken(),0);
-                    commentCount();
                 }
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CommuSeeMore.this,ProfileActivityOther.class);
+                intent.putExtra("id", userId);
+                startActivity(intent);
+            }
+        });
         heartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isHeart){
                     isHeart = !isHeart;
                     heartUp();
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_selectheart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_heart_big));
                     int heartValue = Integer.parseInt(heartText.getText().toString())+1;
                     heartText.setText(String.valueOf(heartValue));
                 }else{
                     isHeart = !isHeart;
                     heartDown();
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_heart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(CommuSeeMore.this,R.drawable.ic_heart_white));
                     int heartValue = Integer.parseInt(heartText.getText().toString())-1;
                     if (heartValue == 0){
                         heartValue = 0;
@@ -185,7 +205,7 @@ public class CommuSeeMore extends AppCompatActivity {
                     if (manager != null && manager.findLastCompletelyVisibleItemPosition() == list.size() - 1) {
                         Log.d(TAG, "onScrolled: scroll");
                         if (leftList){
-                            loadMore();
+                            setComment(start);
                             isLoading = true;
                         }
                     }
@@ -197,7 +217,10 @@ public class CommuSeeMore extends AppCompatActivity {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                setComment();
+                list.clear();
+                adapter.notifyDataSetChanged();
+                setComment(-1);
+                commentCount();
                 swipe.setRefreshing(false);
             }
         });
@@ -226,10 +249,11 @@ public class CommuSeeMore extends AppCompatActivity {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 list.clear();
-                setComment();
                 adapter.notifyDataSetChanged();
+                setComment(-1);
                 commentList.setAdapter(adapter);
                 commentEdit.setText("");
+                commentCount();
                 ispost = false;
 
             }
@@ -251,11 +275,11 @@ public class CommuSeeMore extends AppCompatActivity {
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공");
-                isHeart = response.body().isExist;
+                isHeart = response.body().isExist();
                 if (isHeart){
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_selectheart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_heart_big));
                 }else{
-                    heartBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_heart));
+                    heartBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_heart_white));
                 }
 
             }
@@ -279,6 +303,7 @@ public class CommuSeeMore extends AppCompatActivity {
                 }
                 CommuFindGet commuFindGet = response.body();
 
+                userId = response.body().getUser().getId();
                 titleText.setText(commuFindGet.getTitle());
                 contentsText.setText(commuFindGet.getContents());
 
@@ -353,9 +378,7 @@ public class CommuSeeMore extends AppCompatActivity {
                     return;
                 }
                 commentText.setText(String.valueOf(response.body().getCount()));
-                if (response.body().getCount() != 0){
-                    setComment();
-                }
+
             }
 
             @Override
@@ -387,8 +410,7 @@ public class CommuSeeMore extends AppCompatActivity {
     }
 
     public void heartDown(){
-        CommuHeartUp commu_heart = new CommuHeartUp(commuId);
-        Call<CommuHeartUp> call = CommuHeartDownClient.getApiService().commuHeartDownApiCall(tokenValue,commu_heart);
+        Call<CommuHeartUp> call = CommuHeartDownClient.getApiService().commuHeartDownApiCall(tokenValue,id);
         call.enqueue(new Callback<CommuHeartUp>() {
             @Override
             public void onResponse(Call<CommuHeartUp> call, Response<CommuHeartUp> response) {
@@ -407,21 +429,22 @@ public class CommuSeeMore extends AppCompatActivity {
         });
     }
 
-    public void setComment(){
+    public void setComment(int startValue){
         list.add(null);
         adapter.notifyDataSetChanged();
 
         Call<List<CommuCommentListGet>> call =
-                CommuCommentListClient.getApiService().commuCommentListApiCall(tokenValue,id,-1);
+                CommuCommentListClient.getApiService().commuCommentListApiCall(tokenValue,id,startValue);
         call.enqueue(new Callback<List<CommuCommentListGet>>() {
             @Override
             public void onResponse(Call<List<CommuCommentListGet>> call, Response<List<CommuCommentListGet>> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 listGet = response.body();
-                list.clear();
-                adapter.notifyDataSetChanged();
+                list.remove(list.size()-1);
+                adapter.notifyItemRemoved(list.size());
 
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();
@@ -429,11 +452,9 @@ public class CommuSeeMore extends AppCompatActivity {
                         list.add(listGet.get(i));
                     }
                     adapter.notifyDataSetChanged();
-                    leftList = true;
                 }else{
                     leftList = false;
                 }
-                adapter.notifyDataSetChanged();
             }
 
             @Override

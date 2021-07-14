@@ -1,9 +1,9 @@
 package com.example.mobile_contentsapp.Profile.Retrofit;
 
-public class ProfileUpdata {
+public class ProfileUpdate {
     private String image;
 
-    public ProfileUpdata( String image) {
+    public ProfileUpdate(String image) {
         this.image = image;
     }
 

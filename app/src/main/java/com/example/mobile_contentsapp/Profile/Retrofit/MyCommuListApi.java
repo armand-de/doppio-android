@@ -7,9 +7,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
 
 public interface MyCommuListApi {
-    @GET("/post/my")
-    Call<List<CommuListGet>> myCommuListCall(@Header("Authorization") String token);
+    @GET("/post/user-id/{userid}")
+    Call<List<CommuListGet>> myCommuListCall(@Path("userid") String id);
 
 }

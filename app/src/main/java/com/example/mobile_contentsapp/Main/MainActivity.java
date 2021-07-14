@@ -3,17 +3,26 @@ package com.example.mobile_contentsapp.Main;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.mobile_contentsapp.Commu.CommuFragment;
 import com.example.mobile_contentsapp.Commu.CommuInsertActivity;
 import com.example.mobile_contentsapp.Profile.ProfileActivity;
+import com.example.mobile_contentsapp.Profile.ProfileActivityOther;
 import com.example.mobile_contentsapp.Profile.Retrofit.ProfileClient;
 import com.example.mobile_contentsapp.R;
 import com.example.mobile_contentsapp.Recipe.RecipeInsertActivity;
@@ -21,15 +30,20 @@ import com.example.mobile_contentsapp.Recipe.PagerAdapter;
 import com.example.mobile_contentsapp.Recipe.RecipeFragment;
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
+import org.w3c.dom.Text;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
+import static com.example.mobile_contentsapp.Main.SplashActivity.userId;
 
 public class MainActivity extends AppCompatActivity {
     private RecipeFragment recipeFragment;
     private CommuFragment commuFragment;
+    private ImageButton profileBtn;
     private int pagePosition;
 
     @Override
@@ -38,19 +52,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setProfile(profileBtn);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getWindow().setStatusBarColor(Color.parseColor("#f1f2f3"));
+
         recipeFragment = new RecipeFragment();
         commuFragment = new CommuFragment();
 
+
+        profileBtn = findViewById(R.id.profile_btn);
+
+        LinearLayout recipeBox = findViewById(R.id.recipe_btn_layout);
+        LinearLayout commuBox = findViewById(R.id.commu_btn_layout);
+
         ImageButton recipeBtn = findViewById(R.id.recipebtn);
-        ImageButton commuBtn = findViewById(R.id.comumbtn);
+        ImageButton commuBtn = findViewById(R.id.commubtn);
         ImageButton createBtn = findViewById(R.id.create_btn);
-        ImageButton profileBtn = findViewById(R.id.profile_btn);
+
+        TextView recipeText = findViewById(R.id.recipe_title);
+        TextView commuText = findViewById(R.id.commu_title);
 
         ViewPager2 pager2 = findViewById(R.id.vp);
+
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0,0,0,0);
+        params2.setMargins(50,0,0,0);
 
         PagerAdapter adapter = new PagerAdapter(this,recipeBtn,commuBtn);
         pager2.setAdapter(adapter);
@@ -60,17 +98,28 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 if (position == 0){
-                    recipeBtn.setColorFilter(Color.parseColor("#2d665f"));
+                    recipeBox.setBackground(ContextCompat.getDrawable(MainActivity.this,R.drawable.white_round_btn));
+                    commuBox.setBackground(null);
+                    recipeText.setVisibility(View.VISIBLE);
+                    commuText.setVisibility(View.GONE);
+                    recipeBtn.setColorFilter(Color.parseColor("#3F7972"));
                     commuBtn.setColorFilter(Color.parseColor("#BFD5D3"));
+                    recipeBtn.setLayoutParams(params2);
+                    commuBtn.setLayoutParams(params);
                 }else{
+                    commuBox.setBackground(ContextCompat.getDrawable(MainActivity.this,R.drawable.white_round_btn));
+                    recipeBox.setBackground(null);
+                    commuText.setVisibility(View.VISIBLE);
+                    recipeText.setVisibility(View.GONE);
                     recipeBtn.setColorFilter(Color.parseColor("#BFD5D3"));
-                    commuBtn.setColorFilter(Color.parseColor("#2d665f"));
+                    commuBtn.setColorFilter(Color.parseColor("#3F7972"));
+                    recipeBtn.setLayoutParams(params);
+                    commuBtn.setLayoutParams(params2);
                 }
                 pagePosition = position;
             }
         });
 
-        setProfile(profileBtn);
 
         recipeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivityOther.class);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -111,8 +161,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
+                Log.d(TAG, "onResponse: 성공");
                 if (response.body().getImage() != null){
                     FireBase.firebaseDownlode(MainActivity.this,response.body().getImage(),profile);
                 }
@@ -143,4 +195,5 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 }

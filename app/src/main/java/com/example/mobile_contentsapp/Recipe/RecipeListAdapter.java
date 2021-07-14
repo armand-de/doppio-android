@@ -95,7 +95,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             String img = item.getThumbnail();
             FireBase.firebaseDownlode(itemView.getContext(),img, recipeThumbnail);
 
-            timeText.setText(String.valueOf(item.getTime())+"분");
+            Log.d(TAG, "onBind: "+item.getTime());
+            timeText.setText(item.getTime()/60+":"+String.format("%02d",item.getTime()%60));
             heartText.setText(String.valueOf(item.getPreference()));
             if (item.isUseOven()){
                 ovenText.setVisibility(View.VISIBLE);

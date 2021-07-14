@@ -9,12 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mobile_contentsapp.R;
+import com.example.mobile_contentsapp.Recipe.RecipeWriteAdapter;
 
 import java.util.ArrayList;
 
 public class CommuImageAdapter extends RecyclerView.Adapter<CommuImageAdapter.ViewHolder> {
 
+    public interface OnClickListener{
+        void OnClick(View view, int pos);
+    }
+
     ArrayList<CommuImageItem> items;
+    OnClickListener mlistener = null;
+
+    public void setOnClickListener(OnClickListener onClickListener){mlistener = onClickListener;}
 
     public CommuImageAdapter(ArrayList<CommuImageItem> items) {
         this.items = items;
@@ -50,6 +58,12 @@ public class CommuImageAdapter extends RecyclerView.Adapter<CommuImageAdapter.Vi
                 @Override
                 public void onClick(View v) {
                     items.remove(position);
+                    notifyItemRemoved(position);
+                    int pos = position;
+                    if(pos != RecyclerView.NO_POSITION){
+                        mlistener.OnClick(v,pos);
+                    }
+
                 }
             });
         }

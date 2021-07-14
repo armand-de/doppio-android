@@ -6,7 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface CommuCommentPostApi {
-    @POST("/comment/create")
+    @POST("/comment")
     Call<CommuCommentPost> commuCommentPostCall(@Header ("Authorization") String token,
                                                 @Body CommuCommentPost commu_comment_post);
 }

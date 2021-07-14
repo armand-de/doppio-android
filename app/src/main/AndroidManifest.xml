@@ -24,10 +24,11 @@
         <activity android:name=".Commu.CommuInsertActivity" />
         <activity android:name=".Recipe.RecipeSeeMore" />
         <activity android:name=".Commu.CommuSeeMore" />
-        <activity
-            android:name=".Recipe.RecipeInsertActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Login.FindPasswordActivity1"/>
+        <activity android:name=".Login.FindPasswordActivity2"/>
+        <activity android:name=".Recipe.RecipeInsertActivity"/>
         <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Profile.ProfileActivityOther"/>
         <activity android:name=".Login.SignUpActivity" />
         <activity android:name=".Login.SignInActivity">
         </activity>

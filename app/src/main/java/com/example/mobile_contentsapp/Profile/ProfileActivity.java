@@ -4,25 +4,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mobile_contentsapp.Login.FindPasswordActivity1;
+import com.example.mobile_contentsapp.Login.SignInActivity;
 import com.example.mobile_contentsapp.Main.FireBase;
+import com.example.mobile_contentsapp.Profile.Retrofit.DeleteClient;
 import com.example.mobile_contentsapp.Profile.Retrofit.ProfileClient;
-import com.example.mobile_contentsapp.Profile.Retrofit.ProfileUpdata;
+import com.example.mobile_contentsapp.Profile.Retrofit.ProfileUpdate;
 import com.example.mobile_contentsapp.Profile.Retrofit.ProfileUpdateClient;
 import com.example.mobile_contentsapp.R;
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
@@ -40,7 +44,6 @@ import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private boolean change = false;
     private Uri profileUri;
     private String profileImagename = "";
 
@@ -54,11 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (change){
-            backDialog();
-        }else{
-            finish();
-        }
+         finish();
     }
 
     @Override
@@ -66,22 +65,54 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
         pager2 = findViewById(R.id.profile_pager);
         tabLayout = findViewById(R.id.profile_tab);
 
         nickname = findViewById(R.id.profile_nickname);
         profileImage = findViewById(R.id.profile_profile_image);
 
-        ImageView marker = findViewById(R.id.profile_change_mark);
 
         ImageButton backBtn = findViewById(R.id.profile_back);
-        ImageButton profileChangeBtn = findViewById(R.id.profile_change);
         ImageButton setting = findViewById(R.id.setting);
 
-        setMarker(marker);
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(),v);
+                getMenuInflater().inflate(R.menu.context,popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.sign_out){
+                            signOut();
+                        }else if(item.getItemId()== R.id.change_password){
+                            Intent intent = new Intent(ProfileActivity.this, FindPasswordActivity1.class);
+                            startActivity(intent);
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this)
+                                    .setMessage("탈퇴하시겠습니까?")
+                                    .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).setPositiveButton("네", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            deleteAccount();
+                                        }
+                                    });
+                            deleteAccount();
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+            }
+        });
 
         setProfile();
-        createFragment();
 
         Profile_Adapter adapter = new Profile_Adapter(getSupportFragmentManager(),getLifecycle());
         adapter.addiItem(my_recipe_fragment);
@@ -97,9 +128,9 @@ public class ProfileActivity extends AppCompatActivity {
                 tabName.add("레시피");
                 tabName.add("스토리");
                 TextView textView = new TextView(ProfileActivity.this);
-                textView.setTextColor(Color.parseColor("#2d665f"));
+                textView.setTextColor(Color.parseColor("#3F7972"));
                 textView.setText(tabName.get(position));
-                textView.setTextSize(16);
+                textView.setTextSize(20);
                 textView.setGravity(Gravity.CENTER);
                 tab.setCustomView(textView);
                 switch (position){
@@ -117,50 +148,30 @@ public class ProfileActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(change){
-                    backDialog();
-                }else{
-                    finish();
-                }
+                finish();
             }
         });
-        profileChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!change){
-                    profileChangeBtn.setBackground(ContextCompat.getDrawable(v.getContext(),R.drawable.big_circle));
-                    profileChangeBtn.setImageDrawable(ContextCompat.getDrawable(v.getContext(),R.drawable.ic_pen));
-                }else{
-                    profileChangeBtn.setBackgroundColor(Color.parseColor("#00000000"));
-                    profileChangeBtn.setImageDrawable(ContextCompat.getDrawable(v.getContext(),R.drawable.ic_white_pen));
-                    updataProfile(FireBase.firebaseUpload(v.getContext(),profileUri));
-                }
-                change = !change;
-                setMarker(marker);
-            }
-        });
+
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (change){
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intent,101);
-                }
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,101);
             }
         });
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this,Setting.class);
-                startActivity(intent);
-            }
-        });
+
+
     }
-    public void createFragment(){
+    public void createFragment(String id){
         my_recipe_fragment = new My_Recipe_Fragment();
         my_commu_fragment = new My_Commu_Fragment();
+
+        Bundle bundle = new Bundle(1);
+        bundle.putString("userid",id);
+        my_recipe_fragment.setArguments(bundle);
+        my_commu_fragment.setArguments(bundle);
     }
     public void setTab(){
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -202,6 +213,10 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.makeText(ProfileActivity.this, "프로필을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }else {
+                    Log.d(TAG, "onResponse: 성공");
+                    String id = response.body().getId();
+                    createFragment(id);
+
                     nickname.setText(response.body().getNickname());
                     if (response.body().getImage() != null){
                         profileImagename = response.body().getImage();
@@ -216,24 +231,19 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void setMarker(ImageView marker1){
-        if (change){
-            marker1.setVisibility(View.VISIBLE);
-        }else{
-            marker1.setVisibility(View.INVISIBLE);
-        }
-    }
     public void updataProfile(String image){
-        ProfileUpdata profileUpdata = new ProfileUpdata(image);
+        ProfileUpdate profileUpdata = new ProfileUpdate(image);
 
         Call<User> call = ProfileUpdateClient.getApiService().profileUpdateCall(tokenValue, profileUpdata);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
                     Toast.makeText(ProfileActivity.this, "프로필 변경을 실패하였습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                Log.d(TAG, "onResponse: 성공");
             }
 
             @Override
@@ -243,25 +253,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void backDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this)
-                .setTitle("프로필 변경")
-                .setMessage("변경사항을 저장하시겠습니까?")
-                .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updataProfile(profileImagename);
-                        finish();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
 
     @Override
@@ -275,7 +266,42 @@ public class ProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 profileImage.setImageURI(profileUri);
+                updataProfile(FireBase.firebaseUpload(ProfileActivity.this,profileUri));
             }
         }
+    }
+
+    public void signOut(){
+        SharedPreferences sharedPreferences = getSharedPreferences("sp",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+        restart();
+    }
+
+    public void deleteAccount(){
+        Call<Void> call = DeleteClient.getApiService().deleteAccount(tokenValue);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    return;
+                }
+                restart();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void restart(){
+        finishAffinity();
+        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+        startActivity(intent);
+        System.exit(0);
     }
 }

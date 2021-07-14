@@ -2,6 +2,7 @@ package com.example.mobile_contentsapp.Recipe;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.mobile_contentsapp.Profile.RecylcerViewEmpty;
 import com.example.mobile_contentsapp.R;
 import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeListGet;
 import com.example.mobile_contentsapp.Recipe.Retrofit.RecipeSearchClient;
@@ -39,19 +42,24 @@ public class RecipeFragment extends Fragment {
     private ArrayList<RecipeListGet> list;
     private RecipeListAdapter adapter;
 
+    private Spinner categorySpinner;
     private ImageButton searchBtn;
-    private RecyclerView recipeRecyclerView;
+    private RecylcerViewEmpty recipeRecyclerView;
     private String keyword;
     private boolean remainList = false;
     private boolean isSearch = false;
     private boolean isLoding = false;
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        if (!isLoding){
+    public void onStart() {
+        super.onStart();
+        if (!isLoding) {
             isLoding = true;
-            searchMore(-1,null,0);
+            categorySpinner.setSelection(0);
+            list.clear();
+            adapter.notifyDataSetChanged();
+            searchMore(-1, null, 0);
         }
     }
 
@@ -61,9 +69,10 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe,container,false);
 
         recipeRecyclerView = view.findViewById(R.id.recipe_list_recycler);
+        TextView emptyText = view.findViewById(R.id.recipe_empty_text);
         searchBtn = view.findViewById(R.id.recipe_search);
         SwipeRefreshLayout swipe = view.findViewById(R.id.recipe_swipe);
-        Spinner categorySpinner = view.findViewById(R.id.search_category_spinner);
+        categorySpinner = view.findViewById(R.id.search_category_spinner);
         EditText recipeSearchEdit = view.findViewById(R.id.recipe_search_edit);
 
         ArrayList<CategoryItem> categoryList = new ArrayList<>();
@@ -71,10 +80,28 @@ public class RecipeFragment extends Fragment {
         CategoryAdapter categoryAdapter = new CategoryAdapter(view.getContext(),categoryList);
         categorySpinner.setAdapter(categoryAdapter);
 
+        recipeSearchEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    keyword = recipeSearchEdit.getText().toString();
+                    searchMore(-1,keyword,categoryNumber);
+                    adapter.notifyDataSetChanged();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 categoryNumber = position;
+                list.clear();
+                adapter.notifyDataSetChanged();
+                searchMore(-1,null,categoryNumber);
             }
 
             @Override
@@ -108,6 +135,7 @@ public class RecipeFragment extends Fragment {
             }
         });
         recipeRecyclerView.setAdapter(adapter);
+        recipeRecyclerView.setEmptyView(emptyText);
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +151,7 @@ public class RecipeFragment extends Fragment {
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                categorySpinner.setSelection(0);
                 list.clear();
                 adapter.notifyDataSetChanged();
                 searchMore(-1,null,0);
@@ -150,6 +179,8 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    return;
                 }
                 Log.d(TAG, "onResponse: 성공");
                 listGet = response.body();

@@ -2,13 +2,15 @@ package com.example.mobile_contentsapp.Commu.Retrofit;
 
 import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
+import java.util.Date;
+
 public class CommuCommentListGet {
     private int id;
     private String contents;
-    private String createdDate;
+    private Date createdDate;
     private User user;
 
-    public CommuCommentListGet(int id, String contents, String createdDate, User user) {
+    public CommuCommentListGet(int id, String contents, Date createdDate, User user) {
         this.id = id;
         this.contents = contents;
         this.createdDate = createdDate;
@@ -31,11 +33,11 @@ public class CommuCommentListGet {
         this.contents = contents;
     }
 
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 

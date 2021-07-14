@@ -11,293 +11,274 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
-            <LinearLayout
+            <View
+                android:id="@+id/view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="10"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="210dp"
+                android:background="@color/purple_700"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView android:id="@+id/sign_up_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="24dp"
+                android:src="@drawable/ic_logo"
+                app:layout_constraintBottom_toBottomOf="@id/view"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <ImageView
+                android:layout_width="113dp"
+                android:layout_height="21dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/ic_apptitle"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="@id/sign_up_logo"
+                app:layout_constraintLeft_toRightOf="@id/sign_up_logo"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nickname_inputbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="15dp"
+                android:fontFamily="@font/notosanskrb"
+                android:textColorHint="#BEBEBE"
+                app:counterEnabled="true"
+                app:counterMaxLength="8"
+                app:hintTextColor="#3F7972"
+                app:layout_constraintTop_toBottomOf="@id/view"
+                app:layout_constraintRight_toLeftOf="@id/check_nick_btn"
                 app:layout_constraintLeft_toLeftOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nickname_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_weight="2.5"
-                    android:layout_gravity="top"
-                    android:background="#2d665f">
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:fontFamily="@font/notosanskrr"
+                    android:hint="닉네임"
+                    android:includeFontPadding="false"
+                    android:paddingStart="10dp"
+                    android:textColor="#3d3d3d"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <ImageView
-                        android:id="@+id/sign_up_logo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="24dp"
-                        android:src="@drawable/ic_logo"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
 
-                    <ImageView
-                        android:layout_width="113dp"
-                        android:layout_height="21dp"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/ic_apptitle"
-                        android:scaleType="fitCenter"
-                        app:layout_constraintBottom_toBottomOf="@id/sign_up_logo"
-                        app:layout_constraintLeft_toRightOf="@id/sign_up_logo"/>
+            <com.google.android.material.button.MaterialButton
+                style="@style/Theme.AppCompat.NoActionBar"
+                android:id="@+id/check_nick_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cornerRadius="30dp"
+                android:text="중복확인"
+                android:fontFamily="@font/notosanskrm"
+                android:includeFontPadding="false"
+                android:textColor="#3D3D3D"
+                android:textSize="14sp"
+                android:backgroundTint="#ffffff"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintTop_toTopOf="@id/nickname_inputbox"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/nickname_inputbox"
+                app:layout_constraintLeft_toRightOf="@id/nickname_inputbox"
+                />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_inputbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
+                android:fontFamily="@font/notosanskrb"
+                app:hintTextColor="#3F7972"
+                android:textColorHint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@id/nickname_inputbox">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7.5"
-                    android:elevation="3dp"
-                    android:background="#f3f2f1">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/nickname_inputbox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="70dp"
-                        android:layout_marginRight="125dp"
-                        android:layout_marginLeft="24dp"
-                        android:fontFamily="@font/notosanskrb"
-                        app:hintTextColor="#3F7972"
-                        android:textColorHint="#BEBEBE"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/nickname_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="#00000000"
-                            android:fontFamily="@font/notosanskrr"
-                            android:includeFontPadding="false"
-                            android:hint="닉네임"
-                            android:paddingStart="10dp"
-                            android:textColor="#3d3d3d"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Theme.AppCompat.NoActionBar"
-                        android:id="@+id/check_nick_btn"
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        app:cornerRadius="30dp"
-                        android:text="중복확인"
-                        android:fontFamily="@font/notosanskrm"
-                        android:includeFontPadding="false"
-                        android:textColor="#3D3D3D"
-                        android:textSize="14sp"
-                        android:backgroundTint="#ffffff"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="15dp"
-                        android:layout_marginRight="24dp"
-                        app:layout_constraintTop_toTopOf="@id/nickname_inputbox"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintBottom_toBottomOf="@id/nickname_inputbox"
-                        app:layout_constraintLeft_toRightOf="@id/nickname_inputbox"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/password_inputbox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_marginLeft="24dp"
-                        android:fontFamily="@font/notosanskrb"
-                        app:hintTextColor="#3F7972"
-                        android:textColorHint="#BEBEBE"
-                        app:layout_constraintTop_toBottomOf="@id/nickname_inputbox">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/password_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="#00000000"
-                            android:backgroundTint="@color/normal"
-                            android:textColorHint="@color/normal"
-                            android:fontFamily="@font/notosanskrr"
-                            android:gravity="bottom"
-                            android:hint="비밀번호"
-                            android:includeFontPadding="false"
-                            android:paddingStart="10dp"
-                            android:textColor="#3d3d3d"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:backgroundTint="@color/normal"
+                    android:textColorHint="@color/normal"
+                    android:fontFamily="@font/notosanskrr"
+                    android:gravity="bottom"
+                    android:hint="비밀번호"
+                    android:includeFontPadding="false"
+                    android:paddingStart="10dp"
+                    android:textColor="#3d3d3d"
+                    android:textSize="16sp"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/password_confirm_inputbox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_marginLeft="24dp"
-                        android:fontFamily="@font/notosanskrb"
-                        app:hintTextColor="#3F7972"
-                        android:textColorHint="#BEBEBE"
-                        app:layout_constraintTop_toBottomOf="@id/password_inputbox">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_confirm_inputbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:fontFamily="@font/notosanskrb"
+                app:hintTextColor="#3F7972"
+                android:textColorHint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@id/password_inputbox">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/password_confirm_edit"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="#00000000"
-                            android:backgroundTint="@color/normal"
-                            android:textColorHint="@color/normal"
-                            android:fontFamily="@font/notosanskrr"
-                            android:gravity="bottom"
-                            android:hint="비밀번호 확인"
-                            android:includeFontPadding="false"
-                            android:paddingStart="10dp"
-                            android:textColor="#3d3d3d"
-                            android:textSize="16sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_confirm_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:backgroundTint="@color/normal"
+                    android:fontFamily="@font/notosanskrr"
+                    android:gravity="bottom"
+                    android:hint="비밀번호 확인"
+                    android:includeFontPadding="false"
+                    android:paddingStart="10dp"
+                    android:textColor="#3d3d3d"
+                    android:textColorHint="@color/normal"
+                    android:textSize="16sp"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phone_inputbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="24dp"
+                android:fontFamily="@font/notosanskrb"
+                app:hintTextColor="#3F7972"
+                android:textColorHint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@id/password_confirm_inputbox"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/number_btn">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_edit"
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:backgroundTint="@color/normal"
+                    android:textColorHint="@color/normal"
+                    android:textColor="#3d3d3d"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/notosanskrr"
+                    android:includeFontPadding="false"
+                    android:hint="전화번호"
+                    android:paddingStart="10dp"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/number_btn"
+                style="@style/Theme.AppCompat.NoActionBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#ffffff"
+                android:text="인증번호 전송"
+                android:fontFamily="@font/notosanskrm"
+                android:includeFontPadding="false"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintTop_toTopOf="@id/phone_inputbox"
+                app:layout_constraintBottom_toBottomOf="@id/phone_inputbox"
+                app:layout_constraintLeft_toRightOf="@id/phone_inputbox"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/phone_inputbox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginRight="150dp"
-                        android:layout_marginLeft="24dp"
-                        android:fontFamily="@font/notosanskrb"
-                        app:hintTextColor="#3F7972"
-                        android:textColorHint="#BEBEBE"
-                        app:layout_constraintTop_toBottomOf="@id/password_confirm_inputbox">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/number_inputbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:fontFamily="@font/notosanskrb"
+                app:hintTextColor="#3F7972"
+                android:textColorHint="#BEBEBE"
+                app:layout_constraintTop_toBottomOf="@id/phone_inputbox">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/phone_edit"
-                            android:gravity="bottom"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="#00000000"
-                            android:backgroundTint="@color/normal"
-                            android:textColorHint="@color/normal"
-                            android:textColor="#3d3d3d"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/notosanskrr"
-                            android:includeFontPadding="false"
-                            android:hint="전화번호"
-                            android:paddingStart="10dp"
-                            android:inputType="number"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/number_btn"
-                        style="@style/Theme.AppCompat.NoActionBar"
-                        android:layout_width="115dp"
-                        android:layout_height="wrap_content"
-                        app:cornerRadius="30dp"
-                        android:backgroundTint="#ffffff"
-                        android:text="인증번호 전송"
-                        android:fontFamily="@font/notosanskrm"
-                        android:includeFontPadding="false"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:minWidth="0dp"
-                        android:minHeight="0dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="15dp"
-                        android:layout_marginRight="24dp"
-                        app:layout_constraintTop_toTopOf="@id/phone_inputbox"
-                        app:layout_constraintBottom_toBottomOf="@id/phone_inputbox"
-                        app:layout_constraintLeft_toRightOf="@id/phone_inputbox"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/number_edit"
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#00000000"
+                    android:backgroundTint="@color/normal"
+                    android:textColorHint="@color/normal"
+                    android:textColor="#3d3d3d"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/notosanskrr"
+                    android:includeFontPadding="false"
+                    android:hint="인증번호"
+                    android:paddingStart="10dp"
+                    android:inputType="number"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/number_inputbox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginRight="24dp"
-                        android:layout_marginLeft="24dp"
-                        android:fontFamily="@font/notosanskrb"
-                        app:hintTextColor="#3F7972"
-                        android:textColorHint="#BEBEBE"
-                        app:layout_constraintTop_toBottomOf="@id/phone_inputbox">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_up_btn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="50dp"
+                android:backgroundTint="@color/purple_700"
+                app:cornerRadius="30dp"
+                android:text="회원가입"
+                android:fontFamily="@font/notosanskrm"
+                android:includeFontPadding="false"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                app:layout_constraintTop_toBottomOf="@id/number_inputbox"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/number_edit"
-                            android:gravity="bottom"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:background="#00000000"
-                            android:backgroundTint="@color/normal"
-                            android:textColorHint="@color/normal"
-                            android:textColor="#3d3d3d"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/notosanskrr"
-                            android:includeFontPadding="false"
-                            android:hint="인증번호"
-                            android:paddingStart="10dp"
-                            android:inputType="number"/>
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/sign_up_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_margin="50dp"
-                        android:backgroundTint="@color/purple_700"
-                        app:cornerRadius="30dp"
-                        android:text="회원가입"
-                        android:fontFamily="@font/notosanskrm"
-                        android:includeFontPadding="false"
-                        android:textSize="20sp"
-                        android:textColor="#ffffff"
-                        app:layout_constraintTop_toBottomOf="@id/number_inputbox"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintVertical_bias="0.0"
-                        />
-
-                    <TextView
-                        android:id="@+id/sign_in_intent_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="50dp"
-                        android:layout_marginBottom="50dp"
-                        android:background="#00000000"
-                        android:fontFamily="@font/notosanskrm"
-                        android:includeFontPadding="false"
-                        android:text="이미 계정이 있으신가요?"
-                        android:textColor="#BEBEBE"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/sign_up_btn"
-                        app:layout_constraintVertical_bias="0.0" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/sign_in_intent_btn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="50dp"
+                android:background="#00000000"
+                android:fontFamily="@font/notosanskrm"
+                android:includeFontPadding="false"
+                android:text="이미 계정이 있으신가요?"
+                android:textColor="#BEBEBE"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_btn"
+                app:layout_constraintVertical_bias="0.0" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

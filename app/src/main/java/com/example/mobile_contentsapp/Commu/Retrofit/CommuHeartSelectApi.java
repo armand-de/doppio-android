@@ -6,7 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 public interface CommuHeartSelectApi {
-    @GET("/post/is-exist/preference/{postId}")
-    Call<CommuHeartSelectGet> commuHeartSelectApiCall(@Header("Authorization") String token, @Path("postId") int id);
+    @GET("/post/preference/{id}")
+    Call<CommuHeartSelectGet> commuHeartSelectApiCall(@Header("Authorization") String token, @Path("id") int id);
 
 }

@@ -5,6 +5,6 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Header;
 
 public interface DeleteApi {
-    @DELETE("/user/delete")
+    @DELETE("/user")
     Call<Void> deleteAccount(@Header("Authorization") String token);
 }

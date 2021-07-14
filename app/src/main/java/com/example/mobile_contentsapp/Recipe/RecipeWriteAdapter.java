@@ -22,17 +22,17 @@ public class RecipeWriteAdapter extends RecyclerView.Adapter<RecipeWriteAdapter.
         void OnClick(View view, int pos, ImageButton imageButton);
     }
 
-    public interface OnLongClickListener{
-        void OnLongClick(View view, int pos);
+    public interface OnClickListener2 {
+        void OnClick(View view, int pos);
     }
 
     ArrayList<RecipeItem> items;
 
     OnClickListener mlistener = null;
-    OnLongClickListener mLonglistener = null;
+    OnClickListener2 mLonglistener = null;
 
     public void setOnClickListener(OnClickListener onClickListener){mlistener = onClickListener;}
-    public void setOnLongClickListener(OnLongClickListener onLongClickListener){mLonglistener = onLongClickListener;}
+    public void setOnClickListener2(OnClickListener2 onLongClickListener){mLonglistener = onLongClickListener;}
     public RecipeWriteAdapter(ArrayList<RecipeItem> items) {
         this.items = items;
     }
@@ -69,13 +69,16 @@ public class RecipeWriteAdapter extends RecyclerView.Adapter<RecipeWriteAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         EditText recipeEdit;
-        ImageButton imgAdd;
+        ImageButton imgAddBtn;
+        ImageButton deleteBtn;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             recipeEdit = itemView.findViewById(R.id.recipe_edit);
-            imgAdd = itemView.findViewById(R.id.img_add);
+            imgAddBtn = itemView.findViewById(R.id.img_add);
+            deleteBtn = itemView.findViewById(R.id.delete);
         }
         public void onBind(RecipeItem item, int position){
+            recipeEdit.setText(item.getText());
             recipeEdit.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,30 +95,30 @@ public class RecipeWriteAdapter extends RecyclerView.Adapter<RecipeWriteAdapter.
                     item.setText(recipeEdit.getText().toString());
                 }
             });
-            imgAdd.setImageBitmap(item.getBitmap());
-            imgAdd.setOnClickListener(new View.OnClickListener() {
+            imgAddBtn.setImageBitmap(item.getBitmap());
+            imgAddBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                         int pos = position;
                         if (pos != RecyclerView.NO_POSITION){
-                            mlistener.OnClick(v,pos, imgAdd);
+                            mlistener.OnClick(v,pos, imgAddBtn);
                         }
 
                     }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public void onClick(View v) {
                     items.remove(position);
-                    notifyDataSetChanged();
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position,items.size());
                     int pos = position;
                     if(pos != RecyclerView.NO_POSITION){
-                        mLonglistener.OnLongClick(v,pos);
+                        mLonglistener.OnClick(v,pos);
                     }
-                    return false;
                 }
             });
+
         }
 
     }

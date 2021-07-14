@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,11 +49,21 @@ public class CommuInsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commu_create);
 
+        getWindow().setStatusBarColor(Color.parseColor("#f1f2f3"));
+
         RecyclerView imageRecycler = findViewById(R.id.commu_image_recycler);
-        EditText titleEdit = findViewById(R.id.commu_create_tilte_edit);
-        EditText contentsEdit = findViewById(R.id.commu_create_contents_edit);
+        EditText titleEdit = findViewById(R.id.title_edit);
+        EditText contentsEdit = findViewById(R.id.content_edit);
         Button uplodeBtn = findViewById(R.id.commu_upload_btn);
+        ImageButton backBtn = findViewById(R.id.back_btn);
         ImageButton imageAddBtn = findViewById(R.id.commu_image_add);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         LinearLayoutManager manager = new LinearLayoutManager(CommuInsertActivity.this ,LinearLayoutManager.HORIZONTAL,false);
         imageRecycler.setLayoutManager(manager);
@@ -84,7 +95,8 @@ public class CommuInsertActivity extends AppCompatActivity {
                                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        isUpload = false;
+                                        return;
                                     }
                                 });
                         dialog = builder.create();
@@ -104,6 +116,13 @@ public class CommuInsertActivity extends AppCompatActivity {
             }
         });
 
+        adapter.setOnClickListener(new CommuImageAdapter.OnClickListener() {
+            @Override
+            public void OnClick(View view, int pos) {
+                uriList.remove(pos);
+            }
+        });
+
 
     }
 
@@ -114,11 +133,11 @@ public class CommuInsertActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommuCreatePost> call, Response<CommuCreatePost> response) {
                 if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
                     Toast.makeText(CommuInsertActivity.this, "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 isUpload = false;
-                dialog.dismiss();
                 finish();
             }
 

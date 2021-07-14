@@ -2,39 +2,41 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="15dp"
     android:layout_marginBottom="60dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
         android:id="@+id/recipe_search_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_round_btn"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginRight="150dp"
+        android:elevation="3dp"
+        android:background="@drawable/white_round_btn"
+        android:fontFamily="@font/notosanskrr"
+        android:hint="검색"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:paddingLeft="15dp"
         android:paddingTop="10dp"
         android:paddingRight="40dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
+        android:singleLine="true"
         android:textColor="#3d3d3d"
-        android:hint="검색"
-        android:fontFamily="@font/notosanskrr"
-        android:includeFontPadding="false"
-        android:textSize="14sp"
         android:textColorHint="#BEBEBE"
-        android:singleLine = "true"
-        android:lines = "1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="14sp"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/recipe_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
+        android:elevation="3dp"
         android:background="#00000000"
         android:src="@drawable/ic_search"
         app:layout_constraintTop_toTopOf="@id/recipe_search_edit"
@@ -46,13 +48,14 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="24dp"
         android:background="@drawable/white_round_btn"
-        app:layout_constraintTop_toTopOf="@id/recipe_search_edit"
-        app:layout_constraintRight_toRightOf="parent"
+        android:elevation="3dp"
         app:layout_constraintBottom_toBottomOf="@id/recipe_search_edit"
         app:layout_constraintLeft_toRightOf="@id/recipe_search_edit"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/recipe_search_edit"
+        app:layout_constraintVertical_bias="0.45" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/recipe_swipe"
@@ -61,12 +64,24 @@
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@id/recipe_search_edit"
         app:layout_constraintBottom_toBottomOf="parent">
-        <androidx.recyclerview.widget.RecyclerView
+        <com.example.mobile_contentsapp.Profile.RecylcerViewEmpty
             android:id="@+id/recipe_list_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="50dp"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    <TextView
+        android:id="@+id/recipe_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색결과가 없습니다"
+        android:visibility="invisible"
+        android:fontFamily="@font/notosanskrm"
+        android:textColor="@color/purple_700"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

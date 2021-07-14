@@ -9,6 +9,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CommuCommentListApi {
-    @GET("/comment/list/{postId}")
-    Call<List<CommuCommentListGet>> commuCommentListApiCall(@Header ("Authorization") String token, @Path("postId") int id, @Query("start") int start );
+    @GET("/comment/{id}")
+    Call<List<CommuCommentListGet>> commuCommentListApiCall(@Header ("Authorization") String token, @Path("id") int id,  @Query("start") int start );
 }

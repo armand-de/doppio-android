@@ -70,6 +70,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 userId = response.body().getId();
+                Log.d(TAG, "onResponse: "+userId);
                 
             }
 

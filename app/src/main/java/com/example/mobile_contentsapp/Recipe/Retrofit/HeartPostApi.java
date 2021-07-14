@@ -6,6 +6,6 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface HeartPostApi {
-    @POST("/recipe/create/preference")
+    @POST("/recipe/preference")
     Call<HeartPostId> heartPostcall(@Header("Authorization") String token, @Body HeartPostId heartPostId);
 }

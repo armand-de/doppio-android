@@ -1,9 +1,12 @@
 package com.example.mobile_contentsapp.Commu;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -42,13 +45,30 @@ public class CommuImageSlideAdapter extends RecyclerView.Adapter<CommuImageSlide
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView image;
+        public ImageButton image;
+        private Dialog dialog;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.Commu_image_slider_item);
         }
-        public void onBind(String imagename){
-            FireBase.firebaseDownlode(context,imagename,image);
+        public void onBind(String imageName){
+            FireBase.firebaseDownlode(context,imageName,image);
+            dialog = new Dialog(itemView.getContext());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_image_slider);
+
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(imageName);
+                }
+            });
+        }
+
+        public void showDialog(String imageName){
+            dialog.show();
+            ImageView imageView = dialog.findViewById(R.id.dialog_image);
+            FireBase.firebaseDownlode(context,imageName,imageView);
         }
     }
 }

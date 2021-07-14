@@ -8,14 +8,15 @@
     <EditText
         android:id="@+id/commu_search_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:paddingTop="10dp"
         android:paddingRight="40dp"
         android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
+        android:paddingLeft="15dp"
+        android:elevation="3dp"
         android:background="@drawable/white_round_btn"
         android:hint="  검색"
         android:textColor="#3d3d3d"
@@ -32,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="15dp"
+        android:elevation="3dp"
         android:background="#00000000"
         android:src="@drawable/ic_search"
         app:layout_constraintTop_toTopOf="@id/commu_search_edit"
@@ -47,12 +49,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.example.mobile_contentsapp.Profile.RecylcerViewEmpty
                     android:id="@+id/commu_list_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <TextView
+        android:id="@+id/recipe_empty_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색결과가 없습니다"
+        android:visibility="invisible"
+        android:fontFamily="@font/notosanskrm"
+        android:textColor="@color/purple_700"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
 
 

@@ -38,7 +38,6 @@ public class CategoryAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.spinner_get_view,parent,false);
         }
         if (items != null){
-            ConstraintLayout spinnerConstraint = convertView.findViewById(R.id.spinner_constraint);
             TextView text = convertView.findViewById(R.id.category_text);
             ImageView image =convertView.findViewById(R.id.category_icon);
 
@@ -46,7 +45,7 @@ public class CategoryAdapter extends BaseAdapter {
 
             switch(items.get(position).getImage()){
                 case 1:
-                    image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_white_coffee));
+                    image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_coffee));
                     break;
                 case 2:
                     image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_juice));
@@ -63,16 +62,6 @@ public class CategoryAdapter extends BaseAdapter {
                     break;
             }
 
-            if (items.get(position).getTypeCode() == 0){
-                spinnerConstraint.setBackground(ContextCompat.getDrawable(convertView.getContext(),R.drawable.round_btn));
-                text.setTextColor(Color.parseColor("#ffffff"));
-                image.setColorFilter(Color.parseColor("#ffffff"));
-            }else{
-                spinnerConstraint.setBackground(ContextCompat.getDrawable(convertView.getContext(),R.drawable.white_round_btn));
-                text.setTextColor(Color.parseColor("#2d665f"));
-                image.setColorFilter(Color.parseColor("#2d665f"));
-            }
-
         }
         return convertView;
     }
@@ -83,19 +72,9 @@ public class CategoryAdapter extends BaseAdapter {
        }
         if (items != null){
 
-            ConstraintLayout spinnerConstraint = convertView.findViewById(R.id.spinner_select_constraint);
             TextView text = convertView.findViewById(R.id.category_select_text);
             ImageView image =convertView.findViewById(R.id.category_select_icon);
 
-            if (items.get(position).getTypeCode() == 0){
-                spinnerConstraint.setBackgroundColor(Color.parseColor("#2d665f"));
-                text.setTextColor(Color.parseColor("#ffffff"));
-                image.setColorFilter(Color.parseColor("#ffffff"));
-            }else{
-                spinnerConstraint.setBackgroundColor(Color.parseColor("#ffffff"));
-                text.setTextColor(Color.parseColor("#2d665f"));
-                image.setColorFilter(Color.parseColor("#2d665f"));
-            }
 
             text.setText(items.get(position).getText());
             switch(items.get(position).getImage()){
@@ -103,7 +82,7 @@ public class CategoryAdapter extends BaseAdapter {
                     image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.circle));
                     break;
                 case 1:
-                    image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_white_coffee));
+                    image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_coffee));
                     break;
                 case 2:
                     image.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.ic_juice));

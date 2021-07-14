@@ -5,7 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface CommuFindApi {
-    @GET("/post/find/id/{id}")
+    @GET("/post/{id}")
     Call<CommuFindGet> commuFindApiCall(@Path("id") int id);
 
 }

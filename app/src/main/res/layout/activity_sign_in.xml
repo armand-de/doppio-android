@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Login.SignInActivity"
-    android:background="#2D665F">
+    android:background="@color/purple_700">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="24dp"
             android:src="@drawable/ic_logo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -54,11 +54,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nickname_inputbox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
             android:fontFamily="@font/notosanskrb"
             app:hintTextColor="#3F7972"
             android:textColorHint="#BEBEBE"
@@ -66,26 +67,28 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nickname_edit"
-                android:gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:background="#00000000"
+                android:layout_height="wrap_content"
                 android:backgroundTint="#BEBEBE"
                 android:fontFamily="@font/notosanskrr"
-                android:includeFontPadding="false"
                 android:hint="닉네임"
+                android:includeFontPadding="false"
                 android:paddingStart="15dp"
                 android:textColor="#3d3d3d"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:singleLine = "true"
+                android:lines = "1"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_inputbox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
             android:fontFamily="@font/notosanskrb"
             app:hintTextColor="#3F7972"
             android:textColorHint="#BEBEBE"
@@ -93,14 +96,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_edit"
-                android:gravity="bottom"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:background="#00000000"
+                android:layout_height="wrap_content"
                 android:backgroundTint="#BEBEBE"
                 android:fontFamily="@font/notosanskrr"
-                android:includeFontPadding="false"
                 android:hint="비밀번호"
+                android:includeFontPadding="false"
+                android:inputType="textPassword"
                 android:paddingStart="15dp"
                 android:textColor="#3d3d3d"
                 android:textSize="16sp" />

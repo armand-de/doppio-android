@@ -6,7 +6,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface RecipeCreateApi {
-    @POST("/recipe/create")
+    @POST("/recipe")
     Call<RecipeCreatePost> recipeCreateCall(@Header("Authorization") String token, @Body RecipeCreatePost recipeCreatePost);
 
 }

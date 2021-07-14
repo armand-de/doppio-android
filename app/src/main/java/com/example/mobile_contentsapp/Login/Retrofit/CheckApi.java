@@ -7,5 +7,5 @@ import retrofit2.http.Path;
 public interface CheckApi {
 
     @GET("/user/exist/nickname/{nickname}")
-    Call<CheckPost> checkCall(@Path("nickname") String nickname);
+    Call<CheckGet> checkCall(@Path("nickname") String nickname);
 }

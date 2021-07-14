@@ -78,7 +78,7 @@ public class FireBase {
             storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                    Log.d(TAG, "onSuccess: 성공");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override

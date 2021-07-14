@@ -18,9 +18,10 @@
         android:id="@+id/commu_empty_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="당신의 홈카페 스토리를 적어보세요"
+        android:text="당신의 홈카페 이야기를 적어보세요"
+
         android:fontFamily="@font/notosanskrm"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         android:textSize="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
