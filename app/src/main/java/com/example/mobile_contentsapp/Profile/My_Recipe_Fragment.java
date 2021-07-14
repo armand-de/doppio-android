@@ -66,13 +66,13 @@ public class My_Recipe_Fragment extends Fragment {
                         if (userId.equals(SplashActivity.userId)){
                             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext())
                                     .setMessage("삭제하시겠습니까?")
-                                    .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
                                         }
                                     })
-                                    .setPositiveButton("네", new DialogInterface.OnClickListener() {
+                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             list.remove(pos);

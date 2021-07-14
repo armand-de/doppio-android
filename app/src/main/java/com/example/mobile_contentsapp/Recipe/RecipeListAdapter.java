@@ -66,6 +66,11 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    public void removerItem(int pos){
+        items.remove(pos);
+        notifyItemRemoved(pos);
+    }
+
     private void showLoadingView(LoadingViewHolder holder, int position) {
 
     }

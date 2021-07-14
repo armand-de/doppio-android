@@ -33,10 +33,6 @@ public class SignInActivity extends AppCompatActivity {
     private EditText passwordEdit;
     private boolean isLoading = false;
 
-    @Override
-    public void onBackPressed() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

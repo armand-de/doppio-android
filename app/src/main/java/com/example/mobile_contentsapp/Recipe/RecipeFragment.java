@@ -48,7 +48,6 @@ public class RecipeFragment extends Fragment {
     private TextView emptyText;
     private String keyword;
     private boolean remainList = false;
-    private boolean isSearch = false;
     private boolean isLoding = false;
 
 
@@ -56,9 +55,8 @@ public class RecipeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (!isLoding) {
-            isLoding = true;
-            categorySpinner.setSelection(0);
             list.clear();
+            isLoding = true;
             adapter.notifyDataSetChanged();
             searchMore(-1, null, 0);
         }
@@ -184,7 +182,11 @@ public class RecipeFragment extends Fragment {
                 }
                 Log.d(TAG, "onResponse: 성공");
                 listGet = response.body();
-                list.remove(list.size()-1);
+                if (listGet.isEmpty()){
+                    list.clear();
+                }else {
+                    list.remove(list.size()-1);
+                }
                 adapter.notifyItemRemoved(list.size());
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();
@@ -195,7 +197,6 @@ public class RecipeFragment extends Fragment {
                 }else{
                     remainList = false;
                 }
-
                 recipeRecyclerView.setEmptyView(emptyText);
             }
             @Override

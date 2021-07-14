@@ -115,13 +115,13 @@ public class CommuCommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public boolean onLongClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext())
                         .setMessage("삭제하시겠습니까?")
-                        .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                             }
                         })
-                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 holder.deleteComment(item.getId(),pos,v);
