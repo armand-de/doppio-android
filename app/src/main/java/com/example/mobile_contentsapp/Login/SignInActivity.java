@@ -17,8 +17,12 @@ import android.widget.Toast;
 import com.example.mobile_contentsapp.Login.Retrofit.SignInClient;
 import com.example.mobile_contentsapp.Login.Retrofit.SignInPost;
 import com.example.mobile_contentsapp.Login.Retrofit.Authorization;
+import com.example.mobile_contentsapp.Login.Retrofit.TokenCheckClient;
+import com.example.mobile_contentsapp.Main.SplashActivity;
+import com.example.mobile_contentsapp.Profile.Retrofit.ProfileClient;
 import com.example.mobile_contentsapp.R;
 import com.example.mobile_contentsapp.Main.MainActivity;
+import com.example.mobile_contentsapp.Recipe.Retrofit.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +30,7 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static com.example.mobile_contentsapp.Main.SplashActivity.tokenValue;
+import static com.example.mobile_contentsapp.Main.SplashActivity.userId;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -116,6 +121,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 editor.putString("token",tokenValue);
                 editor.commit();
+                tokenCheck(tokenValue);
                 isLoading = false;
             }
 
@@ -127,4 +133,50 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+    public void tokenCheck(String token){
+        Call<Void> call = TokenCheckClient.getApiService().tokenCehckCall(token);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (!response.isSuccessful()){
+                    Intent intent = new Intent(SignInActivity.this, SignInActivity.class);
+                    startActivity(intent);
+                    return;
+                }
+                getUserId();
+                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Intent intent = new Intent(SignInActivity.this, SignInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
+    public void getUserId(){
+        Call<User> call = ProfileClient.getApiService().profileCall(tokenValue);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: 실패"+response.code());
+                    return;
+                }
+                Log.d(TAG, "onResponse: 성공");
+                userId = response.body().getId();
+                Log.d(TAG, "onResponse: "+userId);
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
 }

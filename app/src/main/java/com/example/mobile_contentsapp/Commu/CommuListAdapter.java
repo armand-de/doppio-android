@@ -87,10 +87,8 @@ public class CommuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             title.setText(item.getTitle());
             name.setText(item.getUser().getNickname());
             heartText.setText(String.valueOf(item.getPreference()));
-            String img = item.getImage();
-            Log.d(TAG, "onBind: "+item.getTitle()+img);
             String[] imagename = item.getImage().split("\\|");
-            if (!img.isEmpty()){
+            if (!item.getImage().isEmpty()){
                 image.setVisibility(View.VISIBLE);
             }
             FireBase.firebaseDownlode(itemView.getContext(),imagename[0],image);
