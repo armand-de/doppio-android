@@ -45,6 +45,7 @@ public class RecipeFragment extends Fragment {
     private Spinner categorySpinner;
     private ImageButton searchBtn;
     private RecylcerViewEmpty recipeRecyclerView;
+    private TextView emptyText;
     private String keyword;
     private boolean remainList = false;
     private boolean isSearch = false;
@@ -69,7 +70,7 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe,container,false);
 
         recipeRecyclerView = view.findViewById(R.id.recipe_list_recycler);
-        TextView emptyText = view.findViewById(R.id.recipe_empty_text);
+        emptyText = view.findViewById(R.id.recipe_empty_text);
         searchBtn = view.findViewById(R.id.recipe_search);
         SwipeRefreshLayout swipe = view.findViewById(R.id.recipe_swipe);
         categorySpinner = view.findViewById(R.id.search_category_spinner);
@@ -135,7 +136,6 @@ public class RecipeFragment extends Fragment {
             }
         });
         recipeRecyclerView.setAdapter(adapter);
-        recipeRecyclerView.setEmptyView(emptyText);
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +195,8 @@ public class RecipeFragment extends Fragment {
                 }else{
                     remainList = false;
                 }
+
+                recipeRecyclerView.setEmptyView(emptyText);
             }
             @Override
             public void onFailure(Call<List<RecipeListGet>> call, Throwable t) {

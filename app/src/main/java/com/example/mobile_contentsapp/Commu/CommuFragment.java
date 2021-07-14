@@ -38,6 +38,8 @@ public class CommuFragment extends Fragment {
     private List<CommuListGet> listGet;
     private ArrayList<CommuListGet> list;
     private CommuListAdapter adapter;
+    private RecylcerViewEmpty commuRecycler;
+    private TextView emptyText;
     private boolean remainList = false;
     private boolean isLoding = false;
 
@@ -61,8 +63,8 @@ public class CommuFragment extends Fragment {
         SwipeRefreshLayout swipe = view.findViewById(R.id.commu_swipe);
         EditText searchEdit = view.findViewById(R.id.commu_search_edit);
         ImageButton searchBtn = view.findViewById(R.id.commu_search_btn);
-        RecylcerViewEmpty commuRecycler = view.findViewById(R.id.commu_list_recycler);
-        TextView emptyText = view.findViewById(R.id.commu_empty_text);
+        commuRecycler = view.findViewById(R.id.commu_list_recycler);
+        emptyText = view.findViewById(R.id.commu_empty_text);
         emptyText.setVisibility(View.INVISIBLE);
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
@@ -86,7 +88,6 @@ public class CommuFragment extends Fragment {
         adapter = new CommuListAdapter(list);
 
         commuRecycler.setAdapter(adapter);
-        commuRecycler.setEmptyView(emptyText);
 
         commuRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -160,6 +161,8 @@ public class CommuFragment extends Fragment {
                 }else{
                     remainList = false;
                 }
+
+                commuRecycler.setEmptyView(emptyText);
 
             }
 
