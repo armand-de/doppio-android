@@ -63,6 +63,7 @@ public class CommuFragment extends Fragment {
         ImageButton searchBtn = view.findViewById(R.id.commu_search_btn);
         RecylcerViewEmpty commuRecycler = view.findViewById(R.id.commu_list_recycler);
         TextView emptyText = view.findViewById(R.id.commu_empty_text);
+        emptyText.setVisibility(View.INVISIBLE);
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
         commuRecycler.setLayoutManager(manager);
@@ -86,6 +87,7 @@ public class CommuFragment extends Fragment {
 
         commuRecycler.setAdapter(adapter);
         commuRecycler.setEmptyView(emptyText);
+
         commuRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
