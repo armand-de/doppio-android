@@ -44,14 +44,15 @@ public class CommuFragment extends Fragment {
     private boolean isLoding = false;
 
     @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        if(!isLoding){
-            list.clear();
-            adapter.notifyDataSetChanged();
-            isLoding = true;
-            search(-1,null);
-        }
+
     }
 
 
@@ -86,8 +87,14 @@ public class CommuFragment extends Fragment {
 
         list = new ArrayList<>();
         adapter = new CommuListAdapter(list);
-
         commuRecycler.setAdapter(adapter);
+
+        if(!isLoding){
+            list.clear();
+            adapter.notifyDataSetChanged();
+            isLoding = true;
+            search(-1,null);
+        }
 
         commuRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -149,11 +156,8 @@ public class CommuFragment extends Fragment {
                     return;
                 }
                 listGet = response.body();
-                if (listGet.isEmpty()){
-                    list.clear();
-                }else {
-                    list.remove(list.size()-1);
-                }
+                list.remove(list.size()-1);
+                adapter.notifyItemRemoved(list.size()-1);
 
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();

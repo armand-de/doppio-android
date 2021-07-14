@@ -465,43 +465,4 @@ public class CommuSeeMore extends AppCompatActivity {
         isLoading = false;
     }
 
-    public void loadMore(){
-        list.add(null);
-        adapter.notifyItemInserted(list.size()-1);
-
-        Call<List<CommuCommentListGet>> call =
-                CommuCommentListClient.getApiService().commuCommentListApiCall(tokenValue,id,start);
-        call.enqueue(new Callback<List<CommuCommentListGet>>() {
-            @Override
-            public void onResponse(Call<List<CommuCommentListGet>> call, Response<List<CommuCommentListGet>> response) {
-                if (!response.isSuccessful()){
-                    return;
-                }
-                listGet = response.body();
-
-                if (listGet.size() != 0){
-                    list.remove(list.size()-1);
-                    adapter.notifyItemRemoved(list.size());
-                    
-                    start = listGet.get(listGet.size()-1).getId();
-                    for (int i = 0; i < listGet.size(); i++){
-                        list.add(listGet.get(i));
-                    }
-                    adapter.notifyDataSetChanged();
-                }else{
-                    leftList = false;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<CommuCommentListGet>> call, Throwable t) {
-
-            }
-        });
-
-        list.remove(list.size()-1);
-        adapter.notifyItemRemoved(list.size());
-
-        isLoading = false;
-    }
 }

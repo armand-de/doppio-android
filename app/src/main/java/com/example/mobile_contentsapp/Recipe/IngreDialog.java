@@ -36,7 +36,7 @@ public class IngreDialog {
             public void onClick(View v) {
                 String result = ingredientName.getText().toString()+" "+amountEdit.getText().toString();
                 list.add(new IngredientListItem(result));
-                IngredientListAdapter adapter = new IngredientListAdapter(list);
+                IngredientInsertAdapter adapter = new IngredientInsertAdapter(list);
                 recyclerView.setAdapter(adapter);
                 dialog.dismiss();
             }

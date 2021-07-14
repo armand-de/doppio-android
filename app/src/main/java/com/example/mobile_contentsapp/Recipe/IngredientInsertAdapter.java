@@ -3,7 +3,6 @@ package com.example.mobile_contentsapp.Recipe;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,10 +12,10 @@ import com.example.mobile_contentsapp.R;
 
 import java.util.ArrayList;
 
-public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.ViewHolder> {
+public class IngredientInsertAdapter extends RecyclerView.Adapter<IngredientInsertAdapter.ViewHolder> {
     private ArrayList<IngredientListItem> items;
 
-    public IngredientListAdapter(ArrayList<IngredientListItem> items) {
+    public IngredientInsertAdapter(ArrayList<IngredientListItem> items) {
         this.items = items;
     }
 
@@ -30,7 +29,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         IngredientListItem item = items.get(position);
-        holder.onBind(item);
+        holder.onBind(item,position);
     }
 
     @Override
@@ -39,16 +38,20 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView ingreText;
-        private ImageView ingreDelete;
+        TextView ingretext;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ingreText = itemView.findViewById(R.id.ingre_item);
-            ingreDelete = itemView.findViewById(R.id.delete_mark);
+             ingretext = itemView.findViewById(R.id.ingre_item);
         }
-        public void onBind(IngredientListItem list){
-            ingreDelete.setVisibility(View.GONE);
-            ingreText.setText(list.getText());
+        public void onBind(IngredientListItem list, int position){
+            ingretext.setText(list.getText());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    items.remove(position);
+                    notifyItemRemoved(position);
+                }
+            });
         }
     }
 }

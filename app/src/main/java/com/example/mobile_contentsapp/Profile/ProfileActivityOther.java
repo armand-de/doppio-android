@@ -71,10 +71,6 @@ public class ProfileActivityOther extends AppCompatActivity {
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
-        if (userId.equals("")){
-            finish();
-            Toast.makeText(ProfileActivityOther.this, "프로필을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
-        }
 
         if (id.equals(SplashActivity.userId)){
             isMy = true;

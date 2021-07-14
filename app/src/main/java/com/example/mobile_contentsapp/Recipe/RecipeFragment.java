@@ -47,16 +47,17 @@ public class RecipeFragment extends Fragment {
     private String keyword;
     private boolean remainList = false;
     private boolean isLoding = false;
+    private boolean isCategory = false;
 
 
     @Override
     public void onStart() {
         super.onStart();
-        if (!isLoding) {
-            list.clear();
+        if (!isLoding&&isCategory){
             isLoding = true;
+            list.clear();
             adapter.notifyDataSetChanged();
-            search(-1, null, 0);
+            search(-1,null,categoryNumber);
         }
     }
 
@@ -81,10 +82,14 @@ public class RecipeFragment extends Fragment {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                categoryNumber = position;
-                list.clear();
-                adapter.notifyDataSetChanged();
-                search(-1,null,categoryNumber);
+                if (!isLoding){
+                    isLoding = true;
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    categoryNumber = position;
+                    search(-1,null,categoryNumber);
+                    isCategory = true;
+                }
             }
 
             @Override
@@ -97,11 +102,13 @@ public class RecipeFragment extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    list.clear();
-                    adapter.notifyDataSetChanged();
-                    keyword = recipeSearchEdit.getText().toString();
-                    search(-1,keyword,categoryNumber);
-                    adapter.notifyDataSetChanged();
+                    if (!isLoding){
+                        list.clear();
+                        adapter.notifyDataSetChanged();
+                        isLoding = true;
+                        keyword = recipeSearchEdit.getText().toString();
+                        search(-1,keyword,categoryNumber);
+                    }
                     return true;
                 }
                 return false;
@@ -113,7 +120,6 @@ public class RecipeFragment extends Fragment {
         recipeRecyclerView.setLayoutManager(manager);
         adapter = new RecipeListAdapter(list);
         recipeRecyclerView.setAdapter(adapter);
-
 
         recipeRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -128,6 +134,7 @@ public class RecipeFragment extends Fragment {
                 if (!isLoding){
                     if (manager != null && manager.findLastCompletelyVisibleItemPosition() == list.size()-1 &&
                             remainList){
+                        Log.d(TAG, "onScrolled: 스크롤");
                         isLoding = true;
                         search(start,keyword,categoryNumber);
                     }
@@ -138,22 +145,30 @@ public class RecipeFragment extends Fragment {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.clear();
-                adapter.notifyDataSetChanged();
-                keyword = recipeSearchEdit.getText().toString();
-                search(-1,keyword,categoryNumber);
-                adapter.notifyDataSetChanged();
+                if (isLoding){
+                    Log.d(TAG, "onItemSelected: 버튼");
+                    isLoding = true;
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    keyword = recipeSearchEdit.getText().toString();
+                    search(-1,keyword,categoryNumber);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                categorySpinner.setSelection(0);
-                list.clear();
-                adapter.notifyDataSetChanged();
-                search(-1,null,0);
-                swipe.setRefreshing(false);
+                if (!isLoding){
+                    isLoding = true;
+                    Log.d(TAG, "onItemSelected: 리로딩");
+                    categorySpinner.setSelection(0);
+                    list.clear();
+                    adapter.notifyDataSetChanged();
+                    search(-1,null,0);
+                    swipe.setRefreshing(false);
+                }
             }
         });
 
@@ -181,15 +196,12 @@ public class RecipeFragment extends Fragment {
                     Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공");
+                Log.d(TAG, "onResponse: 성공"+list.size());
 
                 listGet = response.body();
-                if (listGet.isEmpty()){
-                    list.clear();
-                }else {
-                    list.remove(list.size()-1);
-                }
-                adapter.notifyItemRemoved(list.size());
+
+                list.remove(list.size()-1);
+                adapter.notifyItemRemoved(list.size()-1);
 
                 if (listGet.size() != 0){
                     start = listGet.get(listGet.size()-1).getId();

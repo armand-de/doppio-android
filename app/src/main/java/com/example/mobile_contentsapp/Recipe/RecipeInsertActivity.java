@@ -48,7 +48,7 @@ public class RecipeInsertActivity extends Activity {
 
     private Uri thunmbnailUri;
     private ArrayList<Uri> imgUri = new ArrayList<>();
-    private ImageButton mainImgBtn;
+    private ImageButton thumbnailImage;
     private ImageButton imageBtn;
     private int categoryNum = 1;
     private int recipePosition = 1;
@@ -66,7 +66,7 @@ public class RecipeInsertActivity extends Activity {
 
         time = 0;
 
-        mainImgBtn = findViewById(R.id.imageadd);
+        thumbnailImage = findViewById(R.id.imageadd);
 
         EditText titleEdit = findViewById(R.id.title_edit);
         EditText detailEdit = findViewById(R.id.recipe_detail_edit);
@@ -102,7 +102,7 @@ public class RecipeInsertActivity extends Activity {
             }
         });
 
-        mainImgBtn.setOnClickListener(new View.OnClickListener() {
+        thumbnailImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -195,6 +195,7 @@ public class RecipeInsertActivity extends Activity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
+                        isUpload = false;
                         return;
                     }
 
@@ -314,7 +315,7 @@ public class RecipeInsertActivity extends Activity {
                         }else{
                             Log.d(TAG, "onActivityResult: 썸네일");
                             thunmbnailUri = data.getData();
-                            mainImgBtn.setImageBitmap(img);
+                            thumbnailImage.setImageBitmap(img);
                             imageBtn.setVisibility(View.GONE);
                         }
 
