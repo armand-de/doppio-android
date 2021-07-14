@@ -45,7 +45,7 @@ public class FindPasswordActivity2 extends AppCompatActivity {
         EditText passwordEdit = findViewById(R.id.password_edit);
         EditText passwordconfirmEdit = findViewById(R.id.password_confirm_edit);
 
-        ImageButton backBtn = findViewById(R.id.back_btn);
+        ImageButton backBtn = findViewById(R.id.find_pass_back1);
         Button changeBtn = findViewById(R.id.change_btn);
 
         changeBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +109,14 @@ public class FindPasswordActivity2 extends AppCompatActivity {
         });
     }
     public void phoneNumber(String phone){
-        NumberPost number_post = new NumberPost(phone);
-        Call<NumberPost> call = NumberClient.getApiService().NumberCall(number_post);
+        NumberPost numberPost = new NumberPost(phone);
+        Call<NumberPost> call = NumberClient.getApiService().NumberCall(numberPost);
         call.enqueue(new Callback<NumberPost>() {
             @Override
             public void onResponse(Call<NumberPost> call, Response<NumberPost> response) {
                 if(!response.isSuccessful()){
                     Log.d(TAG, "onResponse: 실패"+response.code());
-                    Toast.makeText(FindPasswordActivity2.this, "다시시도 해주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FindPasswordActivity2.this, "다시 시도 해주세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "onResponse: 성공"+response.body().toString());

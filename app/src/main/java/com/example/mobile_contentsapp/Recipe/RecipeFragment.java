@@ -67,7 +67,6 @@ public class RecipeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recipe,container,false);
 
         recipeRecyclerView = view.findViewById(R.id.recipe_list_recycler);
-        emptyText = view.findViewById(R.id.recipe_empty_text);
         searchBtn = view.findViewById(R.id.recipe_search);
         categorySpinner = view.findViewById(R.id.search_category_spinner);
 
@@ -193,10 +192,8 @@ public class RecipeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<RecipeListGet>> call, Response<List<RecipeListGet>> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
-                Log.d(TAG, "onResponse: 성공"+list.size());
 
                 listGet = response.body();
 

@@ -57,7 +57,7 @@ public class CommuSeeMore extends AppCompatActivity {
     private String userId;
     private int start = -1;
     private boolean ispost = false;
-    private boolean leftList = false;
+    private boolean remainList = false;
     private boolean isLoading = false;
     private boolean isHeart = false;
     private int commuId;
@@ -70,7 +70,7 @@ public class CommuSeeMore extends AppCompatActivity {
     private ViewPager2 pager2;
     private RecyclerView commentList;
     private ImageButton heartBtn;
-    private ImageView profile;
+    private ImageButton profile;
 
     private CommuCommentAdapter adapter;
     private ArrayList<CommuCommentListGet> list;
@@ -202,12 +202,11 @@ public class CommuSeeMore extends AppCompatActivity {
 
                 LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (!isLoading) {
-                    if (manager != null && manager.findLastCompletelyVisibleItemPosition() == list.size() - 1) {
-                        Log.d(TAG, "onScrolled: scroll");
-                        if (leftList){
-                            setComment(start);
-                            isLoading = true;
-                        }
+                    if (manager != null &&
+                            manager.findLastCompletelyVisibleItemPosition() == list.size() - 1&&
+                            remainList) {
+                        setComment(start);
+                        isLoading = true;
                     }
                 }
             }
@@ -453,7 +452,7 @@ public class CommuSeeMore extends AppCompatActivity {
                     }
                     adapter.notifyDataSetChanged();
                 }else{
-                    leftList = false;
+                    remainList = false;
                 }
             }
 

@@ -87,13 +87,13 @@ public class CommuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             title.setText(item.getTitle());
             name.setText(item.getUser().getNickname());
             heartText.setText(String.valueOf(item.getPreference()));
-            Log.d(TAG, "onBind: "+item.getImage());
+            String img = item.getImage();
+            Log.d(TAG, "onBind: "+item.getTitle()+img);
             String[] imagename = item.getImage().split("\\|");
-            if (!item.getImage().isEmpty()){
-                FireBase.firebaseDownlode(itemView.getContext(),imagename[0],image);
-            }else{
-                image.setVisibility(View.GONE);
+            if (!img.isEmpty()){
+                image.setVisibility(View.VISIBLE);
             }
+            FireBase.firebaseDownlode(itemView.getContext(),imagename[0],image);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

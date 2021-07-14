@@ -33,6 +33,10 @@ public class SignInActivity extends AppCompatActivity {
     private EditText passwordEdit;
     private boolean isLoading = false;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +93,8 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
     public void signin(String nick, String pass){
-
         SignInPost signInPost = new SignInPost(nick,pass);
         Call<Authorization> call = SignInClient.getApiService().signInCall(signInPost);
-
         call.enqueue(new Callback<Authorization>() {
             @Override
             public void onResponse(Call<Authorization> call, Response<Authorization> response) {

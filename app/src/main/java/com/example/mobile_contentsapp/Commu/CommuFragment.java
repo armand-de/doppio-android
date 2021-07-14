@@ -39,20 +39,17 @@ public class CommuFragment extends Fragment {
     private ArrayList<CommuListGet> list;
     private CommuListAdapter adapter;
     private RecylcerViewEmpty commuRecycler;
-    private TextView emptyText;
     private boolean remainList = false;
     private boolean isLoding = false;
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-    }
 
     @Override
     public void onStart() {
         super.onStart();
-
+        list.clear();
+        adapter.notifyDataSetChanged();
+        search(-1,null);
     }
 
 
@@ -65,8 +62,6 @@ public class CommuFragment extends Fragment {
         EditText searchEdit = view.findViewById(R.id.commu_search_edit);
         ImageButton searchBtn = view.findViewById(R.id.commu_search_btn);
         commuRecycler = view.findViewById(R.id.commu_list_recycler);
-        emptyText = view.findViewById(R.id.commu_empty_text);
-        emptyText.setVisibility(View.INVISIBLE);
 
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
         commuRecycler.setLayoutManager(manager);
@@ -88,13 +83,6 @@ public class CommuFragment extends Fragment {
         list = new ArrayList<>();
         adapter = new CommuListAdapter(list);
         commuRecycler.setAdapter(adapter);
-
-        if(!isLoding){
-            list.clear();
-            adapter.notifyDataSetChanged();
-            isLoding = true;
-            search(-1,null);
-        }
 
         commuRecycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -152,7 +140,6 @@ public class CommuFragment extends Fragment {
             @Override
             public void onResponse(Call<List<CommuListGet>> call, Response<List<CommuListGet>> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     return;
                 }
                 listGet = response.body();
@@ -168,8 +155,6 @@ public class CommuFragment extends Fragment {
                 }else{
                     remainList = false;
                 }
-
-                commuRecycler.setEmptyView(emptyText);
 
             }
 

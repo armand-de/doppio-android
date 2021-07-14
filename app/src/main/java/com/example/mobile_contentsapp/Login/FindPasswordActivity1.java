@@ -3,7 +3,6 @@ package com.example.mobile_contentsapp.Login;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,8 +20,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
-
 public class FindPasswordActivity1 extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +36,7 @@ public class FindPasswordActivity1 extends AppCompatActivity {
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                next(phoneEdit.getText().toString());
+                phoneCheck(phoneEdit.getText().toString());
             }
         });
 
@@ -51,15 +48,13 @@ public class FindPasswordActivity1 extends AppCompatActivity {
         });
 
     }
-    private void next(String phone){
+    private void phoneCheck(String phone){
         FindPassword findPassword = new FindPassword(phone);
         Call<FindPassword> call = FindPasswordClient.getApiService().findPassword(findPassword);
         call.enqueue(new Callback<FindPassword>() {
             @Override
             public void onResponse(Call<FindPassword> call, Response<FindPassword> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: "+phone);
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                     Toast.makeText(FindPasswordActivity1.this,"유효한 전화번호를 입력해주세요",Toast.LENGTH_SHORT).show();
                     return;
                 }

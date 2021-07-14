@@ -6,9 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="left"
     android:minHeight="50dp"
-    android:layout_marginRight="20dp"
     android:layout_marginBottom="20dp"
-    android:layout_marginLeft="20dp"
     android:elevation="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -59,7 +57,7 @@
             android:fontFamily="@font/notosanskrm"
             android:includeFontPadding="false"
             android:text="김병주"
-            android:textColor="#2d665f"
+            android:textColor="@color/purple_700"
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="@id/comment_box"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,18 +66,20 @@
             android:id="@+id/commu_comment_contents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="20dp"
             android:layout_marginBottom="5dp"
+            android:gravity="left"
             android:fontFamily="@font/notosanskrm"
             android:includeFontPadding="false"
             android:text=""
             android:textColor="#3d3d3d"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/comment_profile_name"
-            app:layout_constraintTop_toBottomOf="@id/comment_profile_name" />
+            app:layout_constraintTop_toBottomOf="@id/comment_profile_name"
+            app:layout_constraintHorizontal_bias="0.0"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,12 +49,14 @@ public class SplashActivity extends AppCompatActivity {
                 getUserId();
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

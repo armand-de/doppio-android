@@ -87,7 +87,11 @@ public class MyCommuAdapter extends RecyclerView.Adapter<MyCommuAdapter.ViewHold
             name.setVisibility(View.GONE);
             heartText.setText(String.valueOf(item.getPreference()));
             String[] imagename = item.getImage().split("\\|");
-            FireBase.firebaseDownlode(itemView.getContext(),imagename[0],image);
+            if (!item.getImage().isEmpty()){
+                FireBase.firebaseDownlode(itemView.getContext(),imagename[0],image);
+            }else{
+                image.setVisibility(View.GONE);
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

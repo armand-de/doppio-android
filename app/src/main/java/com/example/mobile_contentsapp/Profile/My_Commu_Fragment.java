@@ -100,9 +100,7 @@ public class My_Commu_Fragment extends Fragment {
             @Override
             public void onResponse(Call<List<CommuListGet>> call, Response<List<CommuListGet>> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패"+response.code());
                 }else{
-                    Log.d(TAG, "onResponse: 성공");
                     for (int i = 0; i < response.body().size(); i++){
                         list.add(response.body().get(i));
                     }

@@ -67,7 +67,7 @@ public class ProfileActivityOther extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        getWindow().setStatusBarColor(Color.alpha(R.color.background));
+        getWindow().setStatusBarColor(Color.parseColor("#f1f2f3"));
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("id");
@@ -154,12 +154,10 @@ public class ProfileActivityOther extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()){
-                    Log.d(TAG, "onResponse: 실패 " +response.code());
                     finish();
                     Toast.makeText(ProfileActivityOther.this, "프로필을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }else {
-                    Log.d(TAG, "onResponse: 성공");
                     userId = response.body().getId();
                     createFragment(userId);
 
@@ -215,6 +213,7 @@ public class ProfileActivityOther extends AppCompatActivity {
                     pager2.setCurrentItem(1);
                     break;
             }
+            tab.select();
         }
     }).attach();}
 

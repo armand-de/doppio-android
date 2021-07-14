@@ -13,7 +13,7 @@
         android:gravity="left"
         android:text="재료 추가"
         android:textSize="18sp"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
         android:layout_margin="30dp"
         android:text="재료 이름"
         android:textSize="14sp"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         app:layout_constraintTop_toBottomOf="@id/ingre_title"
         app:layout_constraintLeft_toLeftOf="parent"/>
     <EditText
@@ -54,7 +54,7 @@
         android:layout_margin="30dp"
         android:text="수량"
         android:textSize="14sp"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         app:layout_constraintTop_toBottomOf="@id/ingre_name_edit"
         app:layout_constraintLeft_toLeftOf="parent"/>
     <EditText
@@ -84,7 +84,7 @@
         android:background="#00000000"
         android:text="추가"
         android:textSize="12sp"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         app:layout_constraintTop_toBottomOf="@id/ingre_amount_edit"
         app:layout_constraintRight_toRightOf="parent"/>
 
@@ -99,7 +99,7 @@
         android:background="#00000000"
         android:text="취소"
         android:textSize="12sp"
-        android:textColor="#2d665f"
+        android:textColor="@color/purple_700"
         app:layout_constraintTop_toBottomOf="@id/ingre_amount_edit"
         app:layout_constraintRight_toLeftOf="@id/ingre_dig_pos"/>
 
